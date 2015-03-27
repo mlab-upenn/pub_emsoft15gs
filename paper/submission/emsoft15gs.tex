@@ -4,6 +4,13 @@
 
 \documentclass{sig-alternate}
 
+\input{preamble}
+\graphicspath{{figs/}}
+
+% Some convenient commands
+\newcommand{\XSet}{\ensuremath{\mathcal{X}}}
+\newcommand{\WSet}{\ensuremath{\mathcal{W}}}
+
 \begin{document}
 %
 % --- Author Metadata here ---
@@ -12,7 +19,7 @@
 %\crdata{0-12345-67-8/90/01}  % Allows default copyright data (0-89791-88-6/97/05) to be over-ridden - IF NEED BE.
 % --- End of Author Metadata ---
 
-\title{Scalable Green Scheduling\titlenote{Not the official title yet.}}
+\title{Scalable Green Scheduling}
 %\subtitle{[Extended Abstract]
 %\titlenote{A full version of this paper is available at...}
 %
@@ -82,8 +89,52 @@ Rahul Mangharam\\
 }
 
 \maketitle
+
+\simplenote{FOR THE TITLE: because we will not perform large scale simulations, we should not include ``large scale'' in the title. The followings are some keywords, in addition to ``green scheduling,'' that may be used in the title: scalable, embedded, simulation relation, hierarchical, hierarchical design, multi-level, input bound tracking.}
+
 \begin{abstract}
+  \simplenote{The abstract will be revised. Currently it doesn't reflect the actual contents.}
+
+  This technical note presents new results of green scheduling for peak demand
+  reduction in large-scale systems. What makes the green scheduling problem
+  particularly hard is that its control variables are binary. The complexity
+  grows exponentially with the scale of the system, making it impossible to
+  handle systems with more than a few dozens variables, unless the simple
+  periodic scheduling algorithm is used. While simple and scalable, periodic
+  schedules are static and limited in their capability to handle dynamics,
+  safety constraints, and disturbances.
   
+  The new results presented here novelly combine techniques from control
+  theory and computer science to solve the green scheduling problem for
+  large-scale systems with hundreds or thousands subsystems. The original
+  system with binary control variables are approximated by an {\emph{averaged
+  system}} whose inputs are the {\emph{utilization values}} of the binary
+  inputs within a given period. The error between the two systems can be
+  bounded, which allows us to derive a safety constraint for the averaged
+  system so that the original system's safety is guaranteed. This relaxation
+  already reduces the green scheduling mixed integer program to a standard
+  program with real variables. However, for a large-scale system over a long
+  prediction horizon, the number of optimization variables can be
+  prohibitively large, which not only affects the computation performance but
+  also requires commercial optimization solvers and powerful computing
+  hardware. To alleviate this issue, we abstract the averaged system by a
+  simple scalar dynamical system whose control input is the total demand of
+  all the subsystems. This model abstraction is achieved by extending the
+  notion of simulation relations between transition systems to allow for input
+  constraints between the systems. We develop conditions to test for
+  simulation relations as well as algorithms to compute such a model
+  abstraction. As a consequence, we only need to solve a small linear program
+  to compute an optimal trace of the total demand. The total demand is then
+  broken down, by solving a linear program much smaller than the original
+  program, to individual utilization values of the subsystems in an interval.
+  The actual schedule in each interval is then obtained by a low-level
+  scheduling algorithm. We propose two such algorithms: a simple ad-hoc
+  algorithm that may switch on and off a subsystem multiple times, and a
+  2-dimensional packing algorithm that only switches any subsystem at most
+  once in each interval.
+  
+  Numerical simulations in Matlab show the effectiveness and scalability of
+  our approach.
 \end{abstract}
 
 % A category with the (minimum) three required fields
@@ -97,6 +148,14 @@ Rahul Mangharam\\
 
 \input{intro}
 
+\input{problem}
+
+\input{overview}
+
+\input{averaged}
+
+\input{abstraction}
+
 %ACKNOWLEDGMENTS are optional
 %\section{Acknowledgments}
 
@@ -106,7 +165,7 @@ Rahul Mangharam\\
 % initial runs of your .tex file to
 % produce the bibliography for the citations in your paper.
 \bibliographystyle{abbrv}
-\bibliography{references}
+\bibliography{IEEEabrv,references}
 % You must have a proper ".bib" file
 %  and remember to run:
 % latex bibtex latex latex
@@ -123,3 +182,8 @@ Rahul Mangharam\\
 %\balancecolumns
 
 \end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

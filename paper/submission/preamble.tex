@@ -1,0 +1,50 @@
+\usepackage{amsmath,amssymb,graphicx,bbm,xcolor,latexsym}
+\usepackage{truonglatexdefs}
+
+% CLEVER REFERENCES
+% This package automatically infers the type of
+% references (e.g. equations, figures, theorems, etc.) using the
+% \cref* family of commands. If it is to be used, it should be loaded
+% last. If hyperref and varioref is also used, the order should be
+% varioref, hyperref, cleveref. To use with theorems correctly, either
+% amsthm or ntheorem should be loaded, and all \newtheorem definitions
+% must be placed AFTER the cleveref package is loaded. To use with a
+% language other than English, the language should be set globally in
+% the \documentclass command rather than solely in babel.
+
+\usepackage{cleveref} % Options: capitalise, noabbrev, nameinlink
+
+% If using cleveref, all \newtheorem commands should be placed after this line.
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{claim}{Claim}
+\newtheorem{assumption}{Assumption}
+
+\newtheorem{definition}{Definition}
+\newtheorem{problem}{Problem}
+
+\newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+\newtheorem{notation}{Notation}
+\newtheorem{term}{Terminology}
+
+
+%%%%%%%%%% Start TeXmacs macros
+\newcommand{\cdummy}{\cdot}
+\newcommand{\comma}{{,}}
+\newcommand{\mathd}{\mathrm{d}}
+\newcommand{\mathe}{\mathrm{e}}
+\newcommand{\nospace}{}
+\newcommand{\tmaffiliation}[1]{\thanks{\textit{Affiliation:} #1}}
+\newcommand{\tmop}[1]{\ensuremath{\operatorname{#1}}}
+%%%%%%%%%% End TeXmacs macros
+
+\newcommand{\simplenote}[1]{{\color{red}#1}}
+\newcommand{\simpletodo}[1]{\simplenote{TODO: #1}}
+\usepackage{todonotes}
+
+\newcommand{\RHnote}[1]{\simplenote{RH: #1}}
+\newcommand{\TNnote}[1]{\simplenote{TN: #1}}
