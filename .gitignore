@@ -1,3 +1,8 @@
+## Emacs/AucTeX:
+auto
+*.el
+*.rel
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
