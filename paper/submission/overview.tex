@@ -1,69 +1,58 @@
-\section{Overview of Our Approach}
+\section{Overview of the Approach}
+\label{sec:overview}
 
-\simplenote{This gives an overview of the approach. In a
-publication, we may shorten this section, or even remove it and move its text
-to appropriate subsequent sections.}
+We develop in this work a hierarchical design and run-time implementation approach for the green scheduling problem.
+A brief overview of the overall idea and results is described in this section and in \cref{fig:overview}, while the technical details will be presented in the subsequent sections.
 
-The complexity of the problem comes from the binary control inputs $u$. To
-alleviate this issue, instead of the system $\Sigma_b$, we consider the
-averaged system $\Sigma_a$ for each time interval:
-\[ (\Sigma_a) \hspace{2em} \dot{\overbar{x}} (t) = A \overbar{x} (t) + B
-   \eta_k + Ew (t), \hspace{2em} t \in [kT, (k + 1) T) \]
-where $\eta_k = \frac{1}{T} \int_{kT}^{(k + 1) T} u (t) \mathd t$ is the
-{\emph{utilization}} of $u (t)$ during the interval $[kT, (k + 1) T]$.
-Clearly, $\eta_k$ is a vector of real numbers between $0$ and $1$: $\eta_k \in
-[0, 1]^m$. Because the control input $\eta_k$ of $\Sigma_a$ is continuous, the
-complexity of the optimization, if we use $\Sigma_a$ in place of $\Sigma_b$,
-is greatly reduced to that of an LP. However, to ensure the safety constraint,
-we need to bound the deviation of $\overbar{x} (kT)$ from $x (kT)$ for all
-continuous binary input signals $u (t)$ that satisfy the utilization equation.
-In \cref{sec:averaged-system}, we will derive a tight bound of the
-error between the states of $\Sigma_b$ and $\Sigma_a$. As we will see, the
-error can be unbounded or become too large as $k$ increases. To keep the error
-within a tight bound, we reset the state of $\Sigma_a$ to the measured state
-of $\Sigma_b$ at each $kT$, so that their error is reset to $0$. Since the
-input $\eta_k$ is constant in each interval, $\Sigma_a$ can be discretized
-with sampling time $T$. With the averaged system in place, we can reformulate
-the optimization \eqref{eq:GS-optim} as
-\begin{eqnarray}
-  \mathrm{minimize}_{\eta_0, \ldots, \eta_{N - 1}} &  & c_d \cdot \max_{0
-  \leqslant k \leqslant N - 1} d_k + \sum_{0 \leqslant k \leqslant N - 1}
-  c_{e, k} \cdot E_k  \label{eq:averaged-optim}\\
-  \text{subject to} &  & \dot{x} (t) = Ax (t) + Bu (t) + Ew (t), \hspace{1em}
-  \forall t \nonumber\\
-  &  & u (t) = \pi (t ; \eta_k) \hspace{1em} \forall t \in [kT, (k + 1) T),
-  \hspace{1em} \forall k = 0, \ldots, N - 1 \nonumber\\
-  &  & \overbar{x} (k) = x (kT), \hspace{2em} \forall k = 0, \ldots, N - 1 
-  \label{eq:averaged-optim:reset}\\
-  &  & \hat{A}  \overbar{x} (k) + \hat{B} \eta_k + \hat{E} w (k) \in
-  \overbar{\mathcal{X}} (\eta_k), \hspace{1em} \forall k = 0, \ldots, N - 1 
-  \label{eq:averaged-optim:safety}\\
-  &  & w (t) = w (kT) \in \mathcal{W} \hspace{1em} \forall t \in [kT, (k + 1)
-  T), \hspace{1em} \forall k = 0, \ldots, N - 1 \nonumber\\
-  &  & E_k = Td_k, \, d_k = p^T \eta_k, \hspace{1em} \forall k = 0, \ldots, N
-  - 1 \nonumber
-\end{eqnarray}
-Here, $\pi (t ; \eta_k)$ is a scheduling algorithm that calculates the
-continous-time schedule $u (t)$ during the $k^{\text{th}}$ interval so that
-its utilization is $\eta_k$. Such a scheduling algorithm is the topic of
-section ??? \simpletodo{ Update} Observe that at each instant $kT$ the
-state variable $\overbar{x} (k)$ is reset to the continuous state $x (kT)$
-(constraint~\eqref{eq:averaged-optim:reset}). To ensure that $x (kT) \in
-\mathcal{X}$, we can shrink the set $\mathcal{X}$ by the $\eta_k$-dependent
-bound of the state error between $\Sigma_b$ and $\Sigma_a$, which yields the
-set $\overbar{\mathcal{X}} (\eta_k)$, and constraint the next state of
-$\Sigma_a$ (before reset) inside $\overbar{\mathcal{X}} (\eta_k)$
-(constraint~\eqref{eq:averaged-optim:safety}).
-The averaged demand in the interval is $d_k =
-\frac{1}{T} \int_{kT}^{(k + 1) T} p^T u (t) \mathd t = p^T \eta_k$.
+\begin{figure}
+  \centering
+  \includegraphics[width=\columnwidth]{approach_overview}
+  \caption{Overview of the approach.}
+  \label{fig:overview}
+\end{figure}
 
-\simpletodo{ Clean up the notations of $\overbar{x} (k)$ and
-$\overbar{x} (kT) .$}
+The complexity of the green scheduling problem~\eqref{eq:GS-optim} comes mainly from the \emph{binary} control inputs $u$.
+To alleviate this issue, we %relax 
+approximate the original model $\Sigma_b$ by %considering
+the averaged system $\Sigma_a$ with state $\overbar{x}$ for each time interval:
+\begin{equation*}
+(\Sigma_a) \qquad \dot{\overbar{x}} (t) = A \overbar{x} (t) + B \eta_k + Ew (t), \quad t \in [kT, (k + 1) T)
+ \end{equation*}
+where the control input $\eta_k = \frac{1}{T} \int_{kT}^{(k + 1) T} u (t) \mathd t$ is the \emph{average}, also called the \emph{utilization}, of $u (t)$ during the interval $[kT, (k + 1) T]$.
+Clearly, $\eta_k$ is a vector of real numbers between $0$ and $1$: $\eta_k \in [0, 1]^m$.
+Because the control input $\eta_k$ of $\Sigma_a$ is continuous, if we use $\Sigma_a$ in place of $\Sigma_b$, the complexity of the optimization is greatly reduced to that of an LP.
+However, to ensure the safety constraint, we need to bound the deviation of $\overbar{x} (kT)$ from $x (kT)$ for all possible continuous-time binary input signals $u (t)$ that satisfy the utilization equation.
+In \cref{sec:averaged-system}, we will derive a tight bound on the error between $x$ and $\overbar{x}$.
+As we will see, the error can be unbounded or become too large as $k$ increases, leading to overly conservative control inputs to ensure safety, or even infeasibility.
+To keep this error as small as possible, we reset the state $\overbar{x}$ of $\Sigma_a$ to the measured state $x$ of $\Sigma_b$ at each $kT$, so that their error is reset to $0$.
+Since the input $\eta_k$ is constant in each interval, $\Sigma_a$ can be discretized with sampling time $T$.
+With the averaged system in place, we can reformulate the optimization~\eqref{eq:GS-optim} as minimizing the cost function~\eqref{eq:cost-function} subject to
+\begin{subequations}
+  \label{eq:averaged-optim}
+  \begin{align}
+    %\operatorname*{minimize}_{\eta_0, \ldots, \eta_{N - 1}} \quad & c_d \cdot \max_{0 \leqslant k \leqslant N - 1} d_k + \textstyle\sum_{0 \leqslant k \leqslant N - 1} c_{e, k} \cdot E_k  \label{eq:averaged-optim}\\
+    %\text{subject to} \quad
+    & \dot{x} (t) = Ax (t) + B \pi (t ; \eta_k) + Ew_{k} \quad \forall t \in [kT, (k + 1) T) %\forall t \geq 0 
+\label{eq:averaged-optim:cont}\\
+    %& u (t) = \pi (t ; \eta_k) \quad \forall t \in [kT, (k + 1) T) \label{eq:averaged-optim:control} \\ %, \quad \forall k = 0, \ldots, N - 1 \nonumber\\
+    & \hat{A}  \overbar{x}_{k} + \hat{B} \eta_k + \hat{E} w_{k} + e_{k+1} \in \XSet \quad \forall e_{k+1} \in \ESet (\eta_{k}) \label{eq:averaged-optim:safety}\\
+    & \overbar{x}_{k} = x (kT) \label{eq:averaged-optim:reset}\\
+    %& w (t) = w (kT) \in \mathcal{W} \quad \forall t \in [kT, (k + 1) T) \\
+    & \eta_{k} \in [0,1]^{m}, \quad w_{k} \in \WSet, \quad E_k = Td_k, \quad d_k = \rho^T \eta_k
+  \end{align}
+\end{subequations}
+where the constraints hold for all $k = 0, \ldots, N - 1$.
+In the continuous-time dynamics~\eqref{eq:averaged-optim:cont}, $\pi (t ; \eta_k)$ is a scheduling algorithm that calculates the continous-time schedule $u (t)$ during the $k$-th interval so that
+its utilization is $\eta_k$.
+Such a scheduling algorithm is the topic of section \simpletodo{???Update???}
+At each instant $kT$ the state $\overbar{x}_{k}$ of the averaged system is reset to the actual state $x (kT)$ (constraint~\eqref{eq:averaged-optim:reset}).
+Let $e_{k+1}$ be the error between $x((k+1)T)$ and $\overbar{x}_{k}$, which is unknown but bounded in the $\eta_k$-dependent set $\ESet(\eta_{k})$ (\cf \cref{sec:averaged-system}).
+To ensure that $x (k T) \in \XSet$, constraint~\eqref{eq:averaged-optim:safety} robustly restricts the next state in $\XSet$ for all possible errors $e_{k+1}$.
+%The utilization $\eta_{k}$, disturbance $w_{k}$ and the energy consumption $E_{k}$ and demand $d_{k}$ are constrained in 
 
-Except for the continuous dynamics of $x (t)$, problem~\eqref{eq:averaged-optim} is a linear program. The number of optimization
-variables $\eta_k \in \mathbbm{R}^m$, $k = 0, \ldots, N - 1$, is $mN$, which
-can be very large for a large-scale system over a long horizon. Furthermore,
-the constraints in \eqref{eq:averaged-optim} involve large-scale dynamical
+Except for the continuous-time dynamics of $x (t)$, problem~\eqref{eq:averaged-optim} is a linear program (LP).
+The number of optimization variables $\eta_k \in \mathbbm{R}^m$, $k = 0, \ldots, N - 1$, is $mN$, which can be very large for a large-scale system over a long horizon.
+Furthermore, the constraints in \eqref{eq:averaged-optim} involve large-scale dynamical
 equations and high-dimensional state set $\overbar{\mathcal{X}} (\eta_k)$. As
 a consequence, the computational burden of solving \eqref{eq:averaged-optim}
 is still prohibitive for large-scale systems. To reduce the complexity even
@@ -130,12 +119,6 @@ processes involved:
   optimization. A simple one-step scheduing algorithm $\pi$ schedules the
   subsystems so that each achieves the corresponding utilization.
 \end{itemize}
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=\columnwidth]{approach_overview}
-  \caption{Overview of the approach.}
-  \label{fig:overview}
-\end{figure}
 
 
 %%% Local Variables:
