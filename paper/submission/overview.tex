@@ -50,74 +50,78 @@ Let $e_{k+1}$ be the error between $x((k+1)T)$ and $\overbar{x}_{k}$, which is u
 To ensure that $x (k T) \in \XSet$, constraint~\eqref{eq:averaged-optim:safety} robustly restricts the next state in $\XSet$ for all possible errors $e_{k+1}$.
 %The utilization $\eta_{k}$, disturbance $w_{k}$ and the energy consumption $E_{k}$ and demand $d_{k}$ are constrained in 
 
-Except for the continuous-time dynamics of $x (t)$, problem~\eqref{eq:averaged-optim} is a linear program (LP).
-The number of optimization variables $\eta_k \in \mathbbm{R}^m$, $k = 0, \ldots, N - 1$, is $mN$, which can be very large for a large-scale system over a long horizon.
-Furthermore, the constraints in \eqref{eq:averaged-optim} involve large-scale dynamical
-equations and high-dimensional state set $\overbar{\mathcal{X}} (\eta_k)$. As
-a consequence, the computational burden of solving \eqref{eq:averaged-optim}
-is still prohibitive for large-scale systems. To reduce the complexity even
-further, we employ a model reduction technique based on the concept of
-simulation relations between transition systems.
+Except for the continuous-time dynamics~\eqref{eq:averaged-optim:cont}, problem~\eqref{eq:averaged-optim} is a linear program (LP).
+The number of optimization variables $\eta_k \in \mathbbm{R}^m$, $k = 0, \ldots, N - 1$, is $mN$, which can be large for a large-scale system over a long horizon.
+More importantly, constraints~\eqref{eq:averaged-optim:cont} and \eqref{eq:averaged-optim:safety} involve high-dimensional dynamical
+equations and set operations.
+%In particular, to robustly satisfy constraint~\eqref{eq:averaged-optim:safety}, the Pontryagin difference between $\XSet$ and the $\eta_{k}$-dependent set $\ESet(\eta_{k})$ must be computed every time the optimization 
+As a consequence, the computational burden of solving \eqref{eq:averaged-optim} in run-time
+is still prohibitive for systems of practical size over a long horizon\footnote{In our targeted energy control applications, the horizon is typically a day, even a week or longer.}.
+An embedded implementation of the controller is therefore unlikely realizable.
+To reduce the complexity even further, we employ a model abstraction technique based on the concept of simulation relations between transition systems.
 
 A transition system is a generalization of a dynamical system, whose state can
 transition into a new state either autonomously or under the influence of
-exogenous inputs \simpletodo{ cite papers}. Intuitively speaking, a
-transition system $\mathcal{T}_2$ is said to {\emph{simulate}} another
+exogenous inputs.
+Intuitively speaking, a transition system $\mathcal{T}_2$ is said to {\emph{simulate}} another
 transition system $\mathcal{T}_1$ if every move of $\mathcal{T}_1$ can be
-tracked by $\mathcal{T}_2$ with respect to a symbolic relation between the two
-states. Formal definitions of transition systems and simulation relations will
+tracked by $\mathcal{T}_2$ with respect to a symbolic relation between their states \cite{girardetal07amd}.
+Formal definitions of transition systems and simulation relations will
 be presented in \cref{sec:abstraction}. The original definitions of a
-simulation relation in the literature do not take into account state and input
-constraints of each system, nor any relation between the two systems' inputs.
+simulation relation in the literature do not take into account %state and input constraints of each system, nor 
+any relation between the two systems' inputs.
 In this paper, we extend this concept so that $\mathcal{T}_2$ simulates
-$\mathcal{T}_1$ while satisfying all its state and input constraints, and a
-constraint between its input and that of $\mathcal{T}_1$.
+$\mathcal{T}_1$ while satisfying not only its state and input constraints but also a constraint between its input and that of $\mathcal{T}_1$.
 
 Suppose that there exists a scalar discrete-time system:
-\[ (\Sigma_s) \hspace{2em} s_{k + 1} = \alpha s_k + v_k + \beta^T w (kT),
-   \hspace{2em} s_k \in \mathcal{S} \subseteq \mathbbm{R} \comma v_k \in
-   \mathcal{V} \subseteq \mathbbm{R} \comma (s_k, v_k) \in \Omega \subseteq
-   \mathcal{S} \times \mathcal{V} \]
+\begin{align*}
+(\Sigma_s) \quad
+& s_{k + 1} = \alpha s_k + v_k + \beta^T w_{k} \\
+& s_k \in \SSet \subseteq \mathbbm{R},
+  v_k \in \VSet \subseteq \mathbbm{R},
+  (s_k, v_k) \in \Omega \subseteq \SSet \times \VSet
+\end{align*}
 and a relation $\mathcal{R} \subseteq \mathcal{X} \times \mathcal{S}$ such
-that $\Sigma_a$ simulates $\Sigma_s$ subject to the constraint $T p^T \eta_k
+that $\Sigma_a$ simulates $\Sigma_s$ subject to the constraint $T \rho^{T} \eta_k
 \leqslant v_k$ between their inputs. The intuition is that $s_k$ represents an
 aggregated state of all the energy subsystems at time step $k$, and $v_k$ is
 the total energy demand input to the system (more precisely, an upper-bound
-thereof). Effectively, the low-dimensional system $\Sigma_s$ abstracts the
-high-dimensional system $\Sigma_a$ by aggregating all the energy states and
+thereof). Effectively, the scalar system $\Sigma_s$ abstracts the
+higher-dimensional system $\Sigma_a$ by aggregating all the energy states and
 inputs. The constraints $\mathcal{S}$, $\mathcal{V}$, and $\Omega$ are to
 ensure compatibility with the state and input constraints of $\Sigma_a$. We
 will show that any admissible trajectory of $\Sigma_s$ can be tracked by an
 admissible trajectory of $\Sigma_a$ with equal or less energy cost (with
-respect to the cost function in \eqref{eq:cost-function}). Therefore, instead
+respect to the cost function~\eqref{eq:cost-function}). Therefore, instead
 of solving the large-scale optimization \eqref{eq:averaged-optim}, we can
 optimize the sequence of $\{ v_0, \ldots, v_{N - 1} \}$ for the scalar system
-$\Sigma_s$, then recover the input $\eta_k$ by solving an optimization for
-each $k$. The benefit of our approach is that all the involved optimization
-programs have much less variables, hence it is more scalable. This benefit is
-even more significant when a receding horizon control approach is employed to
-compute $\eta_k$ one step at a time. In that case, we only solve two
-small-scale programs at each step, compared to a very large-scale program if
-we use \eqref{eq:averaged-optim} directly. 
+$\Sigma_s$, then recover the input $\eta_k$ by solving a simple optimization for
+each time step $k$.
+The benefit of our approach is that all the involved optimization
+programs have much fewer variables and much less complexity, hence it is scalable.
+This advantage is more significant when a receding horizon control approach is employed to
+compute $\eta_k$ one step at a time.
+In that case, we only solve two small-scale programs at each step, compared to a large-scale and  complex program if we solve \eqref{eq:averaged-optim} directly.
 Details will be presented in the subsequent sections.
 
-Our approach is best illustrated by \cref{fig:overview}. There are two
-processes involved:
+Our approach is best illustrated by \cref{fig:overview}.
+There are two processes involved:
 \begin{itemize}
-  \item In the controller design process (blue boxes and text, from bottom
-  up), which is performed offline, we start with the original system model
+\item In the \textbf{offline} controller design process (blue boxes and text, left side, from bottom
+  up) we start with the original system model
   $\Sigma_b$ and approximate it with the averaged system model $\Sigma_a$. The
   error bounds between the states of the two are also calculated as functions
   of $\eta_k$. Then $\Sigma_a$ is abstracted by a scalar system $\Sigma_s$,
-  and a simulation relation $\mathcal{R}$ between them is constructed.
+  and a simulation relation $\RSet$ between them is constructed.
   
-  \item In the controller execution process (right-most side, from top down),
-  which is implemented online, a receding horizon control framework is used
-  with the abstract model $\Sigma_s$ to compute an optimal sequence of
-  aggregate energy demands. Each energy demand $v_k$ is disaggregated into
-  utilization values $\eta_k$ for the individual control inputs by a one-step
-  optimization. A simple one-step scheduing algorithm $\pi$ schedules the
-  subsystems so that each achieves the corresponding utilization.
+\item In the \textbf{online} controller execution process (dashed
+  boxes, right side, from top down) a receding horizon control
+  framework is used with the abstract model $\Sigma_s$ to compute an
+  optimal sequence of aggregate energy demands. Each energy demand
+  $v_k$ is disaggregated into utilization values $\eta_k$ for the
+  individual control inputs by a one-step optimization. A simple
+  one-step scheduing algorithm $\pi$ schedules the subsystems so that
+  each achieves the corresponding utilization.
 \end{itemize}
 
 
