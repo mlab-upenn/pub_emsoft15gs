@@ -1,11 +1,9 @@
 \section{Model Abstractrion with Simulation Relations}
 \label{sec:abstraction}
 
-To further reduce the optimization program~\eqref{eq:averaged-optim}, we
-employ the notion of model abstraction and simulation relations. We first
-distinguish model abstraction and model order reduction. Model order reduction
-is a common technique in control theory to reduce the order of a large-scale
-system so that it becomes manageable. The reduced model, however, still has
+As we discussed in \cref{sec:overview}, to further reduce the optimization program~\eqref{eq:averaged-optim}, we employ the notion of model abstraction and simulation relations.
+We first distinguish model abstraction and model order reduction.
+Model order reduction is a common technique in control theory to reduce the order of a large-scale system so that it becomes manageable. The reduced model, however, still has
 the same input and output as the original model. Under the same input signal,
 the reduced model should produce an output signal which approximates that of
 the original model, within some error bound. The left diagram in
@@ -13,24 +11,22 @@ the original model, within some error bound. The left diagram in
 $\mathcal{M}_2$ is a reduced-order model of $\mathcal{M}_1$. On the other
 hand, model abstraction derives a new model, usually of a lower order, with
 completely different input and output than the original model. However, there
-exist a relation between the states of the two models that can be maintained
+exists a relation between the states of the two models that can be maintained
 along their evolutions. In other words, one model can track the behavior of
-the other under those relations. The right diagram in
+the other under this relation. The right diagram in
 \cref{fig:reduction-vs-abstraction} depicts two models with a symbolic
 relation $\mathcal{R}$ between their states. If for any admissible input $u_2
 (\cdot)$ to $\mathcal{M}_2$ there exists an admissible input $u_1 (\cdot)$ to
 $\mathcal{M}_1$ so that the state relation is always maintained along the
 traces of the two models, we have a model abstraction. Furthermore, we may
-require that a symbolic relation $\mathcal{R}_y$ between their outputs is also
+require that a symbolic relation $\mathcal{R}_y$ between their outputs (observations) is also
 maintained. A nice property of model abstraction is that we can design a
 controller for $\mathcal{M}_1$ by first designing a supposedly simpler
 controller for $\mathcal{M}_2$ and then refining it for $\mathcal{M}_1$ using
 the symbolic state relation.
 
-\begin{figure}[tbh]
-\includegraphics[width=0.48\columnwidth]{figs/model_order_reduction}
-\hfill
-\includegraphics[width=0.48\columnwidth]{figs/model_abstraction}
+\begin{figure}[tb]
+\includegraphics[width=\columnwidth]{abstraction_vs_reduction}
 \caption{\label{fig:reduction-vs-abstraction}Model abstraction (right) is
   different from model order reduction (left).}
 \end{figure}
@@ -39,7 +35,7 @@ the symbolic state relation.
 Systems}\label{sec:abstraction:simulation}
 
 In this section we review the concept of simulation relations between
-transition systems. The main reference is {\cite{girardetal07amd}}.
+transition systems. The readers are referred to \cite{girardetal07amd,aluretal00dah} for more thorough treatments of the subject.
 
 The framework of transition systems allows us to unify the modeling of
 discrete and continuous, deterministic and non-deterministic dynamical
@@ -88,10 +84,10 @@ A simulation relation between two transition systems $T_1 = (Q_1, \Sigma_1,
 \rightarrow_1, Q^0_1)$ and $T_2 = (Q_2, \Sigma_2, \rightarrow_2, Q^0_2)$ is a
 stronger notion of system refinement, which allows one system to ``track'' the
 other system while maintaining a certain relation between their states. A
-simulation relation is defined as follows. Note that in
-{\cite{girardetal07amd}}, it is required that $T_1$ and $T_2$ have the same
+simulation relation is defined in \cref{def:simulation-relation}. Note that in
+\cite{girardetal07amd}, it is required that $T_1$ and $T_2$ have the same
 label sets (and the same observation sets), however we modify the definition
-to relax this requirement, {\ie} $\Sigma_1$ and $\Sigma_2$ can be different.
+to relax this requirement, \ie $\Sigma_1$ and $\Sigma_2$ can be different.
 
 \begin{definition}[Simulation]
   \label{def:simulation-relation}A relation $\mathcal{R} \subseteq Q_1 \times
@@ -101,21 +97,19 @@ to relax this requirement, {\ie} $\Sigma_1$ and $\Sigma_2$ can be different.
   q^+_2$ such that $(q_1^+, q_2^+) \in \mathcal{R}$.
 \end{definition}
 
-$T_2$ is said to simulate $T_1$, denoted $T_1 \preceq T_2$ if there exists a
+$T_2$ is said to simulate $T_1$, denoted $T_1 \preceq T_2$, if there exists a
 simulation relation $\mathcal{R}$ of $T_1$ by $T_2$ such that for all $q_1 \in
 Q^0_1$, there exists $q_2 \in Q^0_2$ such that $(q_1, q_2) \in \mathcal{R}$.
 Intuitively, if $T_1 \preceq T_2$ then every state trajectory of $T_1$ can be
 ``tracked'' by $T_2$ with respect to the state relation $\mathcal{R}$.
-Simulation relations are a powerful tool for safety verification and
-hierarchical controller design (\simpletodo{ Cite George's papers on
-verification, hierarchically consistent system, and
-{\cite{girardetal07amd}}}).
+Simulation relations and their variants are a powerful tool for safety verification and
+hierarchical controller design \cite{clarkeetal99m,pappasetal00hcc,GirardEtAl06vus,girardetal07amd}.
 
-\subsection{Extended Simulation Relations}
+\subsection{Input-Constrained Simulation Relations}
 \label{sec:abstraction:ext-simulation}
 
 Conventionally, simulation relations as defined in \cref{sec:abstraction:simulation} do not explicitly take into account %state constraints and
-disturbances.  Moreover, there is no relation between the inputs (or labels) to the two systems as required for the total demand bound in our problem.  Therefore, in this section, we extend the concept of simulation relations to account for these ingredients.
+disturbances.  Moreover, there is no relation between the inputs (or labels) to the two systems as required for the total demand bound in our problem.  Therefore, this section extends the concept of simulation relations to account for these ingredients.
 
 \begin{remark}
   For nondeterministic systems, the simulation relation as defined in
@@ -128,7 +122,7 @@ disturbances.  Moreover, there is no relation between the inputs (or labels) to 
   \in \mathcal{R}$. Furthermore, it assumes no correlation between the
   nondeterminism of the two systems. In reality, their nondeterminism may be
   correlated, for example if they are subject to the same disturbances in
-  different ways. Our extended definitions of simulation relations provide
+  different ways. Our extended definition of simulation relations provides
   options for robustness to disturbances and nondeterminism correlation.
 \end{remark}
 
@@ -147,17 +141,13 @@ The definition of the transition relation is modified accordingly as $\rightarro
 Given two transition systems $T_{1}$ and $T_{2}$, we impose a constraint between their control labels $\upsilon_{1}$ and $\upsilon_2$ as a relation $\mathcal{R}_u \subseteq \mathcal{U}_1 \times \mathcal{U}_2$, and a constraint between their disturbance labels $\mathcal{R}_{d}\subseteq \mathcal{D}_1 \times \mathcal{D}_2$.
 Note that the constraint $\mathcal{R}_{u}$ is desirable but not required for the execution of the transition systems, \ie an admissible execution of the transition systems may violate the constraint.
 The relation $\mathcal{R}_{d}$ takes effect whenever $T_{1}$ and $T_{2}$ are executed simultaneously in the same environment.
-In the following, $\mathcal{P}^{+}(S)$ denotes the set of all non-empty subsets of a set $S$, \ie the superset of $S$ excluding $\emptyset$.
+%In the following, $\mathcal{P}^{+}(S)$ denotes the set of all non-empty subsets of a set $S$, \ie the superset of $S$ excluding $\emptyset$.
 For system $T_{i}$, the set of all admissible successor states from a state $q_{i}$ under label $\sigma_{i} = (\upsilon_{i}, \delta_{i})$ is denoted by $\operatorname{succ}_{i}(q_{i}, \upsilon_{i}, \delta_{i}) = \{q_{i}^{+} \,|\, (q_{i}, \upsilon_{i}, \delta_{i}, q_{i}^{+}) \in \rightarrow_{i}\}$.
 
-
-\todo[inline]{The name ``extended simulation relation'' does not sound good. Perhaps we can use ``input-constrained simulation relation''?}
-
-
-\begin{definition}[Extended Simulation]
+\begin{definition}[Input-constrained Simulation]
   \label{thm:ex-simulation-relation}
   % A pair $(\mathcal{R}, \mathcal{R}_{c}$ of a relation $\mathcal{R} \subseteq Q^{S}_1 \times Q^{S}_2$ and a map $\mathcal{R}_{c}: \mathcal{U}_{2} \to \mathcal{P}^{+}(\mathcal{R})$ 
-  A relation $\mathcal{R} \subseteq Q^{S}_1 \times Q^{S}_2$ is an extended simulation relation of $T_1$ by $T_2$ if and only if for all $(q_1, q_2) \in \mathcal{R}$ and all $(\upsilon_{1}, \delta_{1}) \in \mathcal{U}_{1} \times \mathcal{D}_{1}$ such that $\operatorname{succ}_{1} (q_{1}, \upsilon_{1}, \delta_{1}) \neq \emptyset$, there exists $\upsilon_{2} \in \mathcal{U}_{2}$ such that
+  A relation $\mathcal{R} \subseteq Q^{S}_1 \times Q^{S}_2$ is an input-constrained simulation relation of $T_1$ by $T_2$ if and only if for all $(q_1, q_2) \in \mathcal{R}$ and all $(\upsilon_{1}, \delta_{1}) \in \mathcal{U}_{1} \times \mathcal{D}_{1}$ such that $\operatorname{succ}_{1} (q_{1}, \upsilon_{1}, \delta_{1}) \neq \emptyset$, there exists $\upsilon_{2} \in \mathcal{U}_{2}$ such that
     \begin{enumerate}
     \item $(\upsilon_{1}, \upsilon_{2}) \in \mathcal{R}_{u}$; and
     \item for all $\delta_{2} \in \mathcal{D}_{2}$ such that $(\delta_{1}, \delta_{2}) \in \mathcal{R}_{d}$, $\operatorname{succ}_{2} (q_{2}, \upsilon_{2}, \delta_{2}) \neq \emptyset$ and $(q_{1}^{+}, q_{2}^{+}) \in \mathcal{R}$ %_{c}(\upsilon_{2})$
@@ -166,16 +156,18 @@ For system $T_{i}$, the set of all admissible successor states from a state $q_{
 \end{definition}
 
 
-The existence of a extended simulation relation $\mathcal{R}$ between $T_{1}$ and $T_{2}$ allows $T_{2}$ to track any state sequence of $T_{1}$ with respect to $\mathcal{R}$, as long as their initial states are in $\mathcal{R}$.
+The existence of an input-constrained simulation relation $\mathcal{R}$ of $T_{1}$ by $T_{2}$ allows $T_{2}$ to track any state sequence of $T_{1}$ with respect to $\mathcal{R}$, as long as their initial states are in $\mathcal{R}$.
 We define a trajectory of $T_{i}$ as a (potentially infinite) sequence of admissible states, labels, and transitions: $q_{i}^{0} \xrightarrow{\upsilon_{i}^{0}, \delta_{i}^{0}}_{i} q_{i}^{1} \xrightarrow{\upsilon_{i}^{1}, \delta_{i}^{1}}_{i} q_{i}^{2} \cdots$.
 
 
 \begin{theorem}
-  Suppose $\mathcal{R}$ is a extended simulation relation between $T_{1}$ and $T_{2}$, whose initial states satisfy $(q_{1}^{0}, q_{2}^{0}) \in \mathcal{R}$.
-  Then there exists a feedback law $\rho_{2}: Q_{1} \times \mathcal{U}_{1} \times \mathcal{D}_{1} \times Q_{2} \to \mathcal{U}_{2}$ (respectively, $\rho_{2}: Q_{1} \times \mathcal{U}_{1} \times Q_{2} \to \mathcal{U}_{2}$) such that for any trajectory of $T_{1}$ and with $\upsilon_{2}^{k} = \rho_{2} (q_{1}^{k}, \upsilon_{1}^{k}, \delta_{1}^{k}, q_{2}^{k})$ (respectively, $\upsilon_{2}^{k} = \rho_{2} (q_{1}^{k}, \upsilon_{1}^{k}, q_{2}^{k})$) for all $k$, any corresponding trajectory of $T_{2}$ satisfies $(q_{1}^{k}, q_{2}^{k}) \in \mathcal{R}$ for all $k$.
+  Suppose $\mathcal{R}$ is an input-constrained simulation relation of $T_{1}$ by $T_{2}$, whose initial states satisfy $(q_{1}^{0}, q_{2}^{0}) \in \mathcal{R}$.
+  Then there exists a feedback law $\rho_{2}: Q_{1} \times \mathcal{U}_{1} \times \mathcal{D}_{1} \times Q_{2} \to \mathcal{U}_{2}$ %(respectively, $\rho_{2}: Q_{1} \times \mathcal{U}_{1} \times Q_{2} \to \mathcal{U}_{2}$)
+  such that for any trajectory of $T_{1}$, %(respectively, $\upsilon_{2}^{k} = \rho_{2} (q_{1}^{k}, \upsilon_{1}^{k}, q_{2}^{k})$)
+  any corresponding trajectory of $T_{2}$ with $\upsilon_{2}^{k} = \rho_{2} (q_{1}^{k}, \upsilon_{1}^{k}, \delta_{1}^{k}, q_{2}^{k})$ satisfies $(q_{1}^{k}, q_{2}^{k}) \in \mathcal{R}$ and $(\upsilon_{1}^{k}, \upsilon_{2}^{k}) \in \mathcal{R}_{u}$ for all $k$.
 \end{theorem}
 
-
+\Cref{thm:ex-simulation-relation} essentially says that if an input-constrained simulation relation $\mathcal{R}$ of $T_{1}$ by $T_2$ exists then $T_{2}$ can be controlled to track any admissible trajectory of $T_{1}$, with respect to $\mathcal{R}$, while keeping the input constraint $\mathcal{R}_{u}$.
 
 %%% Local Variables:
 %%% mode: latex

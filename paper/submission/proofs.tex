@@ -1,5 +1,39 @@
 \section{Proofs}
 
+\subsection{Proof of \protect\cref{thm:averaged-sys-bound}}
+\label{sec:proof:averaged-sys-bound}
+
+  Because $A$ is diagonal, each element $e_i ((k + 1) T)$ can be calculated
+  independently
+  \[ e_i ((k + 1) T) = \int_{kT}^{(k + 1) T} \mathe^{a_i ((k + 1) T - s)} b_i 
+     (u (s) - \eta_k) \mathd s \text{.} \]
+  If $a_i = 0$ then
+  \[ e_i ((k + 1) T) = \int_{kT}^{(k + 1) T} b_i  (u (s) - \eta_k) \mathd s =
+     b_i  \left( \int_{kT}^{(k + 1) T} u (s) \mathd s - T \eta_k \right) = 0
+  \]
+  where the last equality comes from the definition of $\eta_k$. Consider the
+  case $a_i \neq 0$. Observe that $\int_{kT}^{(k + 1) T} \lambda_i b_i  (u (s)
+  - \eta_k) \mathd s = 0$ for any constant $\lambda_i$. Consequently
+  \[ e_i ((k + 1) T) = \int_{kT}^{(k + 1) T} (\mathe^{a_i ((k + 1) T - s)} -
+     \lambda_i ) b_i  (u (s) - \eta_k) \mathd s \]
+  where $\lambda_i = 1$ if $a_i > 0$ and $\lambda_i = \mathe^{a_i T}$ if $a_i
+  < 0$. It is straightforward to show that $\mathe^{a_i ((k + 1) T - s)} -
+  \lambda_i \geqslant 0$ for all $s \in [kT, (k + 1) T]$. Because $u (s) \in
+  \{ 0, 1 \}^m$ for all $s$, $\underline{\varepsilon}_i \leqslant b_i u (s)
+  \leqslant \overbar{\varepsilon}_i$ with $\underline{\varepsilon}_i$ and
+  $\overbar{\varepsilon}_i$ defined as above. Therefore $(\mathe^{a_i ((k +
+  1) T - s)} - \lambda_i )  (\underline{\varepsilon}_i - b_i \eta_k) \leqslant
+  (\mathe^{a_i ((k + 1) T - s)} - \lambda_i ) b_i  (u (s) - \eta_k) \leqslant
+  (\mathe^{a_i ((k + 1) T - s)} - \lambda_i )  (\overbar{\varepsilon}_i - b_i
+  \eta_k)$. It follows that
+  \[ \xi_i  (\underline{\varepsilon}_i - b_i \eta_k) \leqslant \int_{kT}^{(k +
+     1) T} (\mathe^{a_i ((k + 1) T - s)} - \lambda_i ) b_i  (u (s) - \eta_k)
+     \mathd s \leqslant \xi_i  (\overbar{\varepsilon}_i - b_i \eta_k) \]
+  where $\xi_i = \int_{kT}^{(k + 1) T} (\mathe^{a_i ((k + 1) T - s)} -
+  \lambda_i ) \mathd s = \frac{1}{a_i} (\mathe^{a_i T} - 1) - \lambda_i T$.
+  The theorem is proved.
+
+
 
 %%% Local Variables:
 %%% mode: latex
