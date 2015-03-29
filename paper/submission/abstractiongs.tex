@@ -1,9 +1,6 @@
 \section{Model Abstraction for Green\\Scheduling}
 \label{sec:abstraction-gs}
 
-\simpletodo{Relation R could be exact but for flexibility, any state x that approximates
-the aggregated s, so we use the error band.}
-
 Going back to the green scheduling problem, we apply the framework of input-constrained simulation relations to abstract the high-dimensional model $\Sigma_{a}$ by a low-dimensional model $\Sigma_{s}$.
 We then derive a feedback control law that allows $\Sigma_{a}$ to track the state of $\Sigma_{s}$ while maintaining their simulation relation, all their state and input constraints, as well as the input upper-bounds set by $\Sigma_{s}$.
 In particular, we consider the scalar discrete-time system $\Sigma_{s}$:
@@ -35,9 +32,9 @@ We consider two control approaches in this paper:
 We derive the abstraction $\Sigma_{s}$ of $\Sigma_{a}$ for each approach in three steps:
 \begin{enumerate}
 \item $\Sigma_{s}$ and $\Sigma_{a}$ are formulated as transition systems $T_{1}$ and $T_{2}$ respectively;
-\item Assuming a certain form of $\mathcal{R}$, we derive %a necessary and sufficient
-  conditions for $\mathcal{R}$ to be an input-constrained simulation relation;
-\item Based on the conditions, we develop algorithms to compute the parameters of $\Sigma_{s}$, its joint constraint $\Omega$, and the simulation relation $\mathcal{R}$.
+\item Assuming a certain form of $\RSet$, we derive %a necessary and sufficient
+  conditions for $\RSet$ to be an input-constrained simulation relation;
+\item Based on the conditions, we develop algorithms to compute the parameters of $\Sigma_{s}$, its joint constraint $\Omega$, and the simulation relation $\RSet$.
 \end{enumerate}
 %
 %In \cref{sec:abstraction-gs:sigma-s} we will discuss how the parameters of $\Sigma_{s}$ are computed.
@@ -54,23 +51,23 @@ We formulate $T_{1}$ as follows:
 \begin{itemize}
 \item State $q_{1} \equiv s$ and state set $Q_{1} = \mathcal{S}$.
 \item Control label $\upsilon_{1} \equiv v$ with $\mathcal{U}_{1} = \mathcal{V}$.
-\item Disturbance label $\delta_{1} \equiv \tilde{w}$ is the disturbance forecast with $\mathcal{D}_{1} = \mathcal{W}$ being the set of possible disturbances.
+\item Disturbance label $\delta_{1} \equiv \tilde{w}$ is the disturbance forecast with $\mathcal{D}_{1} = \WSet$ being the set of possible disturbances.
 \item Transition set $\rightarrow_{1} = \{ (s, v, \tilde{w}, s^{+}) \,|\, (s,v) \in \Omega,\allowbreak \tilde{w} \in \WSet, %\mathcal{D}_{1},
   \allowbreak s^{+} = \alpha s + v + \beta^{T} \tilde{w} \in \SSet\}$. %Q_{1}
 \end{itemize}
 %
 The transition system $T_{2}$ of $\Sigma_{a}$ is defined as:
 \begin{itemize}
-\item State is the averaged state $q_{2} \equiv \overbar{x}$ with $Q_{2} = \mathcal{X}$.
+\item State is the averaged state $q_{2} \equiv \overbar{x}$ with $Q_{2} = \XSet$.
 \item Control label $\upsilon_{2} \equiv \eta$ with $\mathcal{U}_{2} = [0,1]^{m}$.
 \item Disturbance label: $\Sigma_{a}$ %the averaged system 
-  is influenced by the actual disturbances $w_{k}$, therefore $\delta_{2} \equiv w$ with $\mathcal{D}_{2} = \mathcal{W}$.
-\item Transition set: recall that at every time step $k+1$, $\overbar{x}_{k+1}$ is reset to $x((k+1)T)$, which is within a bounded error $e_{k+1}$ from $A_{T} \overbar{x}_{k} + B_{T} \eta_k + E_{T} w_{k}$ (\cf \cref{thm:averaged-sys-bound}).  This reset can be modeled as a non-deterministic but bounded perturbation of the state.  Therefore we define $\rightarrow_{2} = \{ (\overbar{x}, \eta, w, \overbar{x}^{+}) \,|\, \overbar{x} \in \XSet, \eta \in \mathcal{U}_{2}, w \in \mathcal{W},\allowbreak \overbar{x}^{+} \in \XSet,\allowbreak \overbar{x}^{+} = A_{T} \overbar{x}+ B_{T} \eta + E_{T} w + e,\allowbreak 
+  is influenced by the actual disturbances $w_{k}$, therefore $\delta_{2} \equiv w$ with $\mathcal{D}_{2} = \WSet$.
+\item Transition set: recall that at every time step $k+1$, $\overbar{x}_{k+1}$ is reset to $x((k+1)T)$, which is within a bounded error $e_{k+1}$ from $A_{T} \overbar{x}_{k} + B_{T} \eta_k + E_{T} w_{k}$ (\cf \cref{thm:averaged-sys-bound}).  This reset can be modeled as a non-deterministic but bounded perturbation of the state.  Therefore we define $\rightarrow_{2} = \{ (\overbar{x}, \eta, w, \overbar{x}^{+}) \,|\, \overbar{x} \in \XSet, \eta \in \mathcal{U}_{2}, w \in \WSet,\allowbreak \overbar{x}^{+} = A_{T} \overbar{x}+ B_{T} \eta + E_{T} w + e \in \XSet,\allowbreak 
 \underline{\varepsilon} \leqslant V (e + \tilde{B} \eta) \leqslant \overbar{\varepsilon}\}$.
 \end{itemize}
 %
-Because $v_{k}$ specifies an upper-bound of the total energy demand $T \rho^{T} \eta_{k}$, we define the joint input constraint $\mathcal{R}_{u} = \{ (v, \eta) \in \mathcal{U}_{1} \times \mathcal{U}_{2} \,|\, T \rho^{T} \eta \leq v \}$.
-Finally, the forecast accuracy between nominal $\tilde{w}$ of $\Sigma_{s}$ and actual $w$ of $\Sigma_{a}$ is modeled by the disturbance relation $\mathcal{R}_{d} = \{ (\tilde{w}, w) \in \mathcal{D}_{1} \times \mathcal{D}_{2} \,|\, -\zeta \leqslant w - \tilde{w} \leqslant \zeta \}$.
+Because $v_{k}$ specifies an upper-bound of the total energy demand $T \rho^{T} \eta_{k}$, we define the joint input constraint $\RSet_{u} = \{ (v, \eta) \in \mathcal{U}_{1} \times \mathcal{U}_{2} \,|\, T \rho^{T} \eta \leq v \}$.
+Finally, the forecast accuracy between nominal $\tilde{w}$ of $\Sigma_{s}$ and actual $w$ of $\Sigma_{a}$ is modeled by the disturbance relation $\RSet_{d} = \{ (\tilde{w}, w) \in \mathcal{D}_{1} \times \mathcal{D}_{2} \,|\, -\zeta \leqslant w - \tilde{w} \leqslant \zeta \}$.
 
 
 \subsubsection{Conditions for \RSet} % Input-constrained Simulation Relation \protect\RSet}
@@ -79,27 +76,29 @@ Finally, the forecast accuracy between nominal $\tilde{w}$ of $\Sigma_{s}$ and a
 To derive the model abstraction of $\Sigma_{a}$, the input-constrained simulation relation $\RSet$ must be computed.
 Specifically, we need to be able to certify if any given relation $\RSet$ of $s$ and $\overbar{x}$ is an input-constrained simulation relation of $T_{1}$ by $T_{2}$.
 The following theorem provides such a necessary and sufficient condition for $\RSet$.
-Here, the product between a matrix $M \in \mathbb{R}^{m \times n}$ and a set $\PSet \subseteq \mathbb{R}^{n}$ is defined as the set $M \PSet = \{ y \in \mathbb{R}^{m} \,|\, y = M x, x \in \PSet\}$.
+Here, the product between a matrix $M \in \mathbb{R}^{m \times n}$ and a set $\PSet \subseteq \mathbb{R}^{n}$ is defined as the image of $\PSet$ under the linear map $M$, \ie $M \PSet = \{ y \in \mathbb{R}^{m} \,|\, y = M x, x \in \PSet\}$.
 The identity matrix is denoted by $\IdentityMatrix$, whose dimensions are often omitted when they are obvious from the context.
+The symbol $\Zero$ denotes a zero vector or matrix.
 
 \begin{theorem}
   \label{thm:abstraction-gs:necessary-sufficient}
-  A set $\RSet \subseteq \SSet \times \XSet$ is an input-constrained simulation relation of $T_{1}$ by $T_{2}$ if and only if
-  \begin{align*}
+  A set $\RSet \subseteq \SSet \times \XSet$ is an input-constrained simulation relation of $T_{1}$ by $T_{2}$ for the feedforward approach if and only if
+  \begin{align}
+    \label{eq:abstraction-gs:necessary-sufficient}
     M_l \PSet_l \subseteq M_r \PSet_r
-  \end{align*}
+  \end{align}
   where 
   \begin{gather*}
     M_l =
           \begin{bmatrix}
-            0 & 0 & 1 & 0 & 0 & 0 \\
-            \alpha & 0 & 1 & 0 & \beta^{T} & 0 \\
+            0 & \Zero & 1 & \Zero & \Zero & \Zero \\
+            \alpha & \Zero & 1 & \Zero & \beta^{T} & \Zero \\
             0 & A_T & 0 & E_T & E_T & \IdentityMatrix
           \end{bmatrix}\\
     M_r =
       \begin{bmatrix}
-        0 & 0 & 1 & 0 \\
-        1 & 0 & 0 & 0 \\
+        0 & \Zero & 1 & \Zero \\
+        1 & \Zero & 0 & \Zero \\
         0 & \IdentityMatrix & 0 & \tilde{B} - B_{T}
       \end{bmatrix}
   \end{gather*}
@@ -107,7 +106,7 @@ The identity matrix is denoted by $\IdentityMatrix$, whose dimensions are often 
   \begin{align*}
     \PSet_l =& \big\{ (s,\overbar{x}, v, \delta, \tilde{w}, \varepsilon) \,\big|\,
               (s,\overbar{x}) \in \RSet,\ (s,v) \in \Omega, -\zeta \leqslant \delta \leqslant \zeta,\big.\\
-            &\qquad \big. \tilde{w} \in \WSet,  \alpha s + v + \beta^{T} \tilde{w} \in \SSet, \underline{\varepsilon} \leqslant \varepsilon \leqslant \overbar{\varepsilon} \big\} \\
+            &\qquad \big. \tilde{w} \in \WSet, \tilde{w} + \delta \in \WSet, \alpha s + v + \beta^{T} \tilde{w} \in \SSet, \underline{\varepsilon} \leqslant \varepsilon \leqslant \overbar{\varepsilon} \big\} \\
     \PSet_r =& \big\{(s^+, \overbar{x}^{+}, \overbar{v}, \eta) \,\big|\,
                \overbar{x}^{+} \in \XSet, (s^{+}, \overbar{x}^{+}) \in \RSet, \eta \in [0,1]^{m},\big.\\
              &\qquad \big. T \rho^{T} \eta \leqslant \overbar{v}\big\}
@@ -115,8 +114,230 @@ The identity matrix is denoted by $\IdentityMatrix$, whose dimensions are often 
 \end{theorem}
 The proof can be found in \cref{sec:proof:abstraction-gs:necessary-sufficient}.
 
+Although \cref{thm:abstraction-gs:necessary-sufficient} is useful for verifying whether a given $\RSet$ is an input-constrained simulation relation, it does not allow us to directly compute $\RSet$ since $\RSet$ appears on both sides of \eqref{eq:abstraction-gs:necessary-sufficient}.
+Furthermore, computing the image of a set under a linear map and checking for a set inclusion are generally difficult.
+Therefore, we will impose a certain structure on the relation $\RSet$ that results in polyhedral sets $\PSet_{l}$ and $\PSet_{r}$.
+We will also derive a simpler condition for $\RSet$, which can be verified by checking the feasibility of a linear program.
+
+As mentioned in the overview in \cref{sec:overview} and again at the beginning of this section, $s$ represents an aggregated state of all the subsystems, for example the total enthalpy of an energy system.
+Thus, we can choose $s$ to be approximately a linear combination of all the (energy) states of the subsystems.
+Let $s \approx c^{T} x$, where $c$ is a constant vector in $\mathbb{R}^{n}$.
+The set $\RSet$ is chosen to represent this relationship between $s$ and $x$ as 
+\begin{equation}
+  \label{eq:abstraction-gs:R}
+  \RSet = \{ (s,x) \in \SSet \times \XSet \,|\, | c^{T} x - s | \leqslant \gamma \} \text,
+\end{equation}
+where $\gamma \geqslant 0$ is a design parameter.
+Intuitively, in an energy system, the set of $x \in \XSet$ such that $(s,x) \in \RSet$, for any $s \in \SSet$, is the set of all states that have roughly the same aggregated energy level $s$ (up to an error of $\gamma$).
+
+We have assumed in \cref{sec:gs-problem} that $\XSet$ and $\WSet$ are polyhedra.
+Suppose also that $\Omega$ is a polyhedron.
+Let their hyperplane representations be
+\begin{gather*}
+  \XSet = \{ x \in \mathbb{R}^{n} \,|\, H_{x} x \leqslant k_{x} \}, \qquad
+  \WSet = \{ w \in \mathbb{R}^{p} \,|\, H_{w} x \leqslant k_{w} \}\\
+  \Omega = \{ (s,v) \in \mathbb{R}^{2} \,|\, H_{\Omega}^{s} s + H_{\Omega}^{v} v \leqslant k_{\Omega} \}
+\end{gather*}
+where $H_{x}$, $k_{x}$, $H_{w}$, $k_{w}$, $H_{\Omega}^{s}$, $H_{\Omega}^{v}$, $k_{\Omega}$ are matrices and vectors of appropriate dimensions.
+Because $s$ and $v$ are scalars, we can bound them as $\underline{s} \leqslant s \leqslant \overbar{s}$ and $\underline{v} \leqslant v \leqslant \overbar{v}$, where $\underline{s}$, $\overbar{s}$, $\underline{v}$, $\overbar{v}$ are respectively the lower- and upper-bounds of $s$ and $v$.
+With these assumptions, $\PSet_{l}$ and $\PSet_{r}$ become polyhedral sets.
+We can now state a sufficient condition for $\RSet$ in the next theorem.
+
+\begin{theorem}
+  \label{thm:abstraction-gs:sufficient-LP}
+  A set $\RSet$ as defined in \eqref{eq:abstraction-gs:R} is an input-constrained simulation relation of $T_{1}$ by $T_{2}$ for the feedforward approach if there exist a real matrix $Z$ of non-negative elements, a real matrix $Q$, and a real vector $q$ such that
+  \begin{subequations}
+    \label{eq:abstraction-gs:sufficient-LP}
+    \begin{align}
+      M_{r} Q &= \IdentityMatrix \\
+      M_{r} q &= \Zero \\
+      Z H_{l} &= H_{r} Q M_{l} \\
+      Z k_{l} &\leqslant k_{r} - H_{r} q
+    \end{align}
+  \end{subequations}
+  in which
+  \begin{gather*}
+    H_{l} =
+    \begin{bmatrix}
+      1 \\ %  & \Zero  &  \Zero
+      -1 \\ % & \Zero  &  \Zero
+        & H_{x} \\ % &  \Zero
+      -1  & c^{T} \\ % &  \Zero
+      1   & -c^{T} \\ % &  \Zero
+      H_{\Omega}^{s} & & H_{\Omega}^{v} \\
+      & & 1 \\
+      & & -1 \\
+      & & & & H_{w} \\
+      & & & H_{w} & H_{w} \\
+      & & & \IdentityMatrix \\
+      & & & -\IdentityMatrix \\
+      \alpha & & 1 & & \beta^{T} \\
+      -\alpha & & -1 & & -\beta^{T} \\
+      & & & & & V \\
+      & & & & & -V
+    \end{bmatrix}, \;
+    k_{l} =
+    \begin{bmatrix}
+      \overbar{s} \\
+      -\underline{s} \\
+      k_{x} \\
+      \gamma \\
+      \gamma \\
+      k_{\Omega} \\
+      \overbar{v} \\
+      -\underline{v} \\
+      k_{w} \\
+      k_{w} \\
+      \zeta \\
+      \zeta \\
+      \overbar{s} \\
+      -\underline{s} \\
+      \overbar{\varepsilon} \\
+      -\underline{\varepsilon}
+    \end{bmatrix} \\
+    %
+    H_{r} =
+    \begin{bmatrix}
+      & H_{x} \\ % &  \Zero
+      -1  & c^{T} \\ % &  \Zero
+      1   & -c^{T} \\ % &  \Zero
+      & & -1 & T \rho^{T} \\
+      & & & \IdentityMatrix \\
+      & & & -\IdentityMatrix
+    \end{bmatrix}, \;
+    k_{r} =
+    \begin{bmatrix}
+      k_{x} \\
+      \gamma \\
+      \gamma \\
+      0 \\
+      \One \\
+      \Zero
+    \end{bmatrix} \text.
+  \end{gather*}
+\end{theorem}
+In the above matrices and vectors, the blank spaces are zero blocks and $\One$ denotes vector of 1's.
+The theorem is proved in \cref{sec:proofs:abstraction-gs:sufficient-LP}.
+
+Although \cref{thm:abstraction-gs:sufficient-LP} is only sufficient, it reduces the condition to checking the feasibility of the linear program~\eqref{eq:abstraction-gs:sufficient-LP}, which can be solved rather efficiently by any LP solver such as Gurobi, MOSEK, CPLEX, CLP.
+
+We note that the design parameters, which are ($\alpha$, $\beta$, $c$, $\gamma$, $H_{\Omega}^{s}$, $H_{\Omega}^{v}$, $k_{\Omega}$), are multiplied by the elements of $Z$ in \eqref{eq:abstraction-gs:sufficient-LP}.
+Consequently, if we want to solve \eqref{eq:abstraction-gs:sufficient-LP} to also find the design parameters, the problem becomes a bilinear program, which is intractable to solve for any significant size.
+We will discuss a way to compute these parameters in \cref{sec:abstraction-gs:computation}, after we derive similar results for the feedback control approach in the next section.
+
 \subsection{Feedback Approach}
 \label{sec:abstraction-gs:feedback}
+
+\subsubsection{Transition Systems}
+\label{sec:abstraction-gs:feedback:Ts}
+
+In the feedback approach, the evolution of $\Sigma_{s}$ is not nominal as it is influenced by the actual disturbances, which are unknown but within known accuracies from their forecasts.
+To model this phenomenon, we will include the disturbance forecasts in the control labels of both $T_{1}$ and $T_{2}$, while their disturbance labels are the errors between the forecasts and the actual disturbances.
+Specifically, we define $T_{1}$ as follows:
+\begin{itemize}
+\item State $q_{1} \equiv s$ and state set $Q_{1} = \mathcal{S}$.
+\item Control label $\upsilon_{1} \equiv (v, \tilde{w}_{1})$ with $\mathcal{U}_{1} = \VSet \times \WSet$.
+\item Disturbance label $\delta_{1}$ is the disturbance forecast error $\delta_{1} = w - \tilde{w}_{1}$; $\mathcal{D}_{1} = \{ \delta_{1} \in \mathbb{R}^{p} \,|\, -\zeta \leqslant \delta_{1} \leqslant \zeta\}$.
+\item Transition set $\rightarrow_{1} = \{ (s, v, \tilde{w}_{1}, \delta_{1}, s^{+}) \,|\, (s,v) \in \Omega,\allowbreak \tilde{w}_{1} \in \WSet,\allowbreak \delta_{1} \in \mathcal{D}_{1},\allowbreak \tilde{w}_{1} + \delta_{1} \in \WSet,\allowbreak s^{+} = \alpha s + v + \beta^{T} (\tilde{w}_{1} + \delta_{1}) \in \SSet\}$. %Q_{1}
+\end{itemize}
+%
+The transition system $T_{2}$ of $\Sigma_{a}$ is defined as:
+\begin{itemize}
+\item State $q_{2} \equiv \overbar{x}$; $Q_{2} = \XSet$.
+\item Control label $\upsilon_{2} \equiv (\eta, \tilde{w}_{2})$ with $\mathcal{U}_{2} = [0,1]^{m} \times \WSet$.
+\item Disturbance label $\delta_{2}$ is also the forecast error; $\mathcal{D}_{2} = \{ \delta_{2} \in \mathbb{R}^{p} \,|\, -\zeta \leqslant \delta_{2} \leqslant \zeta\}$.
+\item Transition set: we again model the state reset as a non-deterministic but bounded perturbation of $\overbar{x}$.   Define $\rightarrow_{2} = \{ (\overbar{x}, \eta, \tilde{w}_{2}, \delta_{2}, \overbar{x}^{+}) \,|\, \overbar{x} \in \XSet, \eta \in \mathcal{U}_{2}, \tilde{w}_{2} \in \WSet,\allowbreak \delta_{2} \in \mathcal{D}_{2},\allowbreak \tilde{w}_{2} + \delta_{2} \in \WSet,\allowbreak \overbar{x}^{+} = A_{T} \overbar{x}+ B_{T} \eta + E_{T} (\tilde{w}_{2} + \delta_{2}) + e \in \XSet,\allowbreak \underline{\varepsilon} \leqslant V (e + \tilde{B} \eta) \leqslant \overbar{\varepsilon}\}$.
+\end{itemize}
+%
+The joint input constraint $\RSet_{u}$ needs to take into account that the disturbance forecasts are the same for $T_{1}$ and $T_2$, hence $\RSet_{u} = \{ ((v, \tilde{w}_{1}), (\eta, \tilde{w}_{2})) \in \mathcal{U}_{1} \times \mathcal{U}_{2} \,|\, T \rho^{T} \eta \leq v, \tilde{w}_{1} = \tilde{w}_{2} \}$.
+Finally, because $T_{1}$ and $T_{2}$ are subject to the same actual disturbances, we define the disturbance relation $\RSet_{d} = \{ (\delta_{1}, \delta_{2}) \in \mathcal{D}_{1} \times \mathcal{D}_{2} \,|\, \delta_{1} = \delta_{2} \}$.
+
+\subsubsection{Conditions for \RSet} % Input-constrained Simulation Relation \protect\RSet}
+\label{sec:abstraction-gs:feedback:conditions}
+
+The only differences between the feedback and feedforward approaches are that in the feedback approach: (a) the control input $v$ for $T_{1}$ must robustly drive $s$ to $\SSet$ regardless of the forecast error $\delta$; (b) $s$ is updated with the actual disturbance $\tilde{w} + \delta$.
+Therefore, the necessary and sufficient condition in \cref{thm:abstraction-gs:necessary-sufficient} still holds for the feedback approach with modified matrix $M_{l}$ and set $\PSet_{l}$:
+\begin{gather*}
+  M_l =
+  \begin{bmatrix}
+    0 & \Zero & 1 & \Zero & \Zero & \Zero \\
+    \alpha & \Zero & 1 & \beta^{T} & \beta^{T} & \Zero \\
+    0 & A_T & 0 & E_T & E_T & \IdentityMatrix
+  \end{bmatrix}\\
+  \begin{aligned}
+    \PSet_l =& \big\{ (s,\overbar{x}, v, \delta, \tilde{w}, \varepsilon) \,\big|\,
+    (s,\overbar{x}) \in \RSet,\ (s,v) \in \Omega, -\zeta \leqslant \delta \leqslant \zeta,\big.\\
+    &\qquad \big. \tilde{w} \in \WSet, \tilde{w} + \delta \in \WSet, \alpha s + v + \beta^{T} \tilde{w} \in \SSet \ominus \beta^{T} \mathcal{D}_{1},\\
+    &\qquad \underline{\varepsilon} \leqslant \varepsilon \leqslant \overbar{\varepsilon} \big\}
+  \end{aligned}
+\end{gather*}
+where $\ominus$ denotes the Pontryagin difference between two sets.
+
+  \begin{gather*}
+    H_{l} =
+    \begin{bmatrix}
+      1 \\ %  & \Zero  &  \Zero
+      -1 \\ % & \Zero  &  \Zero
+        & H_{x} \\ % &  \Zero
+      -1  & c^{T} \\ % &  \Zero
+      1   & -c^{T} \\ % &  \Zero
+      H_{\Omega}^{s} & & H_{\Omega}^{v} \\
+      & & 1 \\
+      & & -1 \\
+      & & & & H_{w} \\
+      & & & \IdentityMatrix \\
+      & & & -\IdentityMatrix \\
+      \alpha & & 1 & & \beta^{T} \\
+      -\alpha & & -1 & & -\beta^{T} \\
+      & & & & & V \\
+      & & & & & -V
+    \end{bmatrix}, \;
+    k_{l} =
+    \begin{bmatrix}
+      \overbar{s} \\
+      -\underline{s} \\
+      k_{x} \\
+      \gamma \\
+      \gamma \\
+      k_{\Omega} \\
+      \overbar{v} \\
+      -\underline{v} \\
+      k_{w} \\
+      \zeta \\
+      \zeta \\
+      \overbar{s} \\
+      -\underline{s} \\
+      \overbar{\varepsilon} \\
+      -\underline{\varepsilon}
+    \end{bmatrix} \\
+    %
+    H_{r} =
+    \begin{bmatrix}
+      & H_{x} \\ % &  \Zero
+      -1  & c^{T} \\ % &  \Zero
+      1   & -c^{T} \\ % &  \Zero
+      & & -1 & T \rho^{T} \\
+      & & & \IdentityMatrix \\
+      & & & -\IdentityMatrix
+    \end{bmatrix}, \;
+    k_{r} =
+    \begin{bmatrix}
+      k_{x} \\
+      \gamma \\
+      \gamma \\
+      0 \\
+      \One \\
+      \Zero
+    \end{bmatrix} \text.
+  \end{gather*}
+
+
+Although \cref{thm:abstraction-gs:sufficient-LP} is only sufficient, it reduces the condition to checking the feasibility of the linear program~\eqref{eq:abstraction-gs:sufficient-LP}, which can be solved rather efficiently by any LP solver such as Gurobi, MOSEK, CPLEX, CLP.
+
+
+\subsection{Computation of Design Parameters}
+\label{sec:abstraction-gs:computation}
+
 
 
 % \subsection{Parameters of \protect$\Sigma_{s}$}

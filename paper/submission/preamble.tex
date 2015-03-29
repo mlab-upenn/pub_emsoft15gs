@@ -1,5 +1,5 @@
 \usepackage{amsmath,amssymb,graphicx,bbm,xcolor,latexsym}
-\usepackage{truonglatexdefs}
+\usepackage{xspace}
 
 % CLEVER REFERENCES
 % This package automatically infers the type of
@@ -46,3 +46,11 @@
 
 \newcommand{\RHnote}[1]{\simplenote{RH: #1}}
 \newcommand{\TNnote}[1]{\simplenote{TN: #1}}
+
+\newcommand{\eg}{e.g.,\xspace}
+\newcommand{\ie}{i.e.,\xspace}
+\newcommand{\etc}{etc.\xspace}
+\newcommand{\cf}{cf.~}
+
+% The \overbar command, similar to \bar and \overline. It scales with the content as does \overline, but it's a bit shorter than \overline. It's actually \overline shortened by 1.5mu in each side
+\newcommand*{\overbar}[1]{\mkern 2.0mu\overline{\mkern-2.0mu#1\mkern-1.0mu}\mkern 1.0mu}
