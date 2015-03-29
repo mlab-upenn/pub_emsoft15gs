@@ -1,0 +1,86 @@
+\section{Model Abstraction for Green\\Scheduling}
+\label{sec:abstraction-gs}
+
+\simpletodo{Relation R could be exact but for flexibility, any state x that approximates
+the aggregated s, so we use the error band.}
+
+Going back to the green scheduling problem, we apply the framework of input-constrained simulation relations to abstract the high-dimensional model $\Sigma_{a}$ by a low-dimensional model $\Sigma_{s}$.
+We then derive a feedback control law that allows $\Sigma_{a}$ to track the state of $\Sigma_{s}$ while maintaining their simulation relation, all their state and input constraints, as well as the input upper-bounds set by $\Sigma_{s}$.
+In particular, we consider the scalar discrete-time system $\Sigma_{s}$:
+\begin{align}
+  (\Sigma_s) \quad
+  & s_{k + 1} = \alpha s_k + v_k + \beta^T w_{k}   \label{eq:abstract-system} \\
+  & s_k \in \SSet \subseteq \mathbbm{R},
+  v_k \in \VSet \subseteq \mathbbm{R},
+  (s_k, v_k) \in \Omega \subseteq \SSet \times \VSet \nonumber
+ \end{align}
+%
+The intuition is that $s_{k}$ represents an aggregated state of all the subsystems at time step $k$ and $v_{k}$ specifies an upper-bound of the total energy demand.
+For example, consider an energy system consisting of $n$ rooms and a heater in each room, where the heaters have fixed heating powers and can only be switched on and off.
+At time $k$, $s_{k}$ can represent the total enthalpy of all rooms, while $v_{k}$ bounds the total heating energy of all heaters during that interval.
+Because the system is subject to heat loss and disturbances, the dynamics of $s$ have the form of \eqref{eq:abstract-system}.
+
+The abstraction of $\Sigma_{a}$, \ie the input-constrained simulation relation $\RSet$, depends on how the control input $v_{k}$ is computed and how the disturbances are represented in $\Sigma_{s}$.
+In practice, forecasts of the disturbances, denoted $\tilde{w}_{k}$, with known bounded accuracies are often available and used in computing the control inputs for both $\Sigma_{s}$ and $\Sigma_{a}$.
+The forecast accuracies are represented by a vector $\zeta \geq 0$ in $\mathbb{R}^{p}$ such that the error between $w_{k}$ and $\tilde{w}_{k}$ are always bounded element-wise as $-\zeta \leqslant w_{k} - \tilde{w}_{k} \leqslant \zeta$ for all $k$.
+
+We consider two control approaches in this paper:
+\begin{enumerate}
+\item \textbf{Feedforward approach:} The control sequence $v_{0}$, $v_{1}$, \dots, $v_{N-1}$ of $\Sigma_{s}$ are computed using the disturbance forecasts $\tilde{w}_{0}, \tilde{w}_{1}, \dots, \tilde{w}_{N-1}$ as nominal disturbances for the horizon.  These control inputs are not adjusted until the end of the horizon; in other words, the control law for $\Sigma_{s}$ is feedforward.  Consequently, the trajectory of $\Sigma_{s}$ is nominal without taking into account actual disturbances.  The control input $\eta_{k}$ for $\Sigma_{a}$ is computed based on the actual state $x_{k}$ of $\Sigma_{a}$ and the nominal state, control, and disturbances of $\Sigma_{s}$, hence it is a feedback law.
+\item \textbf{Feedback approach:} At each time step $k$, $v_{k}$ is decided using the actual state $s_{k}$, which is computed from the observed actual state $x_{k}$. %, and the disturbance forecast $\tilde{w}_{k}$.
+  The state trajectory of $\Sigma_{s}$ is therefore actual, not nominal.  The control input $\eta_{k}$ is calculated from the actual states $s_{k}$ and $x_{k}$, and $v_{k}$ and $\tilde{w}_{k}$.  Hence, both control laws for $\Sigma_{a}$ and $\Sigma_{s}$ are feedback.
+\end{enumerate}
+
+%Assuming that the parameters $\alpha$ and $\beta$ of $\Sigma_{s}$ are given, 
+We derive the abstraction $\Sigma_{s}$ of $\Sigma_{a}$ for each approach in three steps:
+\begin{enumerate}
+\item $\Sigma_{s}$ of $\Sigma_{a}$ are formulated as transition systems $T_{1}$ and $T_{2}$ respectively;
+\item Assuming a certain form of $\mathcal{R}$, we derive a necessary and sufficient conditions for $\mathcal{R}$ to be an input-constrained simulation relation;
+\item Based on the conditions, we develop algorithms to compute the parameters of $\Sigma_{s}$, its joint constraint $\Omega$, and the simulation relation $\mathcal{R}$.
+\end{enumerate}
+%
+%In \cref{sec:abstraction-gs:sigma-s} we will discuss how the parameters of $\Sigma_{s}$ are computed.
+
+
+\subsection{Feedforward Approach}
+\label{sec:abstraction-gs:feedforward}
+
+\subsubsection{Transition Systems}
+\label{sec:abstraction-gs:feedforward:Ts}
+
+In this approach, the evolution of $\Sigma_{s}$ is nominal where the (nominal) disturbances are known and deterministic.
+
+Thus, we formulate $T_{1}$ as following:
+\begin{itemize}
+\item State set $Q_{1} = \mathcal{S}$.
+\item Control label $\upsilon_{1} \equiv v$ with $\mathcal{U}_{1} = \mathcal{V}$.
+\item Disturbance label $\delta_{1} \equiv \tilde{w}$ is the forecast with $\mathcal{D}_{1} = \mathcal{W}$ being the set of possible disturbances.
+\item Transition set $\rightarrow_{1} = \{ (s, v, \tilde{w}, s^{+}) \,|\, (s,v) \in \Omega, \tilde{w} \in \mathcal{D}_{1}, s^{+} = \alpha s + v + \beta^{T} \tilde{w} \in Q_1\}$.
+\end{itemize}
+%
+Similarly, $T_{2}$ is defined as:
+\begin{itemize}
+\item The state is the averaged state $\overbar{x}$ with $Q_{2} = \mathcal{X}$.
+\item Control label $\upsilon_{2} \equiv \eta$ with $\mathcal{U}_{2} = [0,1]^{m}$.
+\item Disturbance label: the averaged system is influenced by the actual disturbances $w_{k}$, therefore $\delta_{2} \equiv w$ with $\mathcal{D}_{2} = \mathcal{W}$.
+\item Transition set: recall that at every time step $k+1$, $\overbar{x}_{k+1}$ is reset to $x_{k+1}$, which is within a bounded error $e_{k+1}$ from $\hat{A} \overbar{x}_{k} + \hat{B} \eta_k + \hat{E} w_{k}$ (\cf \cref{thm:averaged-sys-bound}).  This reset can be modeled as a non-deterministic but bounded perturbation of the state.  Therefore we define $\rightarrow_{2} = \{ (\overbar{x}, \eta, w, \overbar{x}^{+}) \,|\, \overbar{x} \in Q_{2}, \eta \in \mathcal{U}_{2}, w \in \mathcal{W}, \overbar{x}^{+} \in Q_2, \underline{\varepsilon} (\eta) \leq \overbar{x}^{+} - (\hat{A} \overbar{x}+ \hat{B} \eta + \hat{E} w) \leq \overbar{\varepsilon} (\eta) \}$.
+\end{itemize}
+%
+Because $v_{k}$ specifies an upper-bound of the total energy demand $T p^{T} \eta_{k}$, we add the inter-system input constraint $\mathcal{R}_{u} = \{ (v, \eta) \in \mathcal{U}_{1} \times \mathcal{U}_{2} \,|\, T p^{T} \eta \leq v \}$.
+Finally, the forecast accuracy between $\tilde{w}$ of $\Sigma_{s}$ and $w$ of $\Sigma_{a}$ is modeled by the disturbance relation $\mathcal{R}_{d} = \{ (\tilde{w}, w) \in \mathcal{D}_{1} \times \mathcal{D}_{2} \,|\, \norm{w - \tilde{w}} \leq \zeta \}$.
+
+
+\subsection{Feedback Approach}
+\label{sec:abstraction-gs:feedback}
+
+
+% \subsection{Parameters of \protect$\Sigma_{s}$}
+% \label{sec:abstraction-gs:sigma-s}
+
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "emsoft15gs"
+%%% End:
