@@ -68,7 +68,7 @@ Here, the subscript $k$ denotes the value of a variable at time step $k$, and ma
 Note that the safety condition, that $x_k$ stays inside $\XSet$ at all $k$, must be robust to the unknown but bounded disturbances $w$, and thereby results in conservative control inputs trading off performance for safety.
 In practice, disturbance forecasts are usually available, for example in the forms of weather forecast and occupancy schedules, which should be exploited to obtain more accurate predictions of future states and hence less conservative control inputs and better performance.
 Therefore, the disturbances are modeled as $w_{k} = \tilde{w}_{k} + \delta_{k}$ where $\tilde{w}_{k} \in \WSet$ is the forecast and $\delta_{k}$ is the forecast uncertainty.
-The forecast accuracy, as the bounded set $\Delta$ of $\delta_{k}$, is assumed to be known and certainly smaller than $\WSet$.
+The forecast accuracy, as a bounded set of $\delta_{k}$, is assumed to be known and certainly smaller than $\WSet$.
 The optimization \eqref{eq:MILP} is a mixed-integer linear program (MILP) and can be solved by an MILP solver.
 However, except for small-scale systems with only a few control inputs and a short horizon $N$, the number of binary variables can be prohibitively large and the MILP is difficult to solve.
 For example, if $\Sigma_b$ has $m=40$\simpletodo{May need to update this number!!!} control inputs with sampling time $T = 5 \text{min}$ for a horizon of $N = 288$ steps in $24$ hours, the MILP will have $11 \comma 520$ binary variables, not to mention the continuous state and disturbance variables.

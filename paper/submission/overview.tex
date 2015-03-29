@@ -35,7 +35,7 @@ With the averaged system in place, we can reformulate the optimization~\eqref{eq
     & \dot{x} (t) = Ax (t) + B \pi (t ; \eta_k) + Ew_{k} \quad \forall t \in [kT, (k + 1) T) %\forall t \geq 0 
 \label{eq:averaged-optim:cont}\\
     %& u (t) = \pi (t ; \eta_k) \quad \forall t \in [kT, (k + 1) T) \label{eq:averaged-optim:control} \\ %, \quad \forall k = 0, \ldots, N - 1 \nonumber\\
-    & \hat{A}  \overbar{x}_{k} + \hat{B} \eta_k + \hat{E} w_{k} + e_{k+1} \in \XSet \quad \forall e_{k+1} \in \ESet (\eta_{k}) \label{eq:averaged-optim:safety}\\
+    & A_{T}  \overbar{x}_{k} + B_{T} \eta_k + E_{T} w_{k} + e_{k+1} \in \XSet \quad \forall e_{k+1} \in \ESet (\eta_{k}) \label{eq:averaged-optim:safety}\\
     & \overbar{x}_{k} = x (kT) \label{eq:averaged-optim:reset}\\
     %& w (t) = w (kT) \in \mathcal{W} \quad \forall t \in [kT, (k + 1) T) \\
     & \eta_{k} \in [0,1]^{m}, \quad w_{k} \in \WSet, \quad E_k = Td_k, \quad d_k = \rho^T \eta_k

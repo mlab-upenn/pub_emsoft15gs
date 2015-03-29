@@ -34,8 +34,9 @@ We consider two control approaches in this paper:
 %Assuming that the parameters $\alpha$ and $\beta$ of $\Sigma_{s}$ are given, 
 We derive the abstraction $\Sigma_{s}$ of $\Sigma_{a}$ for each approach in three steps:
 \begin{enumerate}
-\item $\Sigma_{s}$ of $\Sigma_{a}$ are formulated as transition systems $T_{1}$ and $T_{2}$ respectively;
-\item Assuming a certain form of $\mathcal{R}$, we derive a necessary and sufficient conditions for $\mathcal{R}$ to be an input-constrained simulation relation;
+\item $\Sigma_{s}$ and $\Sigma_{a}$ are formulated as transition systems $T_{1}$ and $T_{2}$ respectively;
+\item Assuming a certain form of $\mathcal{R}$, we derive %a necessary and sufficient
+  conditions for $\mathcal{R}$ to be an input-constrained simulation relation;
 \item Based on the conditions, we develop algorithms to compute the parameters of $\Sigma_{s}$, its joint constraint $\Omega$, and the simulation relation $\mathcal{R}$.
 \end{enumerate}
 %
@@ -48,27 +49,71 @@ We derive the abstraction $\Sigma_{s}$ of $\Sigma_{a}$ for each approach in thre
 \subsubsection{Transition Systems}
 \label{sec:abstraction-gs:feedforward:Ts}
 
-In this approach, the evolution of $\Sigma_{s}$ is nominal where the (nominal) disturbances are known and deterministic.
-
-Thus, we formulate $T_{1}$ as following:
+In the feedforward approach, the evolution of $\Sigma_{s}$ is nominal, where the (nominal) disturbances are known and deterministic.
+We formulate $T_{1}$ as follows:
 \begin{itemize}
-\item State set $Q_{1} = \mathcal{S}$.
+\item State $q_{1} \equiv s$ and state set $Q_{1} = \mathcal{S}$.
 \item Control label $\upsilon_{1} \equiv v$ with $\mathcal{U}_{1} = \mathcal{V}$.
-\item Disturbance label $\delta_{1} \equiv \tilde{w}$ is the forecast with $\mathcal{D}_{1} = \mathcal{W}$ being the set of possible disturbances.
-\item Transition set $\rightarrow_{1} = \{ (s, v, \tilde{w}, s^{+}) \,|\, (s,v) \in \Omega, \tilde{w} \in \mathcal{D}_{1}, s^{+} = \alpha s + v + \beta^{T} \tilde{w} \in Q_1\}$.
+\item Disturbance label $\delta_{1} \equiv \tilde{w}$ is the disturbance forecast with $\mathcal{D}_{1} = \mathcal{W}$ being the set of possible disturbances.
+\item Transition set $\rightarrow_{1} = \{ (s, v, \tilde{w}, s^{+}) \,|\, (s,v) \in \Omega,\allowbreak \tilde{w} \in \WSet, %\mathcal{D}_{1},
+  \allowbreak s^{+} = \alpha s + v + \beta^{T} \tilde{w} \in \SSet\}$. %Q_{1}
 \end{itemize}
 %
-Similarly, $T_{2}$ is defined as:
+The transition system $T_{2}$ of $\Sigma_{a}$ is defined as:
 \begin{itemize}
-\item The state is the averaged state $\overbar{x}$ with $Q_{2} = \mathcal{X}$.
+\item State is the averaged state $q_{2} \equiv \overbar{x}$ with $Q_{2} = \mathcal{X}$.
 \item Control label $\upsilon_{2} \equiv \eta$ with $\mathcal{U}_{2} = [0,1]^{m}$.
-\item Disturbance label: the averaged system is influenced by the actual disturbances $w_{k}$, therefore $\delta_{2} \equiv w$ with $\mathcal{D}_{2} = \mathcal{W}$.
-\item Transition set: recall that at every time step $k+1$, $\overbar{x}_{k+1}$ is reset to $x_{k+1}$, which is within a bounded error $e_{k+1}$ from $\hat{A} \overbar{x}_{k} + \hat{B} \eta_k + \hat{E} w_{k}$ (\cf \cref{thm:averaged-sys-bound}).  This reset can be modeled as a non-deterministic but bounded perturbation of the state.  Therefore we define $\rightarrow_{2} = \{ (\overbar{x}, \eta, w, \overbar{x}^{+}) \,|\, \overbar{x} \in Q_{2}, \eta \in \mathcal{U}_{2}, w \in \mathcal{W}, \overbar{x}^{+} \in Q_2, \underline{\varepsilon} (\eta) \leq \overbar{x}^{+} - (\hat{A} \overbar{x}+ \hat{B} \eta + \hat{E} w) \leq \overbar{\varepsilon} (\eta) \}$.
+\item Disturbance label: $\Sigma_{a}$ %the averaged system 
+  is influenced by the actual disturbances $w_{k}$, therefore $\delta_{2} \equiv w$ with $\mathcal{D}_{2} = \mathcal{W}$.
+\item Transition set: recall that at every time step $k+1$, $\overbar{x}_{k+1}$ is reset to $x((k+1)T)$, which is within a bounded error $e_{k+1}$ from $A_{T} \overbar{x}_{k} + B_{T} \eta_k + E_{T} w_{k}$ (\cf \cref{thm:averaged-sys-bound}).  This reset can be modeled as a non-deterministic but bounded perturbation of the state.  Therefore we define $\rightarrow_{2} = \{ (\overbar{x}, \eta, w, \overbar{x}^{+}) \,|\, \overbar{x} \in \XSet, \eta \in \mathcal{U}_{2}, w \in \mathcal{W},\allowbreak \overbar{x}^{+} \in \XSet,\allowbreak \overbar{x}^{+} = A_{T} \overbar{x}+ B_{T} \eta + E_{T} w + e,\allowbreak 
+\underline{\varepsilon} \leqslant V (e + \tilde{B} \eta) \leqslant \overbar{\varepsilon}\}$.
 \end{itemize}
 %
-Because $v_{k}$ specifies an upper-bound of the total energy demand $T p^{T} \eta_{k}$, we add the inter-system input constraint $\mathcal{R}_{u} = \{ (v, \eta) \in \mathcal{U}_{1} \times \mathcal{U}_{2} \,|\, T p^{T} \eta \leq v \}$.
-Finally, the forecast accuracy between $\tilde{w}$ of $\Sigma_{s}$ and $w$ of $\Sigma_{a}$ is modeled by the disturbance relation $\mathcal{R}_{d} = \{ (\tilde{w}, w) \in \mathcal{D}_{1} \times \mathcal{D}_{2} \,|\, \norm{w - \tilde{w}} \leq \zeta \}$.
+Because $v_{k}$ specifies an upper-bound of the total energy demand $T \rho^{T} \eta_{k}$, we define the joint input constraint $\mathcal{R}_{u} = \{ (v, \eta) \in \mathcal{U}_{1} \times \mathcal{U}_{2} \,|\, T \rho^{T} \eta \leq v \}$.
+Finally, the forecast accuracy between nominal $\tilde{w}$ of $\Sigma_{s}$ and actual $w$ of $\Sigma_{a}$ is modeled by the disturbance relation $\mathcal{R}_{d} = \{ (\tilde{w}, w) \in \mathcal{D}_{1} \times \mathcal{D}_{2} \,|\, -\zeta \leqslant w - \tilde{w} \leqslant \zeta \}$.
 
+
+\subsubsection{Conditions for \RSet} % Input-constrained Simulation Relation \protect\RSet}
+\label{sec:abstraction-gs:feedforward:conditions}
+
+To derive the model abstraction of $\Sigma_{a}$, the input-constrained simulation relation $\RSet$ must be computed.
+Specifically, we need to be able to certify if any given relation $\RSet$ of $s$ and $\overbar{x}$ is an input-constrained simulation relation of $T_{1}$ by $T_{2}$.
+The following theorem provides such a necessary and sufficient condition for $\RSet$.
+Here, the product between a matrix $M \in \mathbb{R}^{m \times n}$ and a set $\PSet \subseteq \mathbb{R}^{n}$ is defined as the set $M \PSet = \{ y \in \mathbb{R}^{m} \,|\, y = M x, x \in \PSet\}$.
+The identity matrix is denoted by $\IdentityMatrix$, whose dimensions are often omitted when they are obvious from the context.
+
+\begin{theorem}
+  \label{thm:abstraction-gs:necessary-sufficient}
+  A set $\RSet \subseteq \SSet \times \XSet$ is an input-constrained simulation relation of $T_{1}$ by $T_{2}$ if and only if
+  \begin{align*}
+    M_l \PSet_l \subseteq M_r \PSet_r
+  \end{align*}
+  where 
+  \begin{gather*}
+    M_l =
+          \begin{bmatrix}
+            0 & 0 & 1 & 0 & 0 & 0 \\
+            \alpha & 0 & 1 & 0 & \beta^{T} & 0 \\
+            0 & A_T & 0 & E_T & E_T & \IdentityMatrix
+          \end{bmatrix}\\
+    M_r =
+      \begin{bmatrix}
+        0 & 0 & 1 & 0 \\
+        1 & 0 & 0 & 0 \\
+        0 & \IdentityMatrix & 0 & \tilde{B} - B_{T}
+      \end{bmatrix}
+  \end{gather*}
+  and
+  \begin{align*}
+    \PSet_l =& \big\{ (s,\overbar{x}, v, \delta, \tilde{w}, \varepsilon) \,\big|\,
+              (s,\overbar{x}) \in \RSet,\ (s,v) \in \Omega, -\zeta \leqslant \delta \leqslant \zeta,\big.\\
+            &\qquad \big. \tilde{w} \in \WSet,  \alpha s + v + \beta^{T} \tilde{w} \in \SSet, \underline{\varepsilon} \leqslant \varepsilon \leqslant \overbar{\varepsilon} \big\} \\
+    \PSet_r =& \big\{(s^+, \overbar{x}^{+}, \overbar{v}, \eta) \,\big|\,
+               \overbar{x}^{+} \in \XSet, (s^{+}, \overbar{x}^{+}) \in \RSet, \eta \in [0,1]^{m},\big.\\
+             &\qquad \big. T \rho^{T} \eta \leqslant \overbar{v}\big\}
+  \end{align*}
+\end{theorem}
+The proof can be found in \cref{sec:proof:abstraction-gs:necessary-sufficient}.
 
 \subsection{Feedback Approach}
 \label{sec:abstraction-gs:feedback}
