@@ -8,8 +8,15 @@ A brief overview of the overall idea and results is described in this section an
 \begin{figure}[tb]
   \centering
   \includegraphics[width=\columnwidth]{approach_overview}
-  \caption{Overview of the approach.}
+  \caption{Overview of the scheduling approach. The blue boxes represent the different models at different scales resulted from the offline design process: the original large-scale binary-input model $\Sigma_{b}$ is reduced to the single-state single-input model $\Sigma_{s}$.  The dashed boxes represent the run-time components, which include two lightweight optimizations and one simple scheduling algorithm.}
   \label{fig:overview}
+\end{figure}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=\columnwidth]{runtime_hierarchy}
+  \caption{BlaBla}
+  \label{fig:runtime-hierarchy}
 \end{figure}
 
 The complexity of the %green
@@ -52,15 +59,15 @@ Let $e_{k+1}$ be the error between $x((k+1)T)$ and $\overbar{x}_{k}$, which is u
 To ensure that $x (k T) \in \XSet$, constraint~\eqref{eq:averaged-optim:safety} robustly restricts the next state in $\XSet$ for all possible errors $e_{k+1}$.
 %The utilization $\eta_{k}$, disturbance $w_{k}$ and the energy consumption $E_{k}$ and demand $d_{k}$ are constrained in 
 
-Except for the continuous-time dynamics~\eqref{eq:averaged-optim:cont}, problem~\eqref{eq:averaged-optim} is a linear program (LP).
-The number of optimization variables $\eta_k \in \mathbbm{R}^m$, $k = 0, \ldots, N - 1$, is $mN$, which can be large for a large-scale system over a long horizon.
-More importantly, constraints~\eqref{eq:averaged-optim:cont} and \eqref{eq:averaged-optim:safety} involve high-dimensional dynamical
-equations and set operations.
+%Except for the continuous-time dynamics~\eqref{eq:averaged-optim:cont}, problem~\eqref{eq:averaged-optim} is a linear program (LP).
+In problem~\eqref{eq:averaged-optim}, the number of optimization variables $\eta_k \in \mathbbm{R}^m$, $k = 0, \ldots, N - 1$, is $mN$, which can be large for a large-scale system over a long horizon.
+For instance, with $m=20$ control variables and sampling time $T = 5 \text{min}$ over a $24$-hour horizon, the number of optimization variables is $5 \comma 760$.
+Constraint~\eqref{eq:averaged-optim:safety} involves high-dimensional dynamical equations and set operations over a long horizon, resulting in many constraints.
+More importantly, constraint~\eqref{eq:averaged-optim:cont} requires execution of a continuous-time dynamical model.
 %In particular, to robustly satisfy constraint~\eqref{eq:averaged-optim:safety}, the Pontryagin difference between $\XSet$ and the $\eta_{k}$-dependent set $\ESet(\eta_{k})$ must be computed every time the optimization 
-As a consequence, the computational burden of solving \eqref{eq:averaged-optim} in run-time
-is still prohibitive for systems of practical size over a long horizon\footnote{In our targeted energy control applications, the horizon is typically a day, even a week or longer.}.
+For these reasons, problem~\eqref{eq:averaged-optim} is still difficult to solve, and its computational burden in run-time is still prohibitive for systems of practical size over a long horizon\footnote{In our targeted energy control applications, the horizon is typically a day, even a week or longer.}.
 An embedded implementation of the controller is therefore unlikely realizable.
-To reduce the complexity even further, we employ a model abstraction technique based on the concept of simulation relations between transition systems.
+To reduce the complexity even further, we employ a model abstraction technique based on the concept of simulation relations between transition systems \cite{aluretal00dah,girardetal07amd}.
 
 A transition system is a generalization of a dynamical system, whose state can
 transition into a new state either autonomously or under the influence of

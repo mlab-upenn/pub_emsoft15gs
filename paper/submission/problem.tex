@@ -74,7 +74,8 @@ Therefore, the disturbances are modeled as $w_{k} = \tilde{w}_{k} + \delta_{k}$ 
 The forecast accuracy, as a bounded set of $\delta_{k}$, is assumed to be known and certainly smaller than $\WSet$.
 The optimization \eqref{eq:MILP} is a mixed-integer linear program (MILP) and can be solved by an MILP solver.
 However, except for small-scale systems with only a few control inputs and a short horizon $N$, the number of binary variables can be prohibitively large and the MILP is difficult to solve.
-For example, if $\Sigma_b$ has $m=40$\simpletodo{May need to update this number!!!} control inputs with sampling time $T = 5 \text{min}$ for a horizon of $N = 288$ steps in $24$ hours, the MILP will have $11 \comma 520$ binary variables, not to mention the continuous state and disturbance variables.
+For example, if $\Sigma_b$ has %$m=40$\simpletodo{May need to update this number!!!} 
+$m=20$ control inputs with sampling time $T = 5 \text{min}$ for a horizon of $N = 288$ steps in $24$ hours, the MILP will have $5 \comma 760$ binary variables, not to mention the continuous state and disturbance variables.
 Solving such large MILPs often requires powerful computers with commercial optimization
 solvers.
 Moreover, due to the uncertainty caused by the disturbances, the control decisions need to be adjusted regularly by solving the optimization \eqref{eq:MILP} repeatedly at every time step (model predictive control (MPC)).

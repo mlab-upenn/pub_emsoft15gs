@@ -1,0 +1,25 @@
+\section{Scalable Scheduling: Design and Algorithms}
+\label{sec:summary}
+
+This section summarizes the results developed in the previous sections and discusses the design process and the run-time implementation of our approach.
+
+\subsection{Design Process of Scalable Scheduling}
+\label{sec:summary:design}
+
+Given the scheduling problem~\eqref{eq:GS-optim}:
+\begin{enumerate}
+\item We first discretize the dynamical model with sampling time $T$
+  to obtain the matrices $A_{T}$, $B_{T}$, and $E_{T}$.
+\item Compute $\underline{\varepsilon}$, $\overbar{\varepsilon}$, and $\tilde{B}$ for the error between $x$ and $\overbar{x}$, using \cref{thm:averaged-sys-bound}.
+\item Compute parameters $\alpha$, $\beta$, $c$ of the scalar model $\Sigma_{s}$ (\cref{sec:abstraction-gs:params:model}).
+\item Compute parameters $\gamma$ and $\Omega$ of the relation $\RSet$ (\cref{sec:abstraction-gs:params:omega}).  The construction of $\Omega$ requires checking the feasibility of the LP~(\ref{eq:abstraction-gs:sufficient-LP}) for many times.  For example, if we grid the ranges of $s$ and $v$ by $100$ segments each, we must solve the feasibility problem $10 \comma 000$ times.  
+\end{enumerate}
+\subsection{Run-time Implementation}
+\label{sec:summary:implementation}
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "emsoft15gs"
+%%% End:

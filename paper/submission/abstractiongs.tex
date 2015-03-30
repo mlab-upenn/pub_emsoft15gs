@@ -306,6 +306,7 @@ As mentioned above, they enter the sufficient condition~(\cref{eq:abstraction-gs
 In this section, we present a method to design these parameters in a suboptimal but tractable way.
 
 \subsubsection{Computing $\alpha$, $\beta$, $c$}
+\label{sec:abstraction-gs:params:model}
 
 We compute these parameters based on the intuition that $s$ is the aggregated state of all the subsystems: $s \approx c^{T} \overbar{x}$.
 From the discrete-time dynamics of $\overbar{x}$ we have
@@ -325,6 +326,7 @@ We then calculate $\beta = E_{T}^{T} c$.
 
 
 \subsubsection{Computing $\gamma$ and $\Omega$}
+\label{sec:abstraction-gs:params:omega}
 
 Once $\alpha$, $\beta$, and $c$ are chosen, we can compute the parameter $\gamma$ of the relation $\RSet$ and the constraint set $\Omega$ of $(s,v)$.
 We first choose the ranges $[\underline{s}, \overbar{s}]$ and $[\underline{v}, \overbar{v}]$ of $s$ and $v$ that satisfy
