@@ -1,9 +1,10 @@
-\section{Green Scheduling Problem}
+\section{Energy System Scheduling} %}{Green Scheduling Problem}
 \label{sec:gs-problem}
 
-\simplenote{This section can be placed inside the Introduction.}
+\simplenote{This section can be placed inside the Introduction. NEED TO BE REWRITTEN TO BE SELF-CONTAINED, NO REFERENCE TO PREVIOUS WORK.}
 
-We consider a variant of the original green scheduling problem where the peak
+We consider a variant of the original %green
+scheduling problem where the peak
 demand is determined based on the interval averaged total demand.
 Specifically, time is divided into equal intervals: $[0, T], [T, 2 T], \ldots$
 In each interval $[kT, (k + 1) T]$ the averaged total demand is calculated as $d_k = \frac{E_k}{T}$ where $E_k$ is the total energy consumption during interval $k$.
@@ -19,7 +20,7 @@ As in our previous work, we consider a continuous-time linear system $\Sigma_b$ 
 \end{equation*}
 %
 where $x \in \mathbbm{R}^{n}$ is the state vector, $u \in \{ 0, 1 \}^{m}$ are the binary control inputs that represent the schedules, and $w \in \mathbbm{R}^{p}$ is the disturbance vector.
-The safety condition requires that the state $x (t)$ stays in a safe set $\mathcal{X} \subset \mathbbm{R}^n$ at all time.
+The safety condition requires that the state $x (t)$ stays in a bounded safe set $\mathcal{X} \subset \mathbbm{R}^n$ at all time.
 The disturbances are constrained in a known set $w (t) \in \mathcal{W}$ for all $t$.
 Both $\mathcal{X}$ and $\mathcal{W}$ are polyhedral.
 
@@ -28,7 +29,7 @@ control inputs: $d (t) = \rho^T u (t)$ where $\rho$ is the vector of the individ
 power demand of each subsystem. In each time interval $[kT, (k + 1) T]$ the
 total energy consumption is $E_k = \int_{kT}^{(k + 1) T} d (t) \mathd t$ and
 the averaged total demand is $d_k = \frac{E_k}{T}$. 
-In the green scheduling problem, we aim to schedule
+In this scheduling problem, we aim to schedule
 the subsystems, \ie to compute the control inputs $u$, so that the energy cost over a finite horizon is minimized.
 The energy cost consists of a charge for the peak demand and possibly a charge for the energy
 consumtion.
@@ -43,7 +44,8 @@ time-varying price for the interval energy consumption.
 Typically $c_d \gg c_{e, k}$ which gives customers incentive to reduce their peak demands.
 
 
-The green scheduling problem can be formulated as minimizing the above cost function subject to the constraints:
+The %green
+scheduling problem can be formulated as minimizing the above cost function subject to the constraints:
 \begin{align*}
   %\mathrm{minimize}_{u (\cdummy)} &  & c_d \cdot \max_{0 \leqslant k \leqslant N - 1} d_k + \sum_{0 \leqslant k \leqslant N - 1} c_{e, k} \cdot E_k\\
   %\text{subject to} &
@@ -81,7 +83,8 @@ Although there are techniques in MPC to reduce the complexity, \eg move blocking
 Certainly the controller cannot be implemented on an embedded processor with limited processing power and memory.
 
 
-Our goal in this paper is to develop a scalable green scheduling algorithm that can potentially run on embedded processors, even for systems of moderate practical size.
+Our goal in this paper is to develop a scalable %green
+scheduling algorithm that can potentially run on embedded processors, even for systems of moderate practical size.
 We consider a slightly more general problem than \eqref{eq:MILP}:
 \begin{align}
   \operatorname{minimize}_{u (\cdummy)} \quad & c_d \cdot \max_{0 \leqslant k \leqslant

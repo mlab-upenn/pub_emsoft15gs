@@ -1,7 +1,8 @@
-\section{Model Abstraction for Green\\Scheduling}
+\section{Model Abstraction for Energy System Scheduling}%Green\\Scheduling}
 \label{sec:abstraction-gs}
 
-Going back to the green scheduling problem, we apply the framework of input-constrained simulation relations to abstract the high-dimensional model $\Sigma_{a}$ by a low-dimensional model $\Sigma_{s}$.
+Going back to the %green
+energy system scheduling problem, we apply the framework of input-constrained simulation relations to abstract the high-dimensional model $\Sigma_{a}$ by a low-dimensional model $\Sigma_{s}$.
 We then derive a feedback control law that allows $\Sigma_{a}$ to track the state of $\Sigma_{s}$ while maintaining their simulation relation, all their state and input constraints, as well as the input upper-bounds set by $\Sigma_{s}$.
 In particular, we consider the scalar discrete-time system $\Sigma_{s}$:
 \begin{align}
@@ -23,9 +24,9 @@ The forecast accuracies are represented by a vector $\zeta \geq 0$ in $\mathbb{R
 
 We consider two control approaches in this paper:
 \begin{enumerate}
-\item \textbf{Feedforward approach:} The control sequence $v_{0}$, $v_{1}$, \dots, $v_{N-1}$ of $\Sigma_{s}$ are computed using the disturbance forecasts $\tilde{w}_{0}, \tilde{w}_{1}, \dots, \tilde{w}_{N-1}$ as nominal disturbances for the horizon.  These control inputs are not adjusted until the end of the horizon; in other words, the control law for $\Sigma_{s}$ is feedforward.  Consequently, the trajectory of $\Sigma_{s}$ is nominal without taking into account actual disturbances.  The control input $\eta_{k}$ for $\Sigma_{a}$ is computed based on the actual state $x_{k}$ of $\Sigma_{a}$ and the nominal state, control, and disturbances of $\Sigma_{s}$, hence it is a feedback law.
-\item \textbf{Feedback approach:} At each time step $k$, $v_{k}$ is decided using the actual state $s_{k}$, which is computed from the observed actual state $x_{k}$. %, and the disturbance forecast $\tilde{w}_{k}$.
-  The state trajectory of $\Sigma_{s}$ is therefore actual, not nominal.  The control input $\eta_{k}$ is calculated from the actual states $s_{k}$ and $x_{k}$, and $v_{k}$ and $\tilde{w}_{k}$.  Hence, both control laws for $\Sigma_{a}$ and $\Sigma_{s}$ are feedback.
+\item \textbf{Feedforward approach:} The control sequence $v_{0}$, $v_{1}$, \dots, $v_{N-1}$ of $\Sigma_{s}$ are computed using the disturbance forecasts $\tilde{w}_{0}, \tilde{w}_{1}, \dots, \tilde{w}_{N-1}$ as nominal disturbances for the horizon.  These control inputs are not adjusted until the end of the horizon; in other words, the control law for $\Sigma_{s}$ is feedforward.  Consequently, the trajectory of $\Sigma_{s}$ is nominal without taking into account actual disturbances.  The control input $\eta_{k}$ for $\Sigma_{a}$ is computed based on the actual state $\overbar{x}_{k}$ of $\Sigma_{a}$ and the nominal state, control, and disturbances of $\Sigma_{s}$, hence it is a feedback law.
+\item \textbf{Feedback approach:} At each time step $k$, $v_{k}$ is decided using the actual state $s_{k}$, which is computed from the observed actual state $\overbar{x}_{k}$. %, and the disturbance forecast $\tilde{w}_{k}$.
+  The state trajectory of $\Sigma_{s}$ is therefore actual, not nominal.  The control input $\eta_{k}$ is calculated from the actual states $s_{k}$ and $\overbar{x}_{k}$, and $v_{k}$ and $\tilde{w}_{k}$.  Hence, both control laws for $\Sigma_{a}$ and $\Sigma_{s}$ are feedback.
 \end{enumerate}
 
 %Assuming that the parameters $\alpha$ and $\beta$ of $\Sigma_{s}$ are given, 
@@ -121,14 +122,14 @@ We will also derive a simpler condition for $\RSet$, which can be verified by ch
 
 As mentioned in the overview in \cref{sec:overview} and again at the beginning of this section, $s$ represents an aggregated state of all the subsystems, for example the total enthalpy of an energy system.
 Thus, we can choose $s$ to be approximately a linear combination of all the (energy) states of the subsystems.
-Let $s \approx c^{T} x$, where $c$ is a constant vector in $\mathbb{R}^{n}$.
-The set $\RSet$ is chosen to represent this relationship between $s$ and $x$ as 
+Let $s \approx c^{T} \overbar{x}$, where $c$ is a constant vector in $\mathbb{R}^{n}$.
+The set $\RSet$ is chosen to represent this relationship between $s$ and $\overbar{x}$ as 
 \begin{equation}
   \label{eq:abstraction-gs:R}
-  \RSet = \{ (s,x) \in \SSet \times \XSet \,|\, | c^{T} x - s | \leqslant \gamma \} \text,
+  \RSet = \{ (s,\overbar{x}) \in \SSet \times \XSet \,|\, | c^{T} \overbar{x} - s | \leqslant \gamma \} \text,
 \end{equation}
 where $\gamma \geqslant 0$ is a design parameter.
-Intuitively, in an energy system, the set of $x \in \XSet$ such that $(s,x) \in \RSet$, for any $s \in \SSet$, is the set of all states that have roughly the same aggregated energy level $s$ (up to an error of $\gamma$).
+Intuitively, in an energy system, the set of $\overbar{x} \in \XSet$ such that $(s,\overbar{x}) \in \RSet$, for any $s \in \SSet$, is the set of all states that have roughly the same aggregated energy level $s$ (up to an error of $\gamma$).
 
 We have assumed in \cref{sec:gs-problem} that $\XSet$ and $\WSet$ are polyhedra.
 Suppose also that $\Omega$ is a polyhedron.
@@ -136,10 +137,11 @@ Let their hyperplane representations be
 \begin{gather*}
   \XSet = \{ x \in \mathbb{R}^{n} \,|\, H_{x} x \leqslant k_{x} \}, \qquad
   \WSet = \{ w \in \mathbb{R}^{p} \,|\, H_{w} x \leqslant k_{w} \}\\
-  \Omega = \{ (s,v) \in \mathbb{R}^{2} \,|\, H_{\Omega}^{s} s + H_{\Omega}^{v} v \leqslant k_{\Omega} \}
+  \Omega = \{ (s,v) \in \SSet \times \VSet \,|\, H_{\Omega}^{s} s + H_{\Omega}^{v} v \leqslant k_{\Omega} \}
 \end{gather*}
 where $H_{x}$, $k_{x}$, $H_{w}$, $k_{w}$, $H_{\Omega}^{s}$, $H_{\Omega}^{v}$, $k_{\Omega}$ are matrices and vectors of appropriate dimensions.
 Because $s$ and $v$ are scalars, we can bound them as $\underline{s} \leqslant s \leqslant \overbar{s}$ and $\underline{v} \leqslant v \leqslant \overbar{v}$, where $\underline{s}$, $\overbar{s}$, $\underline{v}$, $\overbar{v}$ are respectively the lower- and upper-bounds of $s$ and $v$.
+Note that $\Omega$ is a subset of $\SSet \times \VSet = [\underline{s},\overbar{s}] \times [\underline{v},\overbar{v}]$.
 With these assumptions, $\PSet_{l}$ and $\PSet_{r}$ become polyhedral sets.
 We can now state a sufficient condition for $\RSet$ in the next theorem.
 
@@ -158,15 +160,15 @@ We can now state a sufficient condition for $\RSet$ in the next theorem.
   in which
   \begin{gather*}
     H_{l} =
-    \begin{bmatrix}
-      1 \\ %  & \Zero  &  \Zero
-      -1 \\ % & \Zero  &  \Zero
+    \left[ \begin{smallmatrix}
+      %1 \\ %  & \Zero  &  \Zero
+      %-1 \\ % & \Zero  &  \Zero
         & H_{x} \\ % &  \Zero
       -1  & c^{T} \\ % &  \Zero
       1   & -c^{T} \\ % &  \Zero
       H_{\Omega}^{s} & & H_{\Omega}^{v} \\
-      & & 1 \\
-      & & -1 \\
+      %& & 1 \\
+      %& & -1 \\
       & & & & H_{w} \\
       & & & H_{w} & H_{w} \\
       & & & \IdentityMatrix \\
@@ -175,17 +177,17 @@ We can now state a sufficient condition for $\RSet$ in the next theorem.
       -\alpha & & -1 & & -\beta^{T} \\
       & & & & & V \\
       & & & & & -V
-    \end{bmatrix}, \;
+    \end{smallmatrix} \right], \;
     k_{l} =
-    \begin{bmatrix}
-      \overbar{s} \\
-      -\underline{s} \\
+    \left[ \begin{smallmatrix}
+      %\overbar{s} \\
+      %-\underline{s} \\
       k_{x} \\
       \gamma \\
       \gamma \\
       k_{\Omega} \\
-      \overbar{v} \\
-      -\underline{v} \\
+      %\overbar{v} \\
+      %-\underline{v} \\
       k_{w} \\
       k_{w} \\
       \zeta \\
@@ -194,26 +196,26 @@ We can now state a sufficient condition for $\RSet$ in the next theorem.
       -\underline{s} \\
       \overbar{\varepsilon} \\
       -\underline{\varepsilon}
-    \end{bmatrix} \\
+    \end{smallmatrix} \right] \\
     %
     H_{r} =
-    \begin{bmatrix}
+    \left[ \begin{smallmatrix}
       & H_{x} \\ % &  \Zero
       -1  & c^{T} \\ % &  \Zero
       1   & -c^{T} \\ % &  \Zero
       & & -1 & T \rho^{T} \\
       & & & \IdentityMatrix \\
       & & & -\IdentityMatrix
-    \end{bmatrix}, \;
+    \end{smallmatrix} \right], \;
     k_{r} =
-    \begin{bmatrix}
+    \left[ \begin{smallmatrix}
       k_{x} \\
       \gamma \\
       \gamma \\
       0 \\
       \One \\
       \Zero
-    \end{bmatrix} \text.
+    \end{smallmatrix} \right] \text.
   \end{gather*}
 \end{theorem}
 In the above matrices and vectors, the blank spaces are zero blocks and $\One$ denotes vector of 1's.
@@ -272,72 +274,93 @@ Therefore, the necessary and sufficient condition in \cref{thm:abstraction-gs:ne
   \end{aligned}
 \end{gather*}
 where $\ominus$ denotes the Pontryagin difference between two sets.
-
-  \begin{gather*}
-    H_{l} =
-    \begin{bmatrix}
-      1 \\ %  & \Zero  &  \Zero
-      -1 \\ % & \Zero  &  \Zero
-        & H_{x} \\ % &  \Zero
-      -1  & c^{T} \\ % &  \Zero
-      1   & -c^{T} \\ % &  \Zero
-      H_{\Omega}^{s} & & H_{\Omega}^{v} \\
-      & & 1 \\
-      & & -1 \\
-      & & & & H_{w} \\
-      & & & \IdentityMatrix \\
-      & & & -\IdentityMatrix \\
-      \alpha & & 1 & & \beta^{T} \\
-      -\alpha & & -1 & & -\beta^{T} \\
-      & & & & & V \\
-      & & & & & -V
-    \end{bmatrix}, \;
+Similarly, ~\cref{thm:abstraction-gs:sufficient-LP} is still valid when $k_{l}$ is modified accordingly:
+\begin{equation*}
     k_{l} =
-    \begin{bmatrix}
-      \overbar{s} \\
-      -\underline{s} \\
+    \left[ \begin{smallmatrix}
+      %\overbar{s} \\
+      %-\underline{s} \\
       k_{x} \\
       \gamma \\
       \gamma \\
       k_{\Omega} \\
-      \overbar{v} \\
-      -\underline{v} \\
+      %\overbar{v} \\
+      %-\underline{v} \\
+      k_{w} \\
       k_{w} \\
       \zeta \\
       \zeta \\
-      \overbar{s} \\
-      -\underline{s} \\
+      \overbar{s} - \max_{\delta \in [-\zeta, \zeta]} \beta^{T} \delta\\
+      -\underline{s} + \min_{\delta \in [-\zeta, \zeta]} \beta^{T} \delta\\
       \overbar{\varepsilon} \\
-      -\underline{\varepsilon}
-    \end{bmatrix} \\
-    %
-    H_{r} =
-    \begin{bmatrix}
-      & H_{x} \\ % &  \Zero
-      -1  & c^{T} \\ % &  \Zero
-      1   & -c^{T} \\ % &  \Zero
-      & & -1 & T \rho^{T} \\
-      & & & \IdentityMatrix \\
-      & & & -\IdentityMatrix
-    \end{bmatrix}, \;
-    k_{r} =
-    \begin{bmatrix}
-      k_{x} \\
-      \gamma \\
-      \gamma \\
-      0 \\
-      \One \\
-      \Zero
-    \end{bmatrix} \text.
-  \end{gather*}
-
-
-Although \cref{thm:abstraction-gs:sufficient-LP} is only sufficient, it reduces the condition to checking the feasibility of the linear program~\eqref{eq:abstraction-gs:sufficient-LP}, which can be solved rather efficiently by any LP solver such as Gurobi, MOSEK, CPLEX, CLP.
+      -\underline{\varepsilon} 
+    \end{smallmatrix} \right]
+  \end{equation*}
 
 
 \subsection{Computation of Design Parameters}
 \label{sec:abstraction-gs:computation}
 
+The design parameters of the model abstraction, which we aim to compute, are ($\alpha$, $\beta$, $c$, $\gamma$, $H_{\Omega}^{s}$, $H_{\Omega}^{v}$, $k_{\Omega}$).
+As mentioned above, they enter the sufficient condition~(\cref{eq:abstraction-gs:sufficient-LP}) in bilinear terms, hence it is intractable to compute them (optimally) using this condition.
+In this section, we present a method to design these parameters in a suboptimal but tractable way.
+
+\subsubsection{Computing $\alpha$, $\beta$, $c$}
+
+We compute these parameters based on the intuition that $s$ is the aggregated state of all the subsystems: $s \approx c^{T} \overbar{x}$.
+From the discrete-time dynamics of $\overbar{x}$ we have
+\begin{equation*}
+  s_{k+1} \approx c^{T} \overbar{x}_{k+1} = c^{T} A_{T} \overbar{x}_{k} + c^{T} B_{T} \eta_{k} + c^{T} E_{T} w_{k}
+\end{equation*}
+while at the same time 
+\begin{equation*}
+s_{k+1} = \alpha s_{k} + v_{k} + \beta^{T} w_{k} \approx \alpha c^{T} \overbar{x}_{k} + T \rho^{T} \eta_{k} + \beta^{T} w_{k} \text.
+\end{equation*}
+Matching the two equations, we aim to find $\alpha$ and $c$ so that
+$c^{T} B_{T} = T \rho^{T}$
+while minimizing $\| c^{T} A_{T} - \alpha c^{T} \|$, where $\|\cdot\|$ denotes some vector norm.
+If $B_{T}$ is full row rank, $c$ can be uniquely computed by solving a linear equation, and the minimization becomes a simple unconstrained program.
+If $B_{T}$ is not full row rank, $c$ and $\alpha$ can be found by solving the above nonlinear optimization, which can be made unconstrained by rewriting $c$ in terms of the basis vectors of the kernel of $B_{T}^{T}$.
+We then calculate $\beta = E_{T}^{T} c$.
+
+
+\subsubsection{Computing $\gamma$ and $\Omega$}
+
+Once $\alpha$, $\beta$, and $c$ are chosen, we can compute the parameter $\gamma$ of the relation $\RSet$ and the constraint set $\Omega$ of $(s,v)$.
+We first choose the ranges $[\underline{s}, \overbar{s}]$ and $[\underline{v}, \overbar{v}]$ of $s$ and $v$ that satisfy
+\begin{gather*}
+  \underline{s} \geqslant \min_{x \in \XSet} c^{T} x, \quad
+  \overbar{s} \leqslant \max_{x \in \XSet} c^{T} x \\
+  \underline{v} \geqslant \min_{\Zero \leqslant \eta \leqslant \One} T \rho^{T} \eta, \quad
+  \overbar{v} \leqslant \max_{\Zero \leqslant \eta \leqslant \One} T \rho^{T} \eta
+\end{gather*}
+based on the relationships between $s$ and $\overbar{x}$, $v$ and $\eta$.
+Because $X$ is bounded, $\underline{s}$ and $\overbar{s}$ are finite; and so are $\underline{v}$ and $\overbar{v}$.
+
+Choosing $\gamma$ and $\Omega$ is difficult because $\gamma$ appears in both $k_{l}$ and $k_{r}$, and $\Omega$ is a set.
+Obviously, it is unnecessary for $\gamma$ to be larger than $\overbar{s} - \underline{s}$ due to the relation $| c^{T} \overbar{x} - s | \leqslant \gamma$.
+Therefore we can select any value between $0$ and $\overbar{s} - \underline{s}$ for $\gamma$, with the apparent intuition that as $\gamma$ gets smaller, the constraint between $s$ and $\overbar{x}$ becomes stricter, keeping $(s, \overbar{x}$ in $\RSet$ is more difficult, hence $\RSet$ is less likely an input-constrained simulation relation.
+For $\Omega$, which is a subset of $[\underline{s}, \overbar{s}] \times[\underline{v}, \overbar{v}]$, the following result allows us to construct $\Omega$ from smaller sets.
+
+\begin{lemma}
+  \label{thm:abstraction-gs:omega-union}
+  Suppose that all the parameters are fixed except for $\Omega$.
+  Let $\Omega_{1}$ and $\Omega_{2}$ are two subsets of $[\underline{s}, \overbar{s}] \times[\underline{v}, \overbar{v}]$ and suppose that they satisfy the sufficient condition in \cref{thm:abstraction-gs:sufficient-LP}.
+  Then their union $\Omega_{1} \cup \Omega_{2}$ satisfies the necessary and sufficient condition in \cref{thm:abstraction-gs:necessary-sufficient}.
+\end{lemma}
+This lemma can be proved by noting that $\Omega_{1}$ and $\Omega_{2}$ satisfy \cref{thm:abstraction-gs:necessary-sufficient}, and $\Omega$ appears only in the left-hand side of the set inclusion~(\cref{eq:abstraction-gs:necessary-sufficient}).
+Using this result, we can check the sufficient condition in \cref{thm:abstraction-gs:sufficient-LP} for small sets, then construct the final $\Omega$ set from their union.
+This algorithm is outlined below.
+\begin{enumerate}
+\item We first grid the finite intervals of $s$ and $v$ as $\underline{s} = s^{0} < s^{1} < \cdots < s^{l_{s}} = \overbar{s}$ and $\underline{v} = v^{0} < v^{1} < \cdots < v^{l_{v}} = \overbar{v}$.  This effectively grids the box $[\underline{s}, \overbar{s}] \times[\underline{v}, \overbar{v}]$ into $l_{s} l_{v}$ small cells.
+\item For each cell $\Omega_{i,j} = [s^{i}, s^{i+1}] \times[v^{j}, v^{j+1}]$, for $0 \leqslant i \leqslant l_{s}-1$ and $0 \leqslant j \leqslant l_{v}-1$, check if it satisfies \cref{thm:abstraction-gs:sufficient-LP}.
+\item Construct $\Omega$ as the union of all cells $\Omega_{i,j}$ that satisfy \cref{thm:abstraction-gs:sufficient-LP}.  If the projection of $\Omega$ onto $s$ covers the entire range $[\underline{s}, \overbar{s}]$ then take $\Omega$.  This is to ensure that we can always find an admissible control input $v$ for any valid value of $s$.  We can simplify $\Omega$ by a convex polyhedron contained in the union, from which $H_{\Omega}^{s}$, $H_{\Omega}^{v}$ and $k_{\Omega}$ are extracted.
+\end{enumerate}
+
+\begin{remark}
+  The constructed set $\Omega$ may not satisfy \cref{thm:abstraction-gs:sufficient-LP} because the condition is only sufficient.
+  However, $\Omega$ is valid because it satisfies the stronger necessary and sufficient condition in \cref{thm:abstraction-gs:necessary-sufficient}, due to \cref{thm:abstraction-gs:omega-union}.
+\end{remark}
 
 
 % \subsection{Parameters of \protect$\Sigma_{s}$}
