@@ -1,21 +1,22 @@
 \section{Overview of the Approach}
 \label{sec:overview}
 
-We develop in this work a hierarchical design and run-time implementation approach for the %green
-above scheduling problem of energy control systems.
-A brief overview of the overall idea and results is described in this section and in \cref{fig:overview}, while the technical details will be presented in the subsequent sections.
+In this work, we develop a hierarchical design using \emph{model approximation} followed by \emph{model abstraction}, novelly combining techniques from control theory and computer science to solve the energy scheduling problem for large-scale systems with hundreds or thousands subsystems. This is complemented by a run-time implementation approach for the above scheduling problem of energy control systems.
+A brief overview of the overall idea and results is described in this section and in Fig.~\ref{fig:overview}, while the technical details will be presented in the subsequent sections.
 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=\columnwidth]{approach_overview}
-  \caption{Overview of the scheduling approach. The blue boxes represent the different models at different scales resulted from the offline design process: the original large-scale binary-input model $\Sigma_{b}$ is reduced to the single-state single-input model $\Sigma_{s}$.  The dashed boxes represent the run-time components, which include two lightweight optimizations and one simple scheduling algorithm.}
+  \caption{Overview of the scheduling approach. The solid blue boxes represent the different models at different scales resulted from the offline design process: the original large-scale binary-input model $\Sigma_{b}$ is reduced to the single-state single-input model $\Sigma_{s}$.  The dashed boxes represent the run-time components, which include two lightweight optimizations and one simple scheduling algorithm.}
+  \vspace{-10pt}
   \label{fig:overview}
 \end{figure}
 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=\columnwidth]{runtime_hierarchy}
-  \caption{BlaBla}
+  \caption{Hierarchical design of runtime operation for peak power minimization across multiple systems}
+    \vspace{-10pt}
   \label{fig:runtime-hierarchy}
 \end{figure}
 
@@ -31,7 +32,7 @@ where the control input $\eta_k = \frac{1}{T} \int_{kT}^{(k + 1) T} u (t) \mathd
 Clearly, $\eta_k$ is a vector of real numbers between $0$ and $1$: $\eta_k \in [0, 1]^m$.
 Because the control input $\eta_k$ of $\Sigma_a$ is continuous, if we use $\Sigma_a$ in place of $\Sigma_b$, the complexity of the optimization is greatly reduced to that of an LP.
 However, to ensure the safety constraint, we need to bound the deviation of $\overbar{x} (kT)$ from $x (kT)$ for all possible continuous-time binary input signals $u (t)$ that satisfy the utilization equation.
-In \cref{sec:averaged-system}, we will derive a tight bound on the error between $x$ and $\overbar{x}$.
+In Section~\ref{sec:averaged-system}, we will derive a tight bound on the error between $x$ and $\overbar{x}$.
 As we will see, the error can be unbounded or become too large as $k$ increases, leading to overly conservative control inputs to ensure safety, or even infeasibility.
 To keep this error as small as possible, we reset the state $\overbar{x}$ of $\Sigma_a$ to the measured state $x$ of $\Sigma_b$ at each $kT$, so that their error is reset to $0$.
 Since the input $\eta_k$ is constant in each interval, $\Sigma_a$ can be discretized with sampling time $T$.
@@ -51,11 +52,11 @@ With the averaged system in place, we can reformulate the optimization~\eqref{eq
   \end{align}
 \end{subequations}
 where the constraints hold for all $k = 0, \ldots, N - 1$.
-In the continuous-time dynamics~\eqref{eq:averaged-optim:cont}, $\pi (t ; \eta_k)$ is a scheduling algorithm that calculates the continous-time schedule $u (t)$ during the $k$-th interval so that
+In the continuous-time dynamics~\eqref{eq:averaged-optim:cont}, $\pi (t ; \eta_k)$ is a scheduling algorithm that calculates the continuous-time schedule $u (t)$ during the $k$-th interval so that
 its utilization is $\eta_k$.
 %Such a scheduling algorithm is the topic of section \simpletodo{???Update???}
 At each instant $kT$ the state $\overbar{x}_{k}$ of the averaged system is reset to the actual state $x (kT)$ (constraint~\eqref{eq:averaged-optim:reset}).
-Let $e_{k+1}$ be the error between $x((k+1)T)$ and $\overbar{x}_{k}$, which is unknown but bounded in the $\eta_k$-dependent set $\ESet(\eta_{k})$ (\cf \cref{sec:averaged-system}).
+Let $e_{k+1}$ be the error between $x((k+1)T)$ and $\overbar{x}_{k}$, which is unknown but bounded in the $\eta_k$-dependent set $\ESet(\eta_{k})$ (\cf Section~\ref{sec:averaged-system}).
 To ensure that $x (k T) \in \XSet$, constraint~\eqref{eq:averaged-optim:safety} robustly restricts the next state in $\XSet$ for all possible errors $e_{k+1}$.
 %The utilization $\eta_{k}$, disturbance $w_{k}$ and the energy consumption $E_{k}$ and demand $d_{k}$ are constrained in 
 
@@ -67,7 +68,7 @@ More importantly, constraint~\eqref{eq:averaged-optim:cont} requires execution o
 %In particular, to robustly satisfy constraint~\eqref{eq:averaged-optim:safety}, the Pontryagin difference between $\XSet$ and the $\eta_{k}$-dependent set $\ESet(\eta_{k})$ must be computed every time the optimization 
 For these reasons, problem~\eqref{eq:averaged-optim} is still difficult to solve, and its computational burden in run-time is still prohibitive for systems of practical size over a long horizon\footnote{In our targeted energy control applications, the horizon is typically a day, even a week or longer.}.
 An embedded implementation of the controller is therefore unlikely realizable.
-To reduce the complexity even further, we employ a model abstraction technique based on the concept of simulation relations between transition systems \cite{aluretal00dah,girardetal07amd}.
+To reduce the complexity even further, we employ a \emph{model abstraction} technique based on the concept of simulation relations between transition systems \cite{aluretal00dah,girardetal07amd}.
 
 A transition system is a generalization of a dynamical system, whose state can
 transition into a new state either autonomously or under the influence of
@@ -76,7 +77,7 @@ Intuitively speaking, a transition system $\mathcal{T}_2$ is said to {\emph{simu
 transition system $\mathcal{T}_1$ if every move of $\mathcal{T}_1$ can be
 tracked by $\mathcal{T}_2$ with respect to a symbolic relation between their states \cite{girardetal07amd}.
 Formal definitions of transition systems and simulation relations will
-be presented in \cref{sec:abstraction}. The original definitions of a
+be presented in Section~\ref{sec:abstraction}. The original definitions of a
 simulation relation in the literature do not take into account %state and input constraints of each system, nor 
 any relation between the two systems' inputs.
 In this paper, we extend this concept so that $\mathcal{T}_2$ simulates
@@ -113,7 +114,7 @@ compute $\eta_k$ one step at a time.
 In that case, we only solve two small-scale programs at each step, compared to a large-scale and  complex program if we solve \eqref{eq:averaged-optim} directly.
 Details will be presented in the subsequent sections.
 
-Our approach is best illustrated by \cref{fig:overview}.
+Our approach is best illustrated by Fig.~\ref{fig:overview}.
 There are two processes involved:
 \begin{itemize}
 \item In the \textbf{offline} controller design process (blue boxes and text, left side, from bottom
