@@ -15,7 +15,7 @@ A brief overview of the overall idea and results is described in this section an
 \begin{figure}[tb]
   \centering
   \includegraphics[width=\columnwidth]{runtime_hierarchy}
-  \caption{Hierarchical design of runtime operation for peak power minimization across multiple systems}
+  \caption{Hierarchical control for minimizing aggregated energy cost across multiple subsystems.}% over a horizon.}
     \vspace{-10pt}
   \label{fig:runtime-hierarchy}
 \end{figure}
@@ -125,13 +125,13 @@ There are two processes involved:
   and a simulation relation $\RSet$ between them is constructed.
   
 \item In the \textbf{online} controller execution process (dashed
-  boxes, right side, from top down) a receding horizon control
+  boxes, from top down) a receding horizon control
   framework is used with the abstract model $\Sigma_s$ to compute an
   optimal sequence of aggregate energy demands. Each energy demand
   $v_k$ is disaggregated into utilization values $\eta_k$ for the
   individual control inputs by a one-step optimization. A simple
   one-step scheduing algorithm $\pi$ schedules the subsystems so that
-  each achieves the corresponding utilization.
+  each achieves the corresponding utilization.  This hierarchical control structure is illustrated in \cref{fig:runtime-hierarchy}.
 \end{itemize}
 
 

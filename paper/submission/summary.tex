@@ -99,7 +99,7 @@ or to minimize the difference with a given (ideal) state $x^{\star}$:
   J(\eta_{k}) = \| A_{T} x_{k} + B_{T} \eta_{k} + E_{T} \tilde{w}_{k} - x^{\star} \|_{2} \text.
 \end{equation*}
 %
-The middle-level optimization has only $m$ variables ($\eta_{k}$) with linear constraints.
+Note that the middle-level optimization is solved for a single time step and has only $m$ variables ($\eta_{k}$) with linear constraints.
 Therefore it can also be solved efficiently if $J$ is convex in $\eta_{k}$.
 
 Because the constraint $T \rho^{T} \eta_{k} \leqslant v_{k}$ is always maintained, the actual energy cost will never exceed the optimal cost computed by the top-level optimization.

@@ -27,7 +27,7 @@ The peak demand price is \$2/kW.
 \label{sec:simulation:milp}
 
 We first tried solving the MILP~\eqref{eq:MILP} for a trivially small scale system of only two rooms ($n=m=2$) with a horizon of $N=288$ (24 hours with 5-minute sampling time), on an 8-core MacPro with 64Gb RAM running the state-of-the-art commercial solver Gurobi 6.0.
-The MILP optimization did not finish after the time limit of 30 minutes and was interrupted.
+The MILP optimization did not finish after the time limit of 15 minutes and was interrupted.
 Although there exist techniques to improve the performance of the optimization, for example move-blocking and warm-start, we believe that it would not scale beyond a very small number of subsystems running in real-time on a control computer with limited processing power.
 
 \subsection{Scalable Scheduling Design}
