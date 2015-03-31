@@ -29,6 +29,7 @@ the symbolic state relation.
 \includegraphics[width=\columnwidth]{abstraction_vs_reduction}
 \caption{\label{fig:reduction-vs-abstraction}Model abstraction (right) is
   different from model order reduction (left): the models $\mathcal{M}_{1}$ and $\mathcal{M}_{2}$ do not share the same inputs nor outputs; instead they maintain a relation between their states along their evolutions.}
+        \vspace{-10pt}
 \end{figure}
 
 \subsection{Simulation Relations} % Transition Systems}
@@ -42,16 +43,20 @@ discrete and continuous, deterministic and non-deterministic dynamical
 systems. As we do not concern with the observable outputs of the systems in
 this paper, we remove the observation aspect from the definition of transition
 systems in {\cite{girardetal07amd}}:
-
+      \vspace{-5pt}
 \begin{definition}[Transition System, {\cite{girardetal07amd}}]
   \label{thm:transition-systems-def}
   A transition system is a tuple $T = (Q, \Sigma, \rightarrow, Q^0)$ that
   consists of
+        \vspace{-5pt}
   \begin{itemize}
   \item a possibly infinite set $Q$ of states;
+      \vspace{-5pt}
   \item a possibly infinite set $\Sigma$ of labels;
+      \vspace{-5pt}
   \item a transition relation $\rightarrow \subseteq Q \times \Sigma \times
     Q$;
+          \vspace{-5pt}
   \item a possibly infinite set $Q^0 \subseteq Q$ of initial states.
   \end{itemize}
 \end{definition}
