@@ -24,20 +24,23 @@ The run-time implementation consists of three hierarchical components, as illust
 \subsubsection*{Top level -- optimal upperbounds}
 
 At the top level is an optimization to compute optimal inputs $v_{k}$ for $\Sigma_{s}$, which are also the upper-bounds of the aggregated demand of the system.
-In the feedforward control approach, the following optimization is solved only once using the nominal disturbances
-\begin{align*}
-  \operatorname*{minimize}_{v_{0}, \ldots, v_{N - 1}} \quad & c_d \cdot \max_{0
-  \leqslant k \leqslant N - 1} v_k / T + \textstyle\sum_{0 \leqslant k \leqslant N - 1}
-  c_{e, k} \cdot v_k \\
-  \text{subject to} \quad & s_{k+1} = \alpha s_{k} + v_{k} + \beta^{T} \tilde{w}_{k}  \nonumber\\
-  & -\gamma \leqslant c^{T} x_{0} - s_{0} \leqslant \gamma \\
-  & \underline{v} \leqslant v_{k} \leqslant \overbar{v}, \; \underline{s} \leqslant s_{k} \leqslant \overbar{s}, \; H_{\Omega}^{s} s_{k} + H_{\Omega}^{v} v_{k} \leqslant K_{\Omega}
-\end{align*}
-for all $k=0,\dots,N-1$.
-Note that $s_{0}$ is constrained so that $(s_{0}, x_{0}) \in \RSet$.
-The resulting sequences of $s_{k}$ and $v_{k}$ are not updated until the end of the horizon.
-
-In the feedback control approach, the top level optimization is solved repeatedly at each time step, taking into account the current state of the system and the robustness to errors in disturbance forecasts.
+%
+% In the feedforward control approach, the following optimization is solved only once using the nominal disturbances
+% \begin{align*}
+%   \operatorname*{minimize}_{v_{0}, \ldots, v_{N - 1}} \quad & c_d \cdot \max_{0
+%   \leqslant k \leqslant N - 1} v_k / T + \textstyle\sum_{0 \leqslant k \leqslant N - 1}
+%   c_{e, k} \cdot v_k \\
+%   \text{subject to} \quad & s_{k+1} = \alpha s_{k} + v_{k} + \beta^{T} \tilde{w}_{k}  \nonumber\\
+%   & -\gamma \leqslant c^{T} x_{0} - s_{0} \leqslant \gamma \\
+%   & \underline{v} \leqslant v_{k} \leqslant \overbar{v}, \; \underline{s} \leqslant s_{k} \leqslant \overbar{s}, \; H_{\Omega}^{s} s_{k} + H_{\Omega}^{v} v_{k} \leqslant K_{\Omega}
+% \end{align*}
+% for all $k=0,\dots,N-1$.
+% Note that $s_{0}$ is constrained so that $(s_{0}, x_{0}) \in \RSet$.
+% The resulting sequences of $s_{k}$ and $v_{k}$ are not updated until the end of the horizon.
+%
+%In the feedback control approach, 
+The %top level
+optimization is solved repeatedly at each time step, taking into account the current state of the system and the robustness to errors in disturbance forecasts.
 Let the current step be $i \leqslant N-1$; the optimization is formulated below.
 \begin{align*}
   \operatorname*{minimize}_{v_{i}, \ldots, v_{N - 1}} \quad & c_d \cdot \max_{i
@@ -51,8 +54,9 @@ Let the current step be $i \leqslant N-1$; the optimization is formulated below.
 for all $k=i,\dots,N-1$.
 Only the first step of the solution, \ie $s_{i}$ and $v_{i}$, will be used in the lower levels because at the next time step, the optimization will be repeated.
 
-Both the optimizations above are LP with the scalar dynamics $\Sigma_{s}$ and at most $N$ variables $v_{0},\dots,v_{N-1}$.
-Because the numbers of variables and constraints are not large, they can be solved very efficiently, even on embedded computers using tools such as FORCES, ECOS, and FiOrdOs\footnote{Available at \texttt{http://www.embotech.com} and \texttt{http://fiordos.ethz.ch}}.
+%Both the optimizations above are 
+The above optimization is an LP with the scalar dynamics $\Sigma_{s}$ and at most $N$ variables $v_{0},\dots,v_{N-1}$.
+Because the numbers of variables and constraints are not large, it can be solved very efficiently, even on embedded computers using tools such as FORCES, ECOS, and FiOrdOs\footnote{Available at \texttt{http://www.embotech.com} and \texttt{http://fiordos.ethz.ch}}.
 
 
 \subsubsection{Middle level -- optimal utilizations}
@@ -60,16 +64,50 @@ Because the numbers of variables and constraints are not large, they can be solv
 Given an optimal $(s_{k}, v_{k})$ from the top level, the middle level computes an optimal utilization $\eta_{k}$ that satisfies the conditions of the input-constrained simulation relation $\RSet$.
 By \cref{thm:ex-simulation-tracking}, such $\eta_{k}$ always exists and maintains the relation $\RSet$ between the states of $\Sigma_{s}$ and $\Sigma_{a}$.
 
-In the feedforward control approach, at each step $k$, we minimize a cost function $J(\eta_{k})$ subject to the constraints:
+% In the feedforward control approach, at each step $k$, we minimize a cost function $J(\eta_{k})$ subject to the constraints:
+% \begin{gather*}
+%   \eta_{k} \in [0,1]^{m}, \; T \rho^{T} \eta_{k} \leqslant v_{k} \\
+%   A_{T} x_{k} + (B_{T} - \tilde{B}) \eta_{k} + E_{T} \tilde{w}_{k} \in X \ominus E_{T} \ZSet \ominus \ESet \\
+%   -\gamma - \min_{\epsilon \in \ESet} c^{T} \epsilon - \min_{\delta \in \ZSet} c^{T} E_{T} \delta \leqslant c^{T}(A_{T} x_{k} + (B_{T} - \tilde{B}) \eta_{k} + \\ \qquad\qquad E_{T} \tilde{w}_{k}) - s_{k+1} \leqslant \gamma - \max_{\epsilon \in \ESet} c^{T} \epsilon - \max_{\delta \in \ZSet} c^{T} E_{T} \delta
+% \end{gather*}
+% where $\ZSet = \{ \delta \,|\, -\zeta \leqslant \delta \leqslant \zeta\}$ and $\ESet = \{\varepsilon \,|\, \underline{\varepsilon} \leqslant V \varepsilon \leqslant \overbar{\varepsilon}\}$.
+% The last two constraints are to ensure that the next state is robustly safe and robustly maintain the relation $\RSet$.
+% The cost function $J(\eta_{k})$ can be chosen to minimize the energy demand 
+
+At each step $k$, we minimize a cost function $J(\eta_{k})$ subject to the constraints:
 \begin{gather*}
   \eta_{k} \in [0,1]^{m}, \; T \rho^{T} \eta_{k} \leqslant v_{k} \\
   A_{T} x_{k} + (B_{T} - \tilde{B}) \eta_{k} + E_{T} \tilde{w}_{k} \in X \ominus E_{T} \ZSet \ominus \ESet \\
-  -\gamma - \min_{\epsilon \in \ESet} c^{T} \epsilon - \min_{\delta \in \ZSet} c^{T} E_{T} \delta \leqslant c^{T}(A_{T} x_{k} + (B_{T} - \tilde{B}) \eta_{k} + \\ \qquad\qquad E_{T} \tilde{w}_{k}) - s_{k+1} \leqslant \gamma - \max_{\epsilon \in \ESet} c^{T} \epsilon - \max_{\delta \in \ZSet} c^{T} E_{T} \delta
+  \begin{aligned}
+    -\gamma - \min_{\varepsilon \in \ESet} c^{T} \varepsilon %- \min_{\delta \in \ZSet} c^{T} E_{T} \delta
+    \leqslant & \, c^{T}(A_{T} x_{k} + (B_{T} - \tilde{B}) \eta_{k}
+    + %\\ \qquad\qquad
+    E_{T} \tilde{w}_{k}) - \\
+    & (\alpha s_{k} + v_{k} + \beta^{T} \tilde{w}_{k}) \leqslant \gamma
+    - \max_{\varepsilon \in \ESet} c^{T}
+    \varepsilon %- \max_{\delta \in \ZSet} c^{T} E_{T} \delta
+  \end{aligned}
 \end{gather*}
-where $\ZSet = \{ \delta \,|\, -\zeta \leqslant \delta \leqslant \zeta\}$ and $\ESet = \{\varepsilon \,|\, \underline{\varepsilon} \leqslant V \varepsilon \leqslant \overbar{\varepsilon}\}$.
-The last two constraints are to ensure that the next state is robustly safe and robustly maintain the relation $\RSet$.
+where $\ESet = \{\varepsilon \,|\, \underline{\varepsilon} \leqslant V \varepsilon \leqslant \overbar{\varepsilon}\}$.
+The last two constraints are to ensure that the next state is robustly safe and robustly maintains the relation $\RSet$.
+The cost function $J(\eta_{k})$ can be chosen to minimize the energy demand:
+\begin{equation*}
+  J(\eta_{k}) = \rho^{T} \eta_{k}
+\end{equation*}
+or to minimize the difference with a given (ideal) state $x^{\star}$:
+\begin{equation*}
+  J(\eta_{k}) = \| A_{T} x_{k} + B_{T} \eta_{k} + E_{T} \tilde{w}_{k} - x^{\star} \|_{2} \text.
+\end{equation*}
+%
+The middle-level optimization has only $m$ variables ($\eta_{k}$) with linear constraints.
+Therefore it can also be solved efficiently if $J$ is convex in $\eta_{k}$.
 
+\subsubsection{Low level scheduling}
 
+The solution $\eta_{k}$ of the middle level is passed to the last component at the lowest level, which schedules the binary control inputs $u$ to achieve the desired utilization $\eta_{k}$.
+In this paper, we use a simple and fast scheduling algorithm, which switches each control input on for a fraction of the duration $T$ equal to its utilization value and off for the rest of the duration.
+%To reduce switchings, an input will be kept on if it is already on at the beginning of the interval, otherwise it will be kept off.
+Better scheduling algorithms for this level is a topic for future research.
 
 %%% Local Variables:
 %%% mode: latex
