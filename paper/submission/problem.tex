@@ -3,10 +3,10 @@
 
 %\simplenote{This section can be placed inside the Introduction. NEED TO BE REWRITTEN TO BE SELF-CONTAINED, NO REFERENCE TO PREVIOUS WORK.}
 
-We consider a building energy system scheduling problem where the peak
-demand is determined based on the interval averaged total demand.
-Specifically, time is divided into equal intervals: $[0, T], [T, 2 T], \ldots$
-=======
+%We consider a building energy system scheduling problem where the peak
+%demand is determined based on the interval averaged total demand.
+%Specifically, time is divided into equal intervals: $[0, T], [T, 2 T], \ldots$
+
 We motivate our %energy system
  scheduling problem by an example of a room heating system.
 Consider an energy system consisting of $n$ rooms and a heater in each room, where the heaters have fixed heating powers and can only be switched on and off.
@@ -33,7 +33,7 @@ Collect all the states in %a state vector
 $x = [x_1, \dots, x_n]^T$, the comfort ranges in a bounded subset $X$ of $\mathbb{R}^n$, the control inputs in $u =  [u_1, \dots, u_n]^T$, and the disturbances in $w = [T_{a}, Q_{1}, \dots, Q_{n}]^{T}$.
 The dynamics of $x$ is a linear system with control input $u$ and disturbance input $w$.
 The energy demand and consumption of the system are determined based on time intervals $[0, T], [T, 2 T], \ldots$ for a given sampling time $T > 0$.
->>>>>>> origin/master
+
 In each interval $[kT, (k + 1) T]$ the averaged total demand is calculated as $d_k = \frac{E_k}{T}$ where $E_k$ is the total energy consumption during interval $k$.
 This is the practical way to determine energy demands, \eg in electricity bills and in demand response (DR) programs.
 The peak demand, for example to be used in calculating the demand charge, is the maximum interval demand over a given billing period. %: $\max_k d_k$.
