@@ -105,7 +105,7 @@ For example, if $\Sigma_b$ has %$m=40$\simpletodo{May need to update this number
 $m=20$ control inputs with sampling time $T = 5 \text{min}$ for a horizon of $N = 288$ steps in $24$ hours, the MILP will have $5 \comma 760$ binary variables, not to mention the continuous state and disturbance variables.
 Solving such large MILPs often requires powerful computers with commercial optimization
 solvers.
-In our simulation study (~\cref{sec:simulation}), with only two subsystems ($m=2$) and $N=288$, an 8-core MacPro with 64Gb RAM running the %state-of-the-art commercial
+In our simulation study (\cref{sec:simulation}), with only two subsystems ($m=2$) and $N=288$, an 8-core MacPro with 64Gb RAM running the %state-of-the-art commercial
 solver Gurobi 6.0 did not finish the MILP optimization after the time limit of 15 minutes.
 Moreover, due to the uncertainty caused by the disturbances, the control decisions need to be adjusted regularly by solving the optimization \eqref{eq:MILP} repeatedly at every time step (model predictive control (MPC)).
 Therefore, for any practical size of the system, implementing this approach can be highly demanding, if even possible, in terms of run-time hardware and software requirements.
