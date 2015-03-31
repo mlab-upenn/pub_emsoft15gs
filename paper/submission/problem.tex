@@ -1,6 +1,10 @@
 \subsection{The Energy System Scheduling Problem} %}{Green Scheduling Problem}
 \label{sec:gs-problem}
 
+%We consider a building energy system scheduling problem where the peak
+%demand is determined based on the interval averaged total demand.
+%Specifically, time is divided into equal intervals: $[0, T], [T, 2 T], \ldots$
+
 We motivate our %energy system
  scheduling problem by an example of a room heating system.
 Consider an energy system consisting of $n$ rooms and a heater in each room, where the heaters have fixed heating powers and can only be switched on and off.
@@ -27,6 +31,7 @@ Collect all the states in %a state vector
 $x = [x_1, \dots, x_n]^T$, the comfort ranges in a bounded subset $X$ of $\mathbb{R}^n$, the control inputs in $u =  [u_1, \dots, u_n]^T$, and the disturbances in $w = [T_{a}, Q_{1}, \dots, Q_{n}]^{T}$.
 The dynamics of $x$ is a linear system with control input $u$ and disturbance input $w$.
 The energy demand and consumption of the system are determined based on time intervals $[0, T], [T, 2 T], \ldots$ for a given sampling time $T > 0$.
+
 In each interval $[kT, (k + 1) T]$ the averaged total demand is calculated as $d_k = \frac{E_k}{T}$ where $E_k$ is the total energy consumption during interval $k$.
 This is the practical way to determine energy demands, \eg in electricity bills and in demand response (DR) programs.
 The peak demand, for example to be used in calculating the demand charge, is the maximum interval demand over a given billing period. %: $\max_k d_k$.
@@ -34,8 +39,7 @@ Our goal is to schedule the subsystems to minimize the energy cost %peak interva
 while maintaining a safe operation.
 %At the same time, it is desirable to schedule the subsystems in each interval so that the peak instantaneous total demand is also reduced, although this will not affect the demand charge.
 
-
-As in our previous work \cite{nghiemetal12ssb}, we generalize the room heating system example by considering a continuous-time linear system $\Sigma_b$ of the form
+We consider a continuous-time linear system $\Sigma_b$ of the form
 %
 \begin{equation*}
 (\Sigma_b) \qquad \dot{x} = Ax + Bu + Ew
@@ -54,7 +58,7 @@ the averaged total demand is $d_k = \frac{E_k}{T}$.
 In this scheduling problem, we aim to schedule
 the subsystems, \ie to compute the control inputs $u$, so that the energy cost over a finite horizon is minimized.
 The energy cost consists of a charge for the peak demand and possibly a charge for the energy
-consumtion.
+consumption.
 Specifically, we want to minimize the following cost function defined over a horizon of $N$ time intervals:
 \begin{equation}
   \label{eq:cost-function} \text{cost} = c_d \cdot \max_{0 \leqslant k
@@ -65,7 +69,7 @@ where $c_d$ is the fixed price for the peak demand and $c_{e, k}$ is the
 time-varying price for the interval energy consumption.
 Typically $c_d \gg c_{e, k}$ which gives customers incentive to reduce their peak demands.
 
-
+\subsubsection{Fundamental scalability issues}
 The %green
 scheduling problem can be formulated as minimizing the above cost function subject to the constraints:
 \begin{align*}
@@ -76,8 +80,8 @@ scheduling problem can be formulated as minimizing the above cost function subje
   & E_k = \int_{kT}^{(k + 1) T} \rho^T u (\tau) \mathd \tau, \, d_k = \frac{E_k}{T}%, \qquad \forall k = 0, \ldots, N - 1
 \end{align*}
  for all $t$ and all $k = 0, \ldots, N - 1$.
-This optimization is intractable because $u (\cdummy)$ is infinite
-dimensional.
+\textbf{This optimization is intractable because $u (\cdummy)$ is infinite
+dimensional.}
 If we discretize $\Sigma_b$ with sampling time $T$ and assume that $u (t)$ and $w (t)$ are constant in each time interval, the optimization becomes:
 \begin{align}
   \operatorname*{minimize}_{u_{0}, \ldots, u_{N - 1}} \quad & c_d \cdot \max_{0
@@ -95,6 +99,7 @@ In practice, disturbance forecasts are usually available, for example in the for
 Therefore, the disturbances are modeled as $w_{k} = \tilde{w}_{k} + \delta_{k}$ where $\tilde{w}_{k} \in \WSet$ is the forecast and $\delta_{k}$ is the forecast uncertainty.
 The forecast accuracy, as a bounded set of $\delta_{k}$, is assumed to be known and certainly smaller than $\WSet$.
 The optimization \eqref{eq:MILP} is a mixed-integer linear program (MILP) and can be solved by an MILP solver.
+
 However, except for small-scale systems with only a few control inputs and a short horizon $N$, the number of binary variables can be prohibitively large and the MILP is difficult to solve.
 For example, if $\Sigma_b$ has %$m=40$\simpletodo{May need to update this number!!!} 
 $m=20$ control inputs with sampling time $T = 5 \text{min}$ for a horizon of $N = 288$ steps in $24$ hours, the MILP will have $5 \comma 760$ binary variables, not to mention the continuous state and disturbance variables.
@@ -106,6 +111,7 @@ Therefore, for any practical size of the system, implementing this approach can 
 Although there are techniques in MPC to reduce the complexity, \eg move blocking, an MILP solver is still required.
 Certainly the controller cannot be implemented on an embedded processor with limited processing power and memory.
 
+\subsubsection{Goal}
 
 Our goal in this paper is to develop a scalable %green
 scheduling algorithm that can potentially run on embedded processors, even for systems of moderate practical size.
