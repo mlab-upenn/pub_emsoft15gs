@@ -1,8 +1,6 @@
 \subsection{The Energy System Scheduling Problem} %}{Green Scheduling Problem}
 \label{sec:gs-problem}
 
-%\simplenote{This section can be placed inside the Introduction. NEED TO BE REWRITTEN TO BE SELF-CONTAINED, NO REFERENCE TO PREVIOUS WORK.}
-
 %We consider a building energy system scheduling problem where the peak
 %demand is determined based on the interval averaged total demand.
 %Specifically, time is divided into equal intervals: $[0, T], [T, 2 T], \ldots$
@@ -71,7 +69,7 @@ where $c_d$ is the fixed price for the peak demand and $c_{e, k}$ is the
 time-varying price for the interval energy consumption.
 Typically $c_d \gg c_{e, k}$ which gives customers incentive to reduce their peak demands.
 
-
+\subsubsection{Fundamental scalability issues}
 The %green
 scheduling problem can be formulated as minimizing the above cost function subject to the constraints:
 \begin{align*}
@@ -82,8 +80,8 @@ scheduling problem can be formulated as minimizing the above cost function subje
   & E_k = \int_{kT}^{(k + 1) T} \rho^T u (\tau) \mathd \tau, \, d_k = \frac{E_k}{T}%, \qquad \forall k = 0, \ldots, N - 1
 \end{align*}
  for all $t$ and all $k = 0, \ldots, N - 1$.
-This optimization is intractable because $u (\cdummy)$ is infinite
-dimensional.
+\textbf{This optimization is intractable because $u (\cdummy)$ is infinite
+dimensional.}
 If we discretize $\Sigma_b$ with sampling time $T$ and assume that $u (t)$ and $w (t)$ are constant in each time interval, the optimization becomes:
 \begin{align}
   \operatorname*{minimize}_{u_{0}, \ldots, u_{N - 1}} \quad & c_d \cdot \max_{0
@@ -112,6 +110,7 @@ Therefore, for any practical size of the system, implementing this approach can 
 Although there are techniques in MPC to reduce the complexity, \eg move blocking, an MILP solver is still required.
 Certainly the controller cannot be implemented on an embedded processor with limited processing power and memory.
 
+\subsubsection{Goal}
 
 Our goal in this paper is to develop a scalable %green
 scheduling algorithm that can potentially run on embedded processors, even for systems of moderate practical size.
