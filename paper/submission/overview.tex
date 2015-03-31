@@ -53,7 +53,7 @@ With the averaged system in place, we can reformulate the optimization~\eqref{eq
 where the constraints hold for all $k = 0, \ldots, N - 1$.
 In the continuous-time dynamics~\eqref{eq:averaged-optim:cont}, $\pi (t ; \eta_k)$ is a scheduling algorithm that calculates the continous-time schedule $u (t)$ during the $k$-th interval so that
 its utilization is $\eta_k$.
-Such a scheduling algorithm is the topic of section \simpletodo{???Update???}
+%Such a scheduling algorithm is the topic of section \simpletodo{???Update???}
 At each instant $kT$ the state $\overbar{x}_{k}$ of the averaged system is reset to the actual state $x (kT)$ (constraint~\eqref{eq:averaged-optim:reset}).
 Let $e_{k+1}$ be the error between $x((k+1)T)$ and $\overbar{x}_{k}$, which is unknown but bounded in the $\eta_k$-dependent set $\ESet(\eta_{k})$ (\cf \cref{sec:averaged-system}).
 To ensure that $x (k T) \in \XSet$, constraint~\eqref{eq:averaged-optim:safety} robustly restricts the next state in $\XSet$ for all possible errors $e_{k+1}$.

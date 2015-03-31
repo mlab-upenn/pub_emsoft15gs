@@ -91,23 +91,23 @@ The symbol $\Zero$ denotes a zero vector or matrix.
   where 
   \begin{gather*}
     M_l =
-          \begin{bmatrix}
-            0 & \Zero & 1 & \Zero & \Zero & \Zero \\
-            \alpha & \Zero & 1 & \Zero & \beta^{T} & \Zero \\
-            0 & A_T & 0 & E_T & E_T & \IdentityMatrix
-          \end{bmatrix}\\
+    \left[\begin{smallmatrix}
+        0 & \Zero & 1 & \Zero & \Zero & \Zero \\
+        \alpha & \Zero & 1 & \Zero & \beta^{T} & \Zero \\
+        0 & A_T & 0 & E_T & E_T & \IdentityMatrix
+      \end{smallmatrix}\right], \quad
     M_r =
-      \begin{bmatrix}
+    \left[\begin{smallmatrix}
         0 & \Zero & 1 & \Zero \\
         1 & \Zero & 0 & \Zero \\
         0 & \IdentityMatrix & 0 & \tilde{B} - B_{T}
-      \end{bmatrix}
+      \end{smallmatrix}\right]
   \end{gather*}
   and
   \begin{align*}
     \PSet_l =& \big\{ (s,\overbar{x}, v, \delta, \tilde{w}, \varepsilon) \,\big|\,
               (s,\overbar{x}) \in \RSet,\ (s,v) \in \Omega, -\zeta \leqslant \delta \leqslant \zeta,\big.\\
-            &\qquad \big. \tilde{w} \in \WSet, \tilde{w} + \delta \in \WSet, \alpha s + v + \beta^{T} \tilde{w} \in \SSet, \underline{\varepsilon} \leqslant \varepsilon \leqslant \overbar{\varepsilon} \big\} \\
+            &\qquad \big. \tilde{w} \in \WSet, \tilde{w} + \delta \in \WSet, \alpha s + v + \beta^{T} \tilde{w} \in \SSet, \underline{\varepsilon} \leqslant V \varepsilon \leqslant \overbar{\varepsilon} \big\} \\
     \PSet_r =& \big\{(s^+, \overbar{x}^{+}, \overbar{v}, \eta) \,\big|\,
                \overbar{x}^{+} \in \XSet, (s^{+}, \overbar{x}^{+}) \in \RSet, \eta \in [0,1]^{m},\big.\\
              &\qquad \big. T \rho^{T} \eta \leqslant \overbar{v}\big\}
@@ -260,17 +260,17 @@ Finally, because $T_{1}$ and $T_{2}$ are subject to the same actual disturbances
 The only differences between the feedback and feedforward approaches are that in the feedback approach: (a) the control input $v$ for $T_{1}$ must robustly drive $s$ to $\SSet$ regardless of the forecast error $\delta$; (b) $s$ is updated with the actual disturbance $\tilde{w} + \delta$.
 Therefore, the necessary and sufficient condition in \cref{thm:abstraction-gs:necessary-sufficient} still holds for the feedback approach with modified matrix $M_{l}$ and set $\PSet_{l}$:
 \begin{gather*}
-  M_l =
-  \begin{bmatrix}
+  M_l = \left[
+  \begin{smallmatrix}
     0 & \Zero & 1 & \Zero & \Zero & \Zero \\
     \alpha & \Zero & 1 & \beta^{T} & \beta^{T} & \Zero \\
     0 & A_T & 0 & E_T & E_T & \IdentityMatrix
-  \end{bmatrix}\\
+  \end{smallmatrix} \right]\\
   \begin{aligned}
     \PSet_l =& \big\{ (s,\overbar{x}, v, \delta, \tilde{w}, \varepsilon) \,\big|\,
     (s,\overbar{x}) \in \RSet,\ (s,v) \in \Omega, -\zeta \leqslant \delta \leqslant \zeta,\big.\\
     &\qquad \big. \tilde{w} \in \WSet, \tilde{w} + \delta \in \WSet, \alpha s + v + \beta^{T} \tilde{w} \in \SSet \ominus \beta^{T} \mathcal{D}_{1},\\
-    &\qquad \underline{\varepsilon} \leqslant \varepsilon \leqslant \overbar{\varepsilon} \big\}
+    &\qquad \underline{\varepsilon} \leqslant V \varepsilon \leqslant \overbar{\varepsilon} \big\}
   \end{aligned}
 \end{gather*}
 where $\ominus$ denotes the Pontryagin difference between two sets.
