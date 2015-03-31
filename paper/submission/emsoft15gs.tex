@@ -7,6 +7,7 @@
 \input{preamble}
 \graphicspath{{figs/}}
 
+ \usepackage{url}
 % Some convenient commands
 \newcommand{\XSet}{\ensuremath{\mathcal{X}}}
 \newcommand{\WSet}{\ensuremath{\mathcal{W}}}
@@ -102,16 +103,8 @@
 %\simplenote{FOR THE TITLE: because we will not perform large scale simulations, we should not include ``large scale'' in the title. The followings are some keywords, in addition to ``green scheduling,'' that may be used in the title: scalable, embedded, simulation relation, hierarchical, hierarchical design, multi-level, input bound tracking.}
 
 \begin{abstract}
-  \simplenote{The abstract will be revised. Currently it doesn't reflect the actual contents.}
-
-  This technical note presents new results of green scheduling for peak demand
-  reduction in large-scale systems. What makes the green scheduling problem
-  particularly hard is that its control variables are binary. The complexity
-  grows exponentially with the scale of the system, making it impossible to
-  handle systems with more than a few dozens variables, unless the simple
-  periodic scheduling algorithm is used. While simple and scalable, periodic
-  schedules are static and limited in their capability to handle dynamics,
-  safety constraints, and disturbances.
+Peak power consumption is a universal problem across energy control systems in electrical grids, buildings, electric vehicles and industrial automation where the uncoordinated operation of multiple controllers result in  temporally correlated electricity demand surges (or peaks). While there exist several different approaches to balance power consumption by load shifting and load shedding, they operate on coarse grained time scales and do not help in de-correlating energy sinks. The focus of this paper is on a a scalable approach for ``Green Scheduling", fine-grained scheduling of control systems within an aggregate peak power envelop while ensuring the individual controllers are maintained within the desired ranges. 
+What makes the green scheduling problem particularly hard is that its control variables are binary. The complexity grows exponentially with the scale of the system, making it impossible to handle systems with more than a few dozens variables, unless the simple periodic scheduling algorithm is used. While simple and scalable, periodic schedules are static and limited in their capability to handle dynamics, safety constraints, and disturbances.
   
   The new results presented here novelly combine techniques from control
   theory and computer science to solve the green scheduling problem for
@@ -147,13 +140,13 @@
 \end{abstract}
 
 % A category with the (minimum) three required fields
-\category{H.4}{Information Systems Applications}{Miscellaneous}
-%A category including the fourth, optional field follows...
-\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
-
+%\category{Embedded and Cyber-Physical Systems}
+%%A category including the fourth, optional field follows...
+%\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
+%
 \terms{Theory}
 
-\keywords{ACM proceedings, \LaTeX, text tagging}
+\keywords{embedded control systems, peak power management, cyber-physical systems}
 
 \input{intro}
 
@@ -181,7 +174,7 @@
 % The following two commands are all you need in the
 % initial runs of your .tex file to
 % produce the bibliography for the citations in your paper.
-\bibliographystyle{abbrv}
+\bibliographystyle{unsrt}
 \bibliography{IEEEabrv,references}
 % You must have a proper ".bib" file
 %  and remember to run:

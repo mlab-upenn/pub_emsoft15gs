@@ -1,7 +1,20 @@
 \section{Introduction}
 \label{sec:intro}
 
-\simplenote{Reuse text from previous GS papers; Use an example of room heating and demand charge to explain the incentive to reduce peak demand; very briefly describe the GS approach.  In the next section we will describe the GS formulation in this paper without having explain the GS approach again.}
+Peak power consumption is a universal problem across energy control systems in electrical grids, buildings, electric vehicles and industrial automation where the uncoordinated operation of multiple controllers result in  temporally correlated electricity demand surges. In the case of the electrical grid, when the popular UK TV soap Eastenders comes to an end five times a week, the grid has to deal with around 1.75 million kettles requiring power at the same time (to prepare tea). That’s an additional 3 gigawatts of power for the roughly 3-5 minutes it takes each kettle to boil. So big is the surge, caused by correlated human behavior, that backup power stations have to go on standby across the country, and there’s even additional power made available in France just in case the UK grid can’t cope~\cite{tvpickup}. 
+
+In the case of building systems such as heating, ventilating, air conditioning and refrigeration (HVAC\&R) systems, chiller systems, and lighting systems operate independently of each other and frequently trigger concurrently, resulting in temporally correlated power demand surges. Most commercial buildings are subject to peak demand pricing which can be 200-400 times that of the nominal power rate~\cite{trfpeco}. High peak loads also lead to a higher cost of production and distribution of electricity and lower reliability. Therefore, peaks in electricity usage are inefficient and expensive for both suppliers and customers.
+
+In the case of electric and hybrid-electric vehicles, peak power consumption due to vehicle acceleration or hilly terrain results in a high current draw from the battery~\cite{battery}. This increases the operating temperature which reduces the battery lifetime and capacity and requires additional resources for cooling. Effectively managing hybrid energy sources to minimize peak power is an open research issue for electric vehicles with fast dynamics and limited load forecasts~\cite{hybrid}.
+
+While there exist several different approaches to balance power consumption by load shifting and load shedding, they operate on coarse grained time scales and do not help in de-correlating energy sinks.
+The focus of this paper is on a a scalable approach for ``Green Scheduling", fine-grained scheduling of control systems within an aggregate peak power envelop while ensuring the individual controllers are maintained within the desired ranges.
+
+While traditional real-time scheduling algorithms~\cite{realtimesys} may be applied to such resource sharing problems, they impose stringent constraints on the task model.
+Generally, real-time scheduling is restricted to tasks whose worst case execution times are fixed and known a priori~\cite{rts}.
+While this simplifies the runtime complexity, for control systems it does not effectively capture the system's behavior whose operation is dependent on the plant dynamics and environmental conditions. 
+
+The contributions of this paper 
 
 %%% Local Variables:
 %%% mode: latex
