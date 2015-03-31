@@ -3,7 +3,7 @@
 
 %\simplenote{This section can be placed inside the Introduction. NEED TO BE REWRITTEN TO BE SELF-CONTAINED, NO REFERENCE TO PREVIOUS WORK.}
 
-We consider an energy system scheduling problem where the peak
+We consider a building energy system scheduling problem where the peak
 demand is determined based on the interval averaged total demand.
 Specifically, time is divided into equal intervals: $[0, T], [T, 2 T], \ldots$
 In each interval $[kT, (k + 1) T]$ the averaged total demand is calculated as $d_k = \frac{E_k}{T}$ where $E_k$ is the total energy consumption during interval $k$.
@@ -12,7 +12,7 @@ The peak demand, for example to be used in calculating the demand charge, is the
 Our goal is to schedule the subsystems to minimize the peak interval demand while maintaining a safe operation.
 At the same time, it is desirable to schedule the subsystems in each interval so that the peak instantaneous total demand is also reduced, although this will not affect the demand charge.
 
-As in our previous work, we consider a continuous-time linear system $\Sigma_b$ of the form
+We consider a continuous-time linear system $\Sigma_b$ of the form
 %
 \begin{equation*}
 (\Sigma_b) \qquad \dot{x} = Ax + Bu + Ew
@@ -31,7 +31,7 @@ the averaged total demand is $d_k = \frac{E_k}{T}$.
 In this scheduling problem, we aim to schedule
 the subsystems, \ie to compute the control inputs $u$, so that the energy cost over a finite horizon is minimized.
 The energy cost consists of a charge for the peak demand and possibly a charge for the energy
-consumtion.
+consumption.
 Specifically, we want to minimize the following cost function defined over a horizon of $N$ time intervals:
 \begin{equation}
   \label{eq:cost-function} \text{cost} = c_d \cdot \max_{0 \leqslant k
@@ -72,6 +72,7 @@ In practice, disturbance forecasts are usually available, for example in the for
 Therefore, the disturbances are modeled as $w_{k} = \tilde{w}_{k} + \delta_{k}$ where $\tilde{w}_{k} \in \WSet$ is the forecast and $\delta_{k}$ is the forecast uncertainty.
 The forecast accuracy, as a bounded set of $\delta_{k}$, is assumed to be known and certainly smaller than $\WSet$.
 The optimization \eqref{eq:MILP} is a mixed-integer linear program (MILP) and can be solved by an MILP solver.
+
 However, except for small-scale systems with only a few control inputs and a short horizon $N$, the number of binary variables can be prohibitively large and the MILP is difficult to solve.
 For example, if $\Sigma_b$ has %$m=40$\simpletodo{May need to update this number!!!} 
 $m=20$ control inputs with sampling time $T = 5 \text{min}$ for a horizon of $N = 288$ steps in $24$ hours, the MILP will have $5 \comma 760$ binary variables, not to mention the continuous state and disturbance variables.
