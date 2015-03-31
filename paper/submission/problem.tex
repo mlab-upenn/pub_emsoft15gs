@@ -6,11 +6,40 @@
 We consider a building energy system scheduling problem where the peak
 demand is determined based on the interval averaged total demand.
 Specifically, time is divided into equal intervals: $[0, T], [T, 2 T], \ldots$
+=======
+We motivate our %energy system
+ scheduling problem by an example of a room heating system.
+Consider an energy system consisting of $n$ rooms and a heater in each room, where the heaters have fixed heating powers and can only be switched on and off.
+%Each room is heated by a heater that can be turned on, when it provides a constant heat input rate to the room, and turned off, when it consumes no energy and provides no heat input.
+%
+Let $x_i \in \mathbb{R}$ denote the air temperature of room $i$ and $\rho_i \geqslant 0$ the power of the heater in that room.
+Thermal comfort specifications require that $x_i$ should always be in a comfort range %between a lower temperature threshold $l_i$ and an upper temperature threshold $h_i > l_i$, \ie $x_i$ should be bounded in the range 
+$[l_i, h_i]$.
+The system is subject to disturbances which are the ambient air temperature $T_{a}$ and the internal heat gains $Q_i$ in each room, \eg from its occupants and electrical appliances.
+%We consider $T_{a,i}$ and $d_i$ as disturbances and define $w_i = [T_{a,i}, d_i]^T$ the disturbance vector of room $i$.
+%
+The law of conservation of energy gives us the following heat balance equation for room $i$:
+\begin{multline*}
+  %\label{eq:problem:heat-balance}
+  C_i \dot{x}_i(t) = K_i \left( T_{a}(t) - x_i(t) \right) + \textstyle\sum_{j\ne i} K_{ij} \left(x_j(t) - x_i(t)\right) \\
+  + \rho_i u_{i}(t) + Q_i(t)
+\end{multline*}
+in which
+$C_i > 0$ is the thermal capacity of the room, % (\si{\kilo\joule\per\kelvin}),
+$K_i > 0$ the thermal conductance between the ambient air and the room, % (\si{\kilo\watt\per\kelvin}),
+$K_{ij} \geq 0$ the thermal conductance between room $i$ and room $j \ne i$, % (\si{\kilo\watt\per\kelvin}).
+and $u_{i} \in \{0, 1\}$ the on/off control input of heater $i$.
+Collect all the states in %a state vector 
+$x = [x_1, \dots, x_n]^T$, the comfort ranges in a bounded subset $X$ of $\mathbb{R}^n$, the control inputs in $u =  [u_1, \dots, u_n]^T$, and the disturbances in $w = [T_{a}, Q_{1}, \dots, Q_{n}]^{T}$.
+The dynamics of $x$ is a linear system with control input $u$ and disturbance input $w$.
+The energy demand and consumption of the system are determined based on time intervals $[0, T], [T, 2 T], \ldots$ for a given sampling time $T > 0$.
+>>>>>>> origin/master
 In each interval $[kT, (k + 1) T]$ the averaged total demand is calculated as $d_k = \frac{E_k}{T}$ where $E_k$ is the total energy consumption during interval $k$.
-This is the practical way to determine energy demands, for example in electricity bills and in demand response (DR) programs.
-The peak demand, for example to be used in calculating the demand charge, is the maximum interval demand over a given billing period: $\max_k d_k$.
-Our goal is to schedule the subsystems to minimize the peak interval demand while maintaining a safe operation.
-At the same time, it is desirable to schedule the subsystems in each interval so that the peak instantaneous total demand is also reduced, although this will not affect the demand charge.
+This is the practical way to determine energy demands, \eg in electricity bills and in demand response (DR) programs.
+The peak demand, for example to be used in calculating the demand charge, is the maximum interval demand over a given billing period. %: $\max_k d_k$.
+Our goal is to schedule the subsystems to minimize the energy cost %peak interval demand 
+while maintaining a safe operation.
+%At the same time, it is desirable to schedule the subsystems in each interval so that the peak instantaneous total demand is also reduced, although this will not affect the demand charge.
 
 We consider a continuous-time linear system $\Sigma_b$ of the form
 %
@@ -19,9 +48,9 @@ We consider a continuous-time linear system $\Sigma_b$ of the form
 \end{equation*}
 %
 where $x \in \mathbbm{R}^{n}$ is the state vector, $u \in \{ 0, 1 \}^{m}$ are the binary control inputs that represent the schedules, and $w \in \mathbbm{R}^{p}$ is the disturbance vector.
-The safety condition requires that the state $x (t)$ stays in a bounded safe set $\mathcal{X} \subset \mathbbm{R}^n$ at all time.
+The safety condition requires that the state $x (t)$ stays in a safe set $\mathcal{X} \subset \mathbbm{R}^n$ at all time.
 The disturbances are constrained in a known set $w (t) \in \mathcal{W}$ for all $t$.
-Both $\mathcal{X}$ and $\mathcal{W}$ are polyhedral.
+Both $\mathcal{X}$ and $\mathcal{W}$ are bounded polyhedral.
 
 At any time, the total demand is defined as a linear combination of the binary
 control inputs: $d (t) = \rho^T u (t)$ where $\rho$ is the vector of the individual
