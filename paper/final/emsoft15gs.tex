@@ -1,0 +1,255 @@
+% Final Paper to EMSOFT 2015 on Scalable Green Scheduling
+%
+% Authors: Truong X. Nghiem, Rahul Mangharam
+
+\documentclass{sig-alternate}
+
+\input{preamble}
+\graphicspath{{figs/}}
+
+ \usepackage{url}
+% Some convenient commands
+\newcommand{\XSet}{\ensuremath{\mathcal{X}}}
+\newcommand{\WSet}{\ensuremath{\mathcal{W}}}
+\newcommand{\ESet}{\ensuremath{\mathcal{E}}}
+\newcommand{\VSet}{\ensuremath{\mathcal{V}}}
+\newcommand{\SSet}{\ensuremath{\mathcal{S}}}
+\newcommand{\RSet}{\ensuremath{\mathcal{R}}}
+\newcommand{\PSet}{\ensuremath{\mathcal{P}}}
+\newcommand{\ZSet}{\ensuremath{\mathcal{Z}}}
+\newcommand{\Zero}{\ensuremath{\mathbf{0}}}
+\newcommand{\One}{\ensuremath{\mathbf{1}}}
+\newcommand{\IdentityMatrix}{\ensuremath{\mathbbm I}}
+
+% To compress the paper
+\addtolength{\textheight}{3ex}
+%\addtolength{\voffset}{-.5ex}
+% \renewcommand\topfraction{0.85}
+% \renewcommand\bottomfraction{0.85}
+% \renewcommand\floatpagefraction{0.85}
+
+\linespread{.97}
+\begin{document}
+%
+% --- Author Metadata here ---
+%\conferenceinfo{EMSOFT}{'97 El Paso, Texas USA}
+%\CopyrightYear{2007} % Allows default copyright year (20XX) to be over-ridden - IF NEED BE.
+%\crdata{0-12345-67-8/90/01}  % Allows default copyright data (0-89791-88-6/97/05) to be over-ridden - IF NEED BE.
+% --- End of Author Metadata ---
+
+\title{Scalable Scheduling of Energy Control Systems} % Scalable Green Scheduling}
+%\subtitle{[Extended Abstract]
+%\titlenote{A full version of this paper is available at...}
+%
+% You need the command \numberofauthors to handle the 'placement
+% and alignment' of the authors beneath the title.
+%
+% For aesthetic reasons, we recommend 'three authors at a time'
+% i.e. three 'name/affiliation blocks' be placed beneath the title.
+%
+% NOTE: You are NOT restricted in how many 'rows' of
+% "name/affiliations" may appear. We just ask that you restrict
+% the number of 'columns' to three.
+%
+% Because of the available 'opening page real-estate'
+% we ask you to refrain from putting more than six authors
+% (two rows with three columns) beneath the article title.
+% More than six makes the first-page appear very cluttered indeed.
+%
+% Use the \alignauthor commands to handle the names
+% and affiliations for an 'aesthetic maximum' of six authors.
+% Add names, affiliations, addresses for
+% the seventh etc. author(s) as the argument for the
+% \additionalauthors command.
+% These 'additional authors' will be output/set for you
+% without further effort on your part as the last section in
+% the body of your article BEFORE References or any Appendices.
+
+\numberofauthors{2}
+%
+\author{
+% You can go ahead and credit any number of authors here,
+% e.g. one 'row of three' or two rows (consisting of one row of three
+% and a second row of one, two or three).
+%
+% The command \alignauthor (no curly braces needed) should
+% precede each author name, affiliation/snail-mail address and
+% e-mail address. Additionally, tag each line of
+% affiliation/address with \affaddr, and tag the
+% e-mail address with \email.
+%
+% 1st. author
+\alignauthor
+Truong X. Nghiem\\
+       \affaddr{Automatic Control Laboratory}\\
+       \affaddr{\'Ecole Polytechnique F\'ed\'erale de Lausanne}\\
+       \affaddr{Lausanne, Switzerland}\\
+       \email{xuan.nghiem@epfl.ch}
+% 2nd. author
+\alignauthor
+Rahul Mangharam\\
+       \affaddr{Dept. of Electrical \& Systems Engineering}\\
+       \affaddr{University of Pennsylvania}\\
+       \affaddr{Philadelphia, Pennsylvania, USA}\\
+       \email{rahulm@seas.upenn.edu}
+%\and  % use '\and' if you need 'another row' of author names
+% There's nothing stopping you putting the seventh, eighth, etc.
+% author on the opening page (as the 'third row') but we ask,
+% for aesthetic reasons that you place these 'additional authors'
+% in the \additional authors block, viz.
+% \additionalauthors{Additional authors: John Smith (The Th{\o}rv{\"a}ld Group,
+% email: {\texttt{jsmith@affiliation.org}}) and Julius P.~Kumquat
+% (The Kumquat Consortium, email: {\texttt{jpkumquat@consortium.net}}).}
+% \date{30 July 1999}
+% Just remember to make sure that the TOTAL number of authors
+% is the number that will appear on the first page PLUS the
+% number that will appear in the \additionalauthors section.
+}
+\maketitle
+
+%\simplenote{FOR THE TITLE: because we will not perform large scale simulations, we should not include ``large scale'' in the title. The followings are some keywords, in addition to ``green scheduling,'' that may be used in the title: scalable, embedded, simulation relation, hierarchical, hierarchical design, multi-level, input bound tracking.}
+
+\begin{abstract}
+Peak power consumption is a universal problem across energy control systems in electrical grids, buildings, electric vehicles and industrial automation where the uncoordinated operation of multiple cont    rollers result in  temporally correlated electricity demand surges (or peaks). While there exist several different approaches to balance power consumption by load shifting and load shedding, they operate on coarse grained time scales and do not help in de-correlating energy sinks.
+The focus of this paper is on a scalable approach for fine-grained scheduling of energy control systems within an aggregate peak power envelop while ensuring the individual systems are maintained within the desired states.
+
+What makes the Energy System Scheduling Problem particularly hard is that its control variables are binary. The complexity grows exponentially with the scale of the system, making it impossible to handle systems with more than a few variables. %, unless the simple periodic scheduling algorithm is used. 
+%While simple and scalable, periodic schedules are static and limited in their capability to handle dynamics, safety constraints, and disturbances.
+  We developed a scalable scheduling approach that novelly combines techniques from control
+  theory and computer science to solve the energy scheduling problem.  The original
+  system with binary control variables are approximated by an {\emph{averaged
+  system}} whose inputs are the {\emph{utilization values}} of the binary
+  inputs within a given period. The error between the two systems can be
+  bounded, which allows us to derive a safety constraint for the averaged
+  system so that the original system's safety is guaranteed.
+  %This relaxation already reduces the energy scheduling mixed integer program to a standard   program with real variables. 
+  %  
+  %However, for a large-scale system over a long prediction horizon, the number of optimization variables can be prohibitively large, which not only affects the computation performance but also requires commercial optimization solvers and powerful computing hardware.
+  To further reduce the complexity of the scheduling problem, we abstract the averaged system by a
+  simple single-state single-input dynamical system whose control input is the upper-bound of the total demand of the system. This model abstraction is achieved by extending the
+  notion of simulation relations between transition systems to allow for input
+  constraints between the systems. We develop conditions to test for
+  simulation relations as well as algorithms to compute such a model
+  abstraction. As a consequence, we only need to solve a small linear program
+  to compute an optimal trace of the total demand. The total demand is then
+  broken down, by solving a linear program much smaller than the original
+  program, to individual utilization values of the subsystems in an interval.
+  The actual schedule in each interval is then obtained by a low-level
+  scheduling algorithm.
+ % We propose two such algorithms: a simple ad-hoc
+ %  algorithm that may switch on and off a subsystem multiple times, and a
+ %  2-dimensional packing algorithm that only switches any subsystem at most
+ %  once in each interval.
+  Numerical simulations in Matlab show the effectiveness and scalability of
+  our approach.
+\end{abstract}
+
+% A category with the (minimum) three required fields
+%\category{Embedded and Cyber-Physical Systems}
+%%A category including the fourth, optional field follows...
+%\category{D.2.8 CHANGE THIS}{CHANGE THIS Software Engineering}{Metrics}[complexity measures, performance measures]
+%
+%\terms{Theory CHANGE THIS}
+
+\keywords{embedded control systems, peak power management, cyber-physical systems}
+
+\section{Important reviewers points}
+
+\begin{itemize}
+\item Relate more to implementation / hardware and software / embedded systems.
+\item Emphasize more (and more) the complexity of the approach: the LPs are easy to solve. May try to generate code for the LP problems and see how they run (if there is time).
+\item A room heating system is used as the motivating example. However, in these
+systems I do not really agree that the actuators necessarily are binary. Assume
+that instead the actuators have a discrete number of settings, how would the
+approach then work? \textcolor{red}{Maybe I should write a remark on how to formulate multi-settings into binary.}
+\item It is assumed that the disturbances in Equation (2) are constant over each time
+interval T (the sampling interval). How realistic is this really? It may be
+true for the ambient temperature since it varies very slowly. However, I cannot
+see that it is true for the electrical appliances, which one have to assume
+could be switched on or off at any point in time by the persons in the rooms.
+How will this affect the approach?
+\item The paper is well written except for one thing. At numerous places words such
+as equation, theorem, definition, figure, section, .... should be written with
+a capitalized first character, i.e., Equation, Theorem, etc  \textcolor{red}{Fix this quickly}.
+\item Rather limited evaluation section. MILP simulation was stopped after a 
+rather short time. This only showed the scalability issue. However, a 
+comparison of the controler designs could have been of interest in the 
+evaluation. \textcolor{red}{I should run the MILP solver for longer time (e.g. 4 hours) and also for short time and compare their solutions and the GS solution.}
+\item The evaluation is limited to a simple "this algorithm works". It could be 
+extended by comparing the solution to existing schedulers and the results 
+of the MILP approach. Runing the solver for only 15 min is too short (several 
+hours even days would have been acceptable) in order to compare the control 
+results of both approaches. Some comments on stability of the controller, 
+settling time etc. and the real world applicability of the temperature model 
+would be of further interest.
+\item Prior work is mainly addressed in the introduction. The background of
+simulation 
+relations is explained in its own section. Readability of the paper benefits
+from 
+that. However, the paper is lacking some more information on other approaches
+on 
+the smart home scheduling problems and controller design.
+Only a few related works are introduced in the introduction section, for an
+non-expert, it is difficult to get a estimation of the state-of-the-art
+techniques in this area. Furthermore, it will be appreciated if there is more
+comparison with the related work in the experiment section.
+\item The readability of this paper is not very good. Lots of equations are used
+in the paper. The paper is not very easy to follow for a non-expert. It would
+be appreciated if the authors can give a running example to help readers to
+understand such techniques.
+\item A minor point: in definition 2, page 5, the authors write $q_1$ jumps to $q_1^+$
+by $\delta_1, q_2$ jumps to $q_2^+$ by $\delta_2$. In the typical definition of
+simulation, it should also be $\delta_1$ for $q_2$, right?
+\end{itemize}
+
+\input{intro}
+
+\input{problem}
+
+\input{overview}
+
+\input{averaged}
+
+\input{abstraction}
+
+\input{abstractiongs}
+
+\input{summary}
+
+\input{simulation}
+
+\input{conclusions}
+
+%ACKNOWLEDGMENTS are optional
+%\section{Acknowledgments}
+
+
+%
+% The following two commands are all you need in the
+% initial runs of your .tex file to
+% produce the bibliography for the citations in your paper.
+\bibliographystyle{unsrt}
+\bibliography{IEEEabrv,references}
+% You must have a proper ".bib" file
+%  and remember to run:
+% latex bibtex latex latex
+% to resolve all references
+%
+% ACM needs 'a single self-contained file'!
+
+\newpage
+%APPENDICES are optional
+%\balancecolumns
+\appendix
+
+% All the proofs
+\input{proofs}
+
+%\balancecolumns
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

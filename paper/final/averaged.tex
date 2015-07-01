@@ -1,0 +1,100 @@
+\section{Approximation by Averaging} % Averaged Systems}
+\label{sec:averaged-system}
+
+Consider the averaged system $\Sigma_a$ of $\Sigma_b$ for each time interval $t \in [kT, (k + 1) T)$: $\dot{\overbar{x}} (t) = A \overbar{x} (t) + B \eta_k + Ew (t)$.
+Recall that the \emph{utilization} $\eta_k = \frac{1}{T} \int_{kT}^{(k + 1) T} u (\tau) \mathd \tau$ is the average value of $u(t)$ in the interval, and is a vector of real numbers in $[0, 1]$. % $\eta_k \in [0, 1]^m$.
+Initially $\overbar{x}_{0} = \overbar{x} (0) = x(0)$.
+Generally, as $k$ increases, $\overbar{x}_{k}$ may deviate further and further from $x (kT)$, which is undesirable since the state constraint $\XSet$ needs to be maintained at all time.
+For this reason, as mentioned earlier, we reset the value of $\overbar{x}$ to the measured state $x$ at each time instant $kT$, to keep the deviation within a tight bound.
+The deviation $e (t) = x (t) - \overbar{x} (t)$ follows the dynamics
+\begin{math}
+  \dot{e} (t) %= A (x (t) - \overbar{x} (t)) + B (u (t) - \eta_k) 
+  = Ae (t) + B (u (t) - \eta_k) \label{eq:err-dynamics}
+\end{math}
+for all $t \in [kT, (k + 1) T)$ and $e (kT) = 0$.
+At the next instant $(k + 1) T$, the error is given by the solution of this differential equation: %, which is %~\eqref{eq:err-dynamics}
+\begin{equation*}
+e_{k+1} = e ((k + 1) T) = \int_{kT}^{(k + 1) T} \mathe^{A ((k + 1) T - s)} B (u (s) - \eta_k) \mathd s \text.
+\end{equation*}
+A tight bound on $e_{k+1}$ can be obtained, which is dependent on the value of $\eta_k$.
+In this section, we make a practical assumption that the
+state matrix $A$ is diagonalizable with real eigenvalues, that is $VA = DV$
+where $D$ is a diagonal matrix of the eigenvalues of $A$ and $V$ is a non-singular matrix whose columns are the corresponding right eigenvectors.
+%Many practical systems, especially in our targeted energy applications, this assumption is satisfied.
+We can then transform the state with $V$ by defining a new state $z = Vx$, whose dynamics are
+\[ \dot{z} = V \dot{x} = VAx + VBu + VEw = Dz + VBu + VEw \text.\]
+%and which is subject to state constraint $z (t) \in V\mathcal{X}$.
+This new model is in the form of $(\Sigma_b)$ with a diagonal state matrix.
+%As a consequence, we can assume without loss of generality that the original system $\Sigma_b$ has diagonal state matrix $A$ because otherwise, we can always equivalently transform $\Sigma_b$ to achieve this.
+Let $\lambda_i$ be the $i$-th diagonal element of $D$, for $i = 1, \ldots, n$.
+The following theorem provides bounds on $e_{k+1}$, which depend on $\eta_{k}$.
+
+\begin{theorem}
+  \label{thm:averaged-sys-bound}
+  Let $b_i$ be the $i^{\text{th}}$ row of $VB$, $\overbar{b}_i \geqslant 0$ the sum of all positive elements of $b_i$, and $\underline{b}_i \leqslant 0$ the sum of all negative elements of $b_i$.
+  For each $i = 1,\ldots,n$, define
+  \[ \xi_i =
+  \begin{cases}
+    0 & \text{if $\lambda_{i} = 0$} \\
+    \frac{1}{\lambda_i} (\mathe^{\lambda_i T} - 1) - T & \text{if $\lambda_i > 0$}\\
+    \frac{1}{\lambda_i} (\mathe^{\lambda_i T} - 1) - T \mathe^{\lambda_i T} & \text{if $\lambda_i < 0$}
+  \end{cases} \]
+  and $\overbar{\varepsilon}_{i} = \xi_{i} \overbar{b}_{i}$, $\underline{\varepsilon}_{i} = \xi_{i} \underline{b}_{i}$.
+  Define $\tilde{B} = V^{-1} \Xi B$ where $\Xi$ is the diagonal matrix of all $\xi_{i}$.
+  Then the error $e_{k+1}$ is bounded by
+  \begin{equation*}
+    \underline{\varepsilon} \leqslant V (e_{k+1} + \tilde{B} \eta_{k}) \leqslant \overbar{\varepsilon} \quad \text{(element-wise)}
+  \end{equation*}
+  where $\overbar{\varepsilon}$ and $\underline{\varepsilon}$ are the vectors of all $\overbar{\varepsilon}_{i}$ and $\underline{\varepsilon}_{i}$ respectively.
+  Equivalently, $e_{k+1} = \varepsilon - \tilde{B} \eta_{k}$ for some $\varepsilon$ bounded element-wise by $\underline{\varepsilon} \leqslant \varepsilon \leqslant \overbar{\varepsilon}$.
+\end{theorem}
+
+  % OLD CONTENT OF THEOREM WITHOUT V
+  % Consider each element $e_i ((k + 1) T)$ of the
+  % error $e ((k + 1) T)$, $1 \leqslant i \leqslant n$. If $a_i = 0$ then $e_i
+  % ((k + 1) T) = 0$. Otherwise, $e_i ((k + 1) T)$ is bounded by
+  % \[ \xi_i  (\underline{\varepsilon}_i - b_i \eta_k) = \underline{e}_i
+  %    (\eta_k) \leqslant e_i ((k + 1) T) \leqslant \overbar{e}_i (\eta_k) =
+  %    \xi_i  (\overbar{\varepsilon}_i - b_i \eta_k) \]
+  % for all $u (t)$ such that $\eta_k = \frac{1}{T} \int_{kT}^{(k + 1) T} u (t)
+  % \mathd t$, where $b_i$ is the $i^{\text{th}}$ row of $B$,
+  % $\overbar{\varepsilon}_i$ is the sum of all positive elements of $b_i$,
+  % $\underline{\varepsilon}_i$ is the sum of all negative elements of $b_i$,
+  % and
+  % \[ \xi_i = \left\{ \begin{array}{ll}
+  %      \frac{1}{a_i} (\mathe^{a_i T} - 1) - T & \text{if } a_i > 0\\
+  %      \frac{1}{a_i} (\mathe^{a_i T} - 1) - T \mathe^{a_i T} & \text{if } a_i
+  %      < 0
+  %    \end{array} \right._{} \]
+
+
+% The bound range $[\underline{e}_i (\eta_k), \overbar{e}_i (\eta_k)]$ given by
+% \cref{thm:averaged-sys-bound} expands as $T$
+% increases. Therefore, as $k$ increases, $\overbar{x} (kT)$ may
+% deviate further and further from $x (kT)$, which is undesirable when the state
+% constraint needs to be maintained. For this reason, to keep the deviation
+% within a tight bound, we reset the state $\overbar{x}$ of $\Sigma_a$ to the
+% measured state $x$ of $\Sigma_b$ at each $kT$, so that $e (kT)$ is reset to
+% $0$. 
+% Because $\overbar{x}_{k}$ is reset to $x(kT)$ at each time instant $k T$, the difference $e_{k+1}$ between $x ((k + 1) T)$ and the next value of
+% $\overbar{x} (k)$ under $\eta_k$ is always bounded in $[\underline{e}_i
+% (\eta_k), \overbar{e}_i (\eta_k)]$ for all $k$.
+
+The proof can be found in \cref{sec:proof:averaged-sys-bound}.
+We note that the utilization $\eta_{k}$, \ie the control input of $\Sigma_{a}$, enters affinely in the bounds on $e_{k+1}$.
+
+\begin{remark}
+We can still use our approach when $A$ is not
+diagonalizable, however the error bounds obtained in
+\cref{thm:averaged-sys-bound} must be generalized. For instance, we can
+use the Jordan normal form to transform $A$ into a block diagonal
+matrix, and obtain bounds in a way similar to that in
+\cref{thm:averaged-sys-bound}. The made assumption simplifies the
+presentation of our results but does not limit the practicality of our
+approach. % much because, as we mentioned, many practical applications satisfy the assumption.
+\end{remark}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "emsoft15gs"
+%%% End:

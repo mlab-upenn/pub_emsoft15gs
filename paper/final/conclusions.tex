@@ -1,0 +1,19 @@
+\section{Conclusions}
+\label{sec:conclusions}
+
+We developed an approach which combines techniques from control theory and computer science to solve the energy scheduling problem for large-scale systems with fast sampling time.
+The approach uses a model abstraction method based on the concept of simulation relations between transition systems, which allows us to reduce the original multi-state multi-binary-input model to a single-state single-real-input model with input bound tracking and safety guarantees.
+Unlike the mixed integer programming approach, which has computational issues for any system of practical size, our approach is much more scalable.
+While the offline design process may require significant computing power, the run-time implementation is lightweight that it can potentially be implemented on embedded computers.
+We validated our approach using Matlab simulations of a room heating system.
+Our numerical simulations showed that while the mixed integer programming approach may not work beyond a trivially small-scale system, our approach can handle efficiently a much larger system with a fast sampling rate and a long control horizon.
+
+
+A future extension of this work is to test the control algorithms on an embedded platform to verify its run-time scalability.
+Another direction is to develop better scheduling algorithms for the low-level actuator scheduler, such that not only the averaged interval demand but also the instantaneous demand are reduced.
+We also aim to apply the approach to more practical systems other than the room heating system.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "emsoft15gs"
+%%% End:

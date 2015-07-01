@@ -1,0 +1,141 @@
+\subsection{The Energy System Scheduling Problem} %}{Green Scheduling Problem}
+\label{sec:gs-problem}
+
+%We consider a building energy system scheduling problem where the peak
+%demand is determined based on the interval averaged total demand.
+%Specifically, time is divided into equal intervals: $[0, T], [T, 2 T], \ldots$
+
+We motivate our %energy system
+ scheduling problem by an example of a room heating system.
+Consider an energy system consisting of $n$ rooms and a heater in each room, where the heaters have fixed heating powers and can only be switched on and off.
+%Each room is heated by a heater that can be turned on, when it provides a constant heat input rate to the room, and turned off, when it consumes no energy and provides no heat input.
+%
+Let $x_i \in \mathbb{R}$ denote the air temperature of room $i$ and $\rho_i \geqslant 0$ the power of the heater in that room.
+Thermal comfort specifications require that $x_i$ should always be in a comfort range %between a lower temperature threshold $l_i$ and an upper temperature threshold $h_i > l_i$, \ie $x_i$ should be bounded in the range 
+$[l_i, h_i]$.
+The system is subject to disturbances which are the ambient air temperature $T_{a}$ and the internal heat gains $Q_i$ in each room, \eg from its occupants and electrical appliances.
+%We consider $T_{a,i}$ and $d_i$ as disturbances and define $w_i = [T_{a,i}, d_i]^T$ the disturbance vector of room $i$.
+%
+The law of conservation of energy gives us the following heat balance equation for room $i$:
+\begin{multline*}
+  %\label{eq:problem:heat-balance}
+  C_i \dot{x}_i(t) = K_i \left( T_{a}(t) - x_i(t) \right) + \textstyle\sum_{j\ne i} K_{ij} \left(x_j(t) - x_i(t)\right) \\
+  + \rho_i u_{i}(t) + Q_i(t)
+\end{multline*}
+in which
+$C_i > 0$ is the thermal capacity of the room, % (\si{\kilo\joule\per\kelvin}),
+$K_i > 0$ the thermal conductance between the ambient air and the room, % (\si{\kilo\watt\per\kelvin}),
+$K_{ij} \geq 0$ the thermal conductance between room $i$ and room $j \ne i$, % (\si{\kilo\watt\per\kelvin}).
+and $u_{i} \in \{0, 1\}$ the on/off control input of heater $i$.
+Collect all the states in %a state vector 
+$x = [x_1, \dots, x_n]^T$, the comfort ranges in a bounded subset $X$ of $\mathbb{R}^n$, the control inputs in $u =  [u_1, \dots, u_n]^T$, and the disturbances in $w = [T_{a}, Q_{1}, \dots, Q_{n}]^{T}$.
+The dynamics of $x$ is a linear system with control input $u$ and disturbance input $w$.
+The energy demand and consumption of the system are determined based on time intervals $[0, T], [T, 2 T], \ldots$ for a given sampling time $T > 0$.
+
+In each interval $[kT, (k + 1) T]$ the averaged total demand is calculated as $d_k = \frac{E_k}{T}$ where $E_k$ is the total energy consumption during interval $k$.
+This is the practical way to determine energy demands, \eg in electricity bills and in demand response (DR) programs.
+The peak demand, for example to be used in calculating the demand charge, is the maximum interval demand over a given billing period. %: $\max_k d_k$.
+Our goal is to schedule the subsystems to minimize the energy cost %peak interval demand 
+while maintaining a safe operation.
+%At the same time, it is desirable to schedule the subsystems in each interval so that the peak instantaneous total demand is also reduced, although this will not affect the demand charge.
+
+We consider a continuous-time linear system $\Sigma_b$ of the form
+%
+\begin{equation*}
+(\Sigma_b) \qquad \dot{x} = Ax + Bu + Ew
+\end{equation*}
+%
+where $x \in \mathbbm{R}^{n}$ is the state vector, $u \in \{ 0, 1 \}^{m}$ are the binary control inputs that represent the schedules, and $w \in \mathbbm{R}^{p}$ is the disturbance vector.
+The safety condition requires that the state $x (t)$ stays in a safe set $\mathcal{X} \subset \mathbbm{R}^n$ at all time.
+The disturbances are constrained in a known set $w (t) \in \mathcal{W}$ for all $t$.
+Both $\mathcal{X}$ and $\mathcal{W}$ are bounded polyhedral.
+
+At any time, the total demand is defined as a linear combination of the binary
+control inputs: $d (t) = \rho^T u (t)$ where $\rho$ is the vector of the individual
+power demand of each subsystem. In each time interval $[kT, (k + 1) T]$ the
+total energy consumption is $E_k = \int_{kT}^{(k + 1) T} d (t) \mathd t$ and
+the averaged total demand is $d_k = \frac{E_k}{T}$. 
+In this scheduling problem, we aim to schedule
+the subsystems, \ie to compute the control inputs $u$, so that the energy cost over a finite horizon is minimized.
+The energy cost consists of a charge for the peak demand and possibly a charge for the energy
+consumption.
+Specifically, we want to minimize the following cost function defined over a horizon of $N$ time intervals:
+\begin{equation}
+  \label{eq:cost-function} \text{cost} = c_d \cdot \max_{0 \leqslant k
+  \leqslant N - 1} d_k + \textstyle\sum_{0 \leqslant k \leqslant N - 1} c_{e, k} \cdot
+  E_k
+\end{equation}
+where $c_d$ is the fixed price for the peak demand and $c_{e, k}$ is the
+time-varying price for the interval energy consumption.
+Typically $c_d \gg c_{e, k}$ which gives customers incentive to reduce their peak demands.
+
+\subsubsection{Fundamental scalability issues}
+The %green
+scheduling problem can be formulated as minimizing the above cost function subject to the constraints:
+\begin{align*}
+  %\mathrm{minimize}_{u (\cdummy)} &  & c_d \cdot \max_{0 \leqslant k \leqslant N - 1} d_k + \sum_{0 \leqslant k \leqslant N - 1} c_{e, k} \cdot E_k\\
+  %\text{subject to} &
+  & \dot{x} (t) = Ax (t) + Bu (t) + Ew (t)\\%, \, d (t) = \rho^T u (t)\\%, \qquad \forall t\\
+  & x (t) \in \mathcal{X}, \quad u(t) \in \{0,1\}^{m}, \quad w (t) \in \mathcal{W}\\%, \qquad \forall t\\
+  & E_k = \int_{kT}^{(k + 1) T} \rho^T u (\tau) \mathd \tau, \, d_k = \frac{E_k}{T}%, \qquad \forall k = 0, \ldots, N - 1
+\end{align*}
+ for all $t$ and all $k = 0, \ldots, N - 1$.
+\textbf{This optimization is intractable because $u (\cdummy)$ is infinite
+dimensional.}
+If we discretize $\Sigma_b$ with sampling time $T$ and assume that $u (t)$ and $w (t)$ are constant in each time interval, the optimization becomes:
+\begin{align}
+  \operatorname*{minimize}_{u_{0}, \ldots, u_{N - 1}} \quad & c_d \cdot \max_{0
+  \leqslant k \leqslant N - 1} d_k + \textstyle\sum_{0 \leqslant k \leqslant N - 1}
+  c_{e, k} \cdot E_k  \label{eq:MILP}\\
+  \text{subject to} \quad & x_{k+1} = A_{T} x_{k} + B_{T} u_{k} + E_{T} w_{k}  \nonumber\\
+  & d_k = \rho^T u_{k} \nonumber\\
+  & x_{k} \in \mathcal{X}, \quad u_{k} \in \{0,1\}^{m}, \quad w_{k} \in \mathcal{W} \nonumber\\
+  & E_k = T d_k \nonumber
+\end{align}
+where the constraints hold for all $k = 0, \ldots, N - 1$.
+Here, the subscript $k$ denotes the value of a variable at time step $k$, and matrices $A_{T}$, $B_{T}$, and $E_{T}$ are of the discrete-time dynamical model.
+Note that the safety condition, that $x_k$ stays inside $\XSet$ at all $k$, must be robust to the unknown but bounded disturbances $w$, and thereby results in conservative control inputs trading off performance for safety.
+In practice, disturbance forecasts are usually available, for example in the forms of weather forecast and occupancy schedules, which should be exploited to obtain more accurate predictions of future states and hence less conservative control inputs and better performance.
+Therefore, the disturbances are modeled as $w_{k} = \tilde{w}_{k} + \delta_{k}$ where $\tilde{w}_{k} \in \WSet$ is the forecast and $\delta_{k}$ is the forecast uncertainty.
+The forecast accuracy, as a bounded set of $\delta_{k}$, is assumed to be known and certainly smaller than $\WSet$.
+The optimization \eqref{eq:MILP} is a mixed-integer linear program (MILP) and can be solved by an MILP solver.
+
+However, except for small-scale systems with only a few control inputs and a short horizon $N$, the number of binary variables can be prohibitively large and the MILP is difficult to solve.
+For example, if $\Sigma_b$ has %$m=40$\simpletodo{May need to update this number!!!} 
+$m=20$ control inputs with sampling time $T = 5 \text{min}$ for a horizon of $N = 288$ steps in $24$ hours, the MILP will have $5 \comma 760$ binary variables, not to mention the continuous state and disturbance variables.
+Solving such large MILPs often requires powerful computers with commercial optimization
+solvers.
+In our simulation study (\cref{sec:simulation}), with only two subsystems ($m=2$) and $N=288$, an 8-core MacPro with 64Gb RAM running the %state-of-the-art commercial
+solver Gurobi 6.0 did not finish the MILP optimization after the time limit of 15 minutes.
+Moreover, due to the uncertainty caused by the disturbances, the control decisions need to be adjusted regularly by solving the optimization \eqref{eq:MILP} repeatedly at every time step (model predictive control (MPC)).
+Therefore, for any practical size of the system, implementing this approach can be highly demanding, if even possible, in terms of run-time hardware and software requirements.
+Although there are techniques in MPC to reduce the complexity, \eg move blocking, an MILP solver is still required.
+Certainly the controller cannot be implemented on an embedded processor with limited processing power and memory.
+
+\subsubsection{Goal}
+
+Our goal in this paper is to develop a scalable %green
+scheduling algorithm that can potentially run on embedded processors, even for systems of moderate practical size.
+We consider a slightly more general problem than \eqref{eq:MILP}:
+\begin{align}
+  \operatorname{minimize}_{u (\cdummy)} \quad & c_d \cdot \max_{0 \leqslant k \leqslant
+  N - 1} d_k + \textstyle\sum_{0 \leqslant k \leqslant N - 1} c_{e, k} \cdot E_k 
+  \label{eq:GS-optim}\\
+  \text{subject to} \quad
+  & \dot{x} (t) = Ax (t) + Bu (t) + Ew (t) \quad \forall t \geq 0 \nonumber\\
+  & u(t) \in \{0,1\}^{m} \quad \forall t \geq 0 \nonumber\\
+  & x_{k} = x (kT) \in \XSet \nonumber\\
+  & w (t) = w_{k} \in \mathcal{W} \quad \forall t \in [kT, (k + 1) T) \nonumber\\
+  & E_k = \int_{kT}^{(k + 1) T} \rho^{T} u(\tau) \mathd \tau, \quad d_k = \frac{E_k}{T} \nonumber
+\end{align}
+where the constraints hold for all $k = 0, \ldots, N - 1$.
+Problem~\eqref{eq:GS-optim} is more general than \eqref{eq:MILP} because we consider a
+continuous-time schedule $u (\cdummy)$, which is not necessarily constant
+during each time interval.
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "emsoft15gs"
+%%% End:

@@ -1,0 +1,285 @@
+============================================================================ 
+EMSOFT 2015 Reviews for Submission #29
+============================================================================ 
+
+Title: Scalable Scheduling of Energy Control Systems
+
+Authors: Truong Nghiem and Rahul Mangharam
+============================================================================
+                           REVIEWER #1
+============================================================================ 
+
+
+---------------------------------------------------------------------------
+Reviewer's Scores
+---------------------------------------------------------------------------
+
+                    Relevance to EMSOFT: 2
+               Presentation/Readability: 4
+                            Originality: 3
+                    Technical Soundness: 4
+     Account of prior work (references): 3
+                  Reviewer's Confidence: 3
+                 Overall Recommendation: 4
+
+
+---------------------------------------------------------------------------
+Comments
+---------------------------------------------------------------------------
+
+The paper focuses on scheduling numerous building zones (or buildings) for peak
+demand reduction.
+
+Such problems eventually lead to complex optimization problems, an in the case
+of the paper, 
+mixed intriguer linear problems, that do not scale well with horizon or number
+or variables.  
+
+This motivates the use of some form of abstraction to reduce the complexity of
+the problem.  
+The authors develop a framework for abstraction by averaging, which effectively
+constitutes 
+the combinatorial aspect of the problem.  Then they further abstract the
+continuous problem 
+to a single dimensional aggregate state aggregate utilization problem,
+resulting in a three level 
+hierarchical control problem.  The technical analysis of the abstraction
+development, formal 
+relationships of the models, and relating properties from one layer to another
+is a rigorous as 
+I would have liked.  In the process, the authors develop a notion of inpute
+constrained 
+simulation relations.  The authors implemented in summations their approach and
+it 
+outperformed the more traditional MILP-based MPC approaches which are very
+common in 
+building controls.
+
+The paper is excellent technically in the development of a formal approach for
+developing 
+a hierarchical controller for buildings.  The connection to software/hardware
+implementation 
+is a bit missing, hence I ranked it low on the scope aspect.  As a conclusion,
+the paper is good, 
+not so much on the impact to energy, but rather for the formal treatment of
+abstraction 
+based model and control development.
+
+============================================================================
+                           REVIEWER #2
+============================================================================ 
+
+
+---------------------------------------------------------------------------
+Reviewer's Scores
+---------------------------------------------------------------------------
+
+                    Relevance to EMSOFT: 2
+               Presentation/Readability: 3
+                            Originality: 4
+                    Technical Soundness: 3
+     Account of prior work (references): 3
+                  Reviewer's Confidence: 2
+                 Overall Recommendation: 4
+
+
+---------------------------------------------------------------------------
+Comments
+---------------------------------------------------------------------------
+
+The topic of the paper is energy-scheduling of large-scale systems that have
+binary actuators only and where the aim of to ensure that the peak power
+consumption falls below a predefined envelop. An approach is proposed that
+combines model abstraction and model approximation to derive an approach that
+supports a relatively efficient way of solving the problem, so efficient that
+it is claimed that this would be suitable for execution on typical embedded
+processors. However, still the approach involves solving a receding horizon
+("MPC") problem and two LP problems in each sample. 
+
+The paper is very well-written and the approach appears to be sound. However,
+the connection to embedded systems is weak. This is more of a CPS paper than an
+embedded paper, i.e., it would fit better at conferences such as ICCPS or HSCC,
+or at a traditional control conference such as CDC.
+
+Additional issues:
+
+A room heating system is used as the motivating example. However, in these
+systems I do not really agree that the actuators necessarily are binary. Assume
+that instead the actuators have a discrete number of settings, how would the
+approach then work?
+
+It is assumed that the disturbances in Equation (2) are constant over each time
+interval T (the sampling interval). How realistic is this really? It may be
+true for the ambient temperature since it varies very slowly. However, I cannot
+see that it is true for the electrical appliances, which one have to assume
+could be switched on or off at any point in time by the persons in the rooms.
+How will this affect the approach?
+
+The paper is well written except for one thing. At numerous places words such
+as equation, theorem, definition, figure, section, .... should be written with
+a capitalized first character, i.e., Equation, Theorem, etc
+
+============================================================================
+                           REVIEWER #3
+============================================================================ 
+
+
+---------------------------------------------------------------------------
+Reviewer's Scores
+---------------------------------------------------------------------------
+
+                    Relevance to EMSOFT: 3
+               Presentation/Readability: 4
+                            Originality: 3
+                    Technical Soundness: 3
+     Account of prior work (references): 2
+                  Reviewer's Confidence: 2
+                 Overall Recommendation: 4
+
+
+---------------------------------------------------------------------------
+Comments
+---------------------------------------------------------------------------
+
+Summary:
+The paper is about a scheduling algorithm for a multi-room heater system 
+considering thermal coupling and gain between the rooms. The derived 
+algorithm consists of a computational expensive offline part and a 
+scalable online / run-time scheduler. The complex and computational 
+expensive optimization problem (keep the room temperature within a 
+certain range while minimizing the electricity bill) has been reduced by 
+first approximation through averaging and then further abstraction of the 
+model to a lower dimensional problem using the concept of simulation 
+relations while keeping track of the relations of the two models. The 
+maximum energy was bound. Finally the concept has been evaluated by 
+simulation.
+
+Strengths:
+- Extensive explanation of the mathematical background is helpful.
+- Scalability of the solution
+
+Weakness:
+- Rather limited evaluation section. MILP simulation was stopped after a 
+rather short time. This only showed the scalability issue. However, a 
+comparison of the controler designs could have been of interest in the 
+evaluation.
+
+Presentation/Readability:
+The structuring and the writing are very clear. 
+
+Originality:
+Scheduling for smart homes are currently discussed for various loads 
+(washing mashines, heaters, ...) with the goal to reduce peak load (often 
+triggered by pricing). However, the concept of model abstraction using 
+simulation relations and the resulting lower computational expenses seems
+to be a new concept. 
+
+Technical Soundness:
+The results appear to be reasonable. However, I am not an expert in 
+control theory and model abstraction and hence do not feel like I could 
+fully judge on the soundness. 
+The evaluation is limited to a simple "this algorithm works". It could be 
+extended by comparing the solution to existing schedulers and the results 
+of the MILP approach. Runing the solver for only 15 min is too short (several 
+hours even days would have been acceptable) in order to compare the control 
+results of both approaches. Some comments on stability of the controller, 
+settling time etc. and the real world applicability of the temperature model 
+would be of further interest.
+
+Account of prior work:
+Prior work is mainly addressed in the introduction. The background of
+simulation 
+relations is explained in its own section. Readability of the paper benefits
+from 
+that. However, the paper is lacking some more information on other approaches
+on 
+the smart home scheduling problems and controller design.
+
+============================================================================
+                           REVIEWER #4
+============================================================================ 
+
+
+---------------------------------------------------------------------------
+Reviewer's Scores
+---------------------------------------------------------------------------
+
+                    Relevance to EMSOFT: 3
+               Presentation/Readability: 2
+                            Originality: 2
+                    Technical Soundness: 3
+     Account of prior work (references): 1
+                  Reviewer's Confidence: 2
+                 Overall Recommendation: 3
+
+
+---------------------------------------------------------------------------
+Comments
+---------------------------------------------------------------------------
+
+This paper is focusing on a scalable approach for scheduling of energy control
+system. Usually, such problem is encoded as a MILP problem about a set of
+binary control variables. However, it is well known that the scalability of
+MILP is not very good. Therefore the size of problem that can be solved by such
+problem is rather limited.
+
+In this paper, the authors propose to approximate the binary control variables
+by the utilization values of the variables in a given period. Furthermore, the
+authors propose to abstract the model into a simple single-state single-input
+dynamical system. Then the control system can be solved by linear programming. 
+
+1. Only a few related works are introduced in the introduction section, for an
+non-expert, it is difficult to get a estimation of the state-of-the-art
+techniques in this area. Furthermore, it will be appreciated if there is more
+comparison with the related work in the experiment section.
+
+2. The readability of this paper is not very good. Lots of equations are used
+in the paper. The paper is not very easy to follow for a non-expert. It would
+be appreciated if the authors can give a running example to help readers to
+understand such techniques.
+
+3. A minor point: in definition 2, page 5, the authors write q_1 jumps to q_1^+
+by \delta_1, q_2 jumps to q_2^+ by \delta_2. In the typical definition of
+simulation, it should also be \delta_1 for q_2, right?
+
+============================================================================
+                           REVIEWER #5
+============================================================================ 
+
+
+---------------------------------------------------------------------------
+Reviewer's Scores
+---------------------------------------------------------------------------
+
+                    Relevance to EMSOFT: 3
+               Presentation/Readability: 3
+                            Originality: 4
+                    Technical Soundness: 3
+     Account of prior work (references): 3
+                  Reviewer's Confidence: 2
+                 Overall Recommendation: 5
+
+
+---------------------------------------------------------------------------
+Comments
+---------------------------------------------------------------------------
+
+This paper presents an approach for scheduling low-level on-off devices (e.g.,
+on-off heating elements) to meet (i) conditions on system state (e.g., ranges
+of temperature), where state is a function of the binary status of the on-off
+devices, and (ii) bounds on total energy consumption, where energy is consumed
+by each device when it is on. 
+
+The problem is solved in a scalable way by translating the original binary
+variables to a new space of continuous utilization variables, while bounding
+the resulting error. Given the upper bound on energy consumption in the
+original problem, and the bound on error, one can thus compute an upper bound
+on the sum of utilization variables. A continuous optimization problem can thus
+be scalably solved to determine the values of utilization variables. Once those
+are determined, a lower-level scheduling policy schedules individual on-off
+devices to meet the specified utilization values. 
+
+The approach is very elegant. The paper is well-written. Evaluation uses
+simulation of a 20-room system with 20 heaters to show that room temperature
+can indeed be kept within a specified (4 degree Celsius) band, while total
+energy consumption of heaters remains bounded by a specified curve.

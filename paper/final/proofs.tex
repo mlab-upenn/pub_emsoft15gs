@@ -1,0 +1,75 @@
+\section{Proofs}
+
+\subsection{Proof of \protect\cref{thm:averaged-sys-bound}}
+\label{sec:proof:averaged-sys-bound}
+
+  We first suppose that $A$ is diagonal with $\lambda_{i}$ being its diagonal elements.
+  In this case, each element $e_i ((k + 1) T)$ can be calculated
+  independently
+  \[ e_i ((k + 1) T) = \int_{kT}^{(k + 1) T} \mathe^{\lambda_i ((k + 1) T - s)} b_i 
+     (u (s) - \eta_k) \mathd s \text{.} \]
+  If $\lambda_i = 0$ then
+  \[ e_i ((k + 1) T) = %\int_{kT}^{(k + 1) T} b_i  (u (s) - \eta_k) \mathd s 
+  = b_i  \left( \int_{kT}^{(k + 1) T} u (s) \mathd s - T \eta_k \right) = 0
+  \]
+  where the last equality comes from the definition of $\eta_k$. Consider the
+  case $\lambda_i \neq 0$. Observe that $\int_{kT}^{(k + 1) T} \mu_i b_i  (u (s)
+  - \eta_k) \mathd s = 0$ for any constant $\mu_i$. Consequently
+  \[ e_i ((k + 1) T) = \int_{kT}^{(k + 1) T} (\mathe^{\lambda_i ((k + 1) T - s)} -
+     \mu_i ) b_i  (u (s) - \eta_k) \mathd s \]
+  where $\mu_i = 1$ if $\lambda_i > 0$ and $\mu_i = \mathe^{\lambda_i T}$ if $\lambda_i
+  < 0$. It is straightforward to show that $\mathe^{\lambda_i ((k + 1) T - s)} -
+  \mu_i \geqslant 0$ for all $s \in [kT, (k + 1) T]$. Because $u (s) \in
+  \{ 0, 1 \}^m$ for all $s$, $\underline{b}_i \leqslant b_i u (s)
+  \leqslant \overbar{b}_i$ with $\underline{b}_i$ and
+  $\overbar{b}_i$ defined as above. Therefore $(\mathe^{\lambda_i ((k +
+  1) T - s)} - \mu_i )  (\underline{b}_i - b_i \eta_k) \leqslant
+  (\mathe^{\lambda_i ((k + 1) T - s)} - \mu_i ) b_i  (u (s) - \eta_k) \leqslant
+  (\mathe^{\lambda_i ((k + 1) T - s)} - \mu_i )  (\overbar{b}_i - b_i
+  \eta_k)$. It follows that
+  \[ \underline{\varepsilon}_i - \xi_i b_i \eta_k) \leqslant 
+  e_i ((k + 1) T)
+  % \int_{kT}^{(k + 1) T} (\mathe^{\lambda_i ((k + 1) T - s)} - \mu_i ) b_i  (u (s) - \eta_k)  s 
+  \leqslant \overbar{\varepsilon}_i - \xi_i b_i \eta_k) \]
+  where $\underline{\varepsilon}_{i} = \xi_{i} \underline{b}_{i}$, $\overbar{\varepsilon}_{i} = \xi_{i} \overbar{b}_{i}$, and $\xi_i = \int_{kT}^{(k + 1) T} (\mathe^{\lambda_i ((k + 1) T - s)} -
+  \mu_i ) \mathd s = \frac{1}{\lambda_i} (\mathe^{\lambda_i T} - 1) - \mu_i T$.
+  The result is proved for when $A$ is diagonal.
+  If $A$ is diagonalizable by $V$ then by applying the above result to $D = V A$ and $V B$, the theorem is proved.
+
+\subsection{Proof sketch of \protect\cref{thm:abstraction-gs:necessary-sufficient}}
+\label{sec:proof:abstraction-gs:necessary-sufficient}
+
+To prove this theorem, we need the following lemma, which can be verified to be true by inspection:
+\begin{lemma}\label{lem:1}
+Consider the matrices $M_{l} \in \mathbb{R}^{n\times m}$ and $M_{r} \in \mathbb{R}^{n\times p}$, and the sets $\PSet_{l} \subset \mathbb{R}^m$ and $\PSet_{r} \subset \mathbb{R}^p$. The following statements are equivalent
+\begin{itemize}
+	\item $\forall x \in \PSet_{l},\ \exists u \in \PSet_{r} \text{ such that } M_{l} x = M_{r} u$
+	\item $M_{l} \PSet_{l} \subseteq M_{r} \PSet_{r}$.
+\end{itemize}
+\end{lemma}
+
+From %the definition of an input-constrained simulation relation $\RSet$ 
+\cref{thm:ex-simulation-relation}, the definitions of the transition systems $T_{1}$ and $T_{2}$ (\cref{sec:abstraction-gs:feedback:Ts}), and all the constraints and dynamical equations in and between $\Sigma_{a}$ and $\Sigma_{s}$, we have that $\RSet$ is an input-constrained simulation relation of $T_{1}$ by $T_{2}$ if and only if
+\[\forall x \in \PSet_{l},\ \exists u \in \PSet_{r} \text{ such that } M_{l} x = M_{r} u\]
+where $M_{l}$, $\PSet_{l}$, $M_{r}$, and $\PSet_{r}$ are defined as in the theorem.
+The result then follows directly from the above lemma.
+
+
+\subsection{Proof sketch of \protect\cref{thm:abstraction-gs:sufficient-LP}}
+\label{sec:proofs:abstraction-gs:sufficient-LP}
+
+It is straightforward to see that the matrices $H_{l}$, $H_{r}$ and the vectors $k_{l}$, $k_{r}$ define the polyhedral sets $\PSet_{l}$ and $\PSet_{r}$ in \cref{thm:abstraction-gs:necessary-sufficient}.
+We only need to show that condition~\eqref{eq:abstraction-gs:sufficient-LP} is sufficient for $M_{l} \PSet_{l} \subseteq M_{r} \PSet_{r}$.
+Define $\PSet = \{ x \,|\, H_{r} Q M_{l} x \leqslant k_{r} - H_{r} q \}$.
+It follows from~\eqref{eq:abstraction-gs:sufficient-LP} and the Farkas' lemma that
+$\PSet_{l} \subseteq \PSet$, which leads to $M_{l} \PSet_{l} \subseteq M_{l} \PSet = \{ y \,|\, H_{r} Q y \leqslant k_{r} - H_{r} q \}$.
+For all $y \in M_{l} \PSet_{l}$, $H_{r} (Q y + q) \leqslant k_{r} \Rightarrow Q y + q \in \PSet_{r} \Rightarrow M_{r} (Q y + q) = y \in M_{r} \PSet_{r}$, where we use the fact that $M_{r} Q = \IdentityMatrix$ and $M_{r} q = \Zero$.
+Thus $M_{l} \PSet \subseteq M_{r} \PSet_{r}$.
+Therefore $M_{l} \PSet_{l} \subseteq M_{r} \PSet_{r}$.
+The proof is complete.
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "emsoft15gs"
+%%% End:
