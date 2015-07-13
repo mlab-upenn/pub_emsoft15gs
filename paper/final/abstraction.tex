@@ -88,11 +88,8 @@ called {\emph{deterministic}}. Otherwise, it is called
 A simulation relation between two transition systems $T_1 = (Q_1, \Sigma_1,
 \rightarrow_1, Q^0_1)$ and $T_2 = (Q_2, \Sigma_2, \rightarrow_2, Q^0_2)$ is a
 stronger notion of system refinement, which allows one system to ``track'' the
-other system while maintaining a certain relation between their states. A
-simulation relation is defined in \cref{def:simulation-relation}. Note that in
-\cite{girardetal07amd}, it is required that $T_1$ and $T_2$ have the same
-label sets (and the same observation sets), however we modify the definition
-to relax this requirement, \ie $\Sigma_1$ and $\Sigma_2$ can be different.
+other system while maintaining a certain relation between their states.
+%A simulation relation is defined in \cref{def:simulation-relation}.
 
 \begin{definition}[Simulation]
   \label{def:simulation-relation}A relation $\mathcal{R} \subseteq Q_1 \times
@@ -102,6 +99,10 @@ to relax this requirement, \ie $\Sigma_1$ and $\Sigma_2$ can be different.
   q^+_2$ such that $(q_1^+, q_2^+) \in \mathcal{R}$.
 \end{definition}
 
+Note that in \cite{girardetal07amd}, it is required that $T_1$ and $T_2$ have the same
+label sets and $\sigma_{1} = \sigma_2 = \sigma$, % and the same observation sets),
+however in \cref{def:simulation-relation} we %modify the definition to
+relax this requirement, \ie $\Sigma_1$ and $\Sigma_2$, hence $\sigma_{1}$ and $\sigma_{2}$ can be different.
 $T_2$ is said to simulate $T_1$, denoted $T_1 \preceq T_2$, if there exists a
 simulation relation $\mathcal{R}$ of $T_1$ by $T_2$ such that for all $q_1 \in
 Q^0_1$, there exists $q_2 \in Q^0_2$ such that $(q_1, q_2) \in \mathcal{R}$.
