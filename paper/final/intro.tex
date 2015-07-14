@@ -14,14 +14,15 @@ However, their run-time implementations still required powerful computer hardwar
 
 While traditional real-time scheduling algorithms~\cite{realtimesys} may be applied to such resource sharing problems, they impose stringent constraints on the task model.
 Generally, real-time scheduling is restricted to tasks whose worst case execution times are fixed and known a priori~\cite{rts}.
-While this simplifies the runtime complexity, for control systems it does not effectively capture the system's behavior whose operation is dependent on the plant dynamics and environmental conditions. 
+While this simplifies the runtime complexity, %for control systems
+it does not effectively capture a control system's behavior whose operation is dependent on the plant dynamics and environmental conditions. 
 
 The focus of this paper is on a scalable approach for fine-grained scheduling of energy control systems within an aggregate peak power envelop while ensuring the individual systems are maintained within the desired states.
 Our main contributions are:
 \begin{enumerate}
 \item We developed a model abstraction method based on the concept of simulation relations between transition systems \cite{aluretal00dah,girardetal07amd}.  The method allows us to reduce the original multi-state multi-binary-input model to a single-state single-real-input model with input bound tracking and safety guarantees.
-\item We developed a scalable hierarchical control structure based on the derived model abstraction, which has a low run-time computational requirement that it can potentially be suitable for embedded platforms.  The run-time controller involves only two small-scale linear programs.
-\item Using simulations, we showed that while the mixed integer programming approach may not work beyond a trivially small-scale system, our approach can handle efficiently a much larger system with a fast sampling rate and a long control horizon.
+\item We developed a scalable hierarchical control structure based on the derived model abstraction.  The run-time controller involves only two small-scale linear programs and has a low computational requirement that it is potentially suitable for embedded platforms.  
+\item Using simulations, we showed that while the mixed integer programming approach \cite{sou2011scheduling,zhang2011optimal} may not work beyond a trivially small-scale system, our approach can handle efficiently a much larger system with a fast sampling rate and a long control horizon.
 \end{enumerate}
  
 

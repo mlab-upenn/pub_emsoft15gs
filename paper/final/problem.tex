@@ -48,7 +48,7 @@ We consider a continuous-time linear system $\Sigma_b$ of the form
 where $x \in \mathbbm{R}^{n}$ is the state vector, $u \in \{ 0, 1 \}^{m}$ are the binary control inputs that represent the schedules, and $w \in \mathbbm{R}^{p}$ is the disturbance vector.
 The safety condition requires that the state $x (t)$ stays in a safe set $\mathcal{X} \subset \mathbbm{R}^n$ at all time.
 The disturbances are constrained in a known set $w (t) \in \mathcal{W}$ for all $t$.
-Both $\mathcal{X}$ and $\mathcal{W}$ are bounded polyhedral.
+Both $\mathcal{X}$ and $\mathcal{W}$ are bounded polyhedral sets.
 
 At any time, the total demand is defined as a linear combination of the binary
 control inputs: $d (t) = \rho^T u (t)$ where $\rho$ is the vector of the individual
@@ -82,7 +82,8 @@ scheduling problem can be formulated as minimizing the above cost function subje
  for all $t$ and all $k = 0, \ldots, N - 1$.
 \textbf{This optimization is intractable because $u (\cdummy)$ is infinite
 dimensional.}
-If we discretize $\Sigma_b$ with sampling time $T$ and assume that $u (t)$ and $w (t)$ are constant in each time interval, the optimization becomes:
+If we discretize $\Sigma_b$ with sampling time $T$, % and assume that $u (t)$ and $w (t)$ are constant in each time interval,
+the optimization becomes:
 \begin{align}
   \operatorname*{minimize}_{u_{0}, \ldots, u_{N - 1}} \quad & c_d \cdot \max_{0
   \leqslant k \leqslant N - 1} d_k + \textstyle\sum_{0 \leqslant k \leqslant N - 1}

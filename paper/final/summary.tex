@@ -56,7 +56,7 @@ Only the first step of the solution, \ie $s_{i}$ and $v_{i}$, will be used in th
 
 %Both the optimizations above are 
 The above optimization is an LP with the scalar dynamics $\Sigma_{s}$ and at most $N$ variables $v_{0},\dots,v_{N-1}$.
-Because the numbers of variables and constraints are not large, it can be solved very efficiently, even on embedded computers using tools such as FORCES, ECOS, and FiOrdOs\footnote{Available at \texttt{http://www.embotech.com} and \texttt{http://fiordos.ethz.ch}}.
+Because the numbers of variables and constraints are not large, this LP can be solved very efficiently \cite{boydetal06co}, even on embedded computers using optimization libraries or code-generation tools such as FORCES, ECOS, and FiOrdOs\footnote{Available at \texttt{http://www.embotech.com} and \texttt{http://fiordos.ethz.ch}}.
 
 
 \subsubsection{Middle level -- optimal utilizations}
@@ -99,8 +99,8 @@ or to minimize the difference with a given (ideal) state $x^{\star}$:
   J(\eta_{k}) = \| A_{T} x_{k} + B_{T} \eta_{k} + E_{T} \tilde{w}_{k} - x^{\star} \|_{2} \text.
 \end{equation*}
 %
-Note that the middle-level optimization is solved for a single time step and has only $m$ variables ($\eta_{k}$) with linear constraints.
-Therefore it can also be solved efficiently if $J$ is convex in $\eta_{k}$.
+Note that \textbf{the middle-level optimization is solved for a single time step} and has only $m$ variables ($\eta_{k}$) with linear constraints.
+Therefore it can also be solved efficiently if $J$ is convex in $\eta_{k}$ \cite{boydetal06co}.
 
 Because the constraint $T \rho^{T} \eta_{k} \leqslant v_{k}$ is always maintained, the actual energy cost will never exceed the optimal cost computed by the top-level optimization.
 

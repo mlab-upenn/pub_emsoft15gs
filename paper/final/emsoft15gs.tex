@@ -110,14 +110,19 @@ Rahul Mangharam\\
 %\simplenote{FOR THE TITLE: because we will not perform large scale simulations, we should not include ``large scale'' in the title. The followings are some keywords, in addition to ``green scheduling,'' that may be used in the title: scalable, embedded, simulation relation, hierarchical, hierarchical design, multi-level, input bound tracking.}
 
 \begin{abstract}
-Peak power consumption is a universal problem across energy control systems in electrical grids, buildings, electric vehicles and industrial automation where the uncoordinated operation of multiple cont    rollers result in  temporally correlated electricity demand surges (or peaks). While there exist several different approaches to balance power consumption by load shifting and load shedding, they operate on coarse grained time scales and do not help in de-correlating energy sinks.
-The focus of this paper is on a scalable approach for fine-grained scheduling of energy control systems within an aggregate peak power envelop while ensuring the individual systems are maintained within the desired states.
-
-What makes the Energy System Scheduling Problem particularly hard is that its control variables are binary. The complexity grows exponentially with the scale of the system, making it impossible to handle systems with more than a few variables. %, unless the simple periodic scheduling algorithm is used. 
+Peak power consumption is a universal problem across energy control systems in electrical grids, buildings, %electric vehicles
+and industrial automation where the uncoordinated operation of multiple controllers result in  temporally correlated electricity demand surges (or peaks). While there exist several different approaches to balance power consumption by load shifting and load shedding, they operate on coarse grained time scales and do not help in de-correlating energy sinks.
+%The focus of this paper is on a scalable approach for fine-grained scheduling of energy control systems within an aggregate peak power envelop while ensuring the individual systems are maintained within the desired states.
+%
+%What makes the Energy System Scheduling Problem particularly hard is that its control variables are binary.
+The Energy System Scheduling Problem is particularly hard due to its binary control variables.
+The complexity grows exponentially with the scale of the system, making it impossible to handle systems with more than a few variables. %, unless the simple periodic scheduling algorithm is used. 
 %While simple and scalable, periodic schedules are static and limited in their capability to handle dynamics, safety constraints, and disturbances.
-  We developed a scalable scheduling approach that novelly combines techniques from control
-  theory and computer science to solve the energy scheduling problem.  The original
-  system with binary control variables are approximated by an {\emph{averaged
+
+  We developed a scalable %scheduling
+  approach for fine-grained scheduling of energy control systems that novelly combines techniques from control
+  theory and computer science. %to solve the energy scheduling problem.
+  The original system with binary control variables are approximated by an {\emph{averaged
   system}} whose inputs are the {\emph{utilization values}} of the binary
   inputs within a given period. The error between the two systems can be
   bounded, which allows us to derive a safety constraint for the averaged
@@ -157,28 +162,28 @@ What makes the Energy System Scheduling Problem particularly hard is that its co
 
 \begin{itemize}
 \item Relate more to implementation / hardware and software / embedded systems.
-\item Emphasize more (and more) the complexity of the approach: the LPs are easy to solve. May try to generate code for the LP problems and see how they run (if there is time).
-\item A room heating system is used as the motivating example. However, in these
-systems I do not really agree that the actuators necessarily are binary. Assume
-that instead the actuators have a discrete number of settings, how would the
-approach then work? \textcolor{red}{Maybe I should write a remark on how to formulate multi-settings into binary.}
+%\item Emphasize more (and more) the complexity of the approach: the LPs are easy to solve. May try to generate code for the LP problems and see how they run (if there is time).
+%\item A room heating system is used as the motivating example. However, in these
+% systems I do not really agree that the actuators necessarily are binary. Assume
+% that instead the actuators have a discrete number of settings, how would the
+% approach then work? \textcolor{red}{Maybe I should write a remark on how to formulate multi-settings into binary.}
 \item It is assumed that the disturbances in Equation (2) are constant over each time
 interval T (the sampling interval). How realistic is this really? It may be
 true for the ambient temperature since it varies very slowly. However, I cannot
 see that it is true for the electrical appliances, which one have to assume
 could be switched on or off at any point in time by the persons in the rooms.
-How will this affect the approach?
-\item Rather limited evaluation section. MILP simulation was stopped after a 
-rather short time. This only showed the scalability issue. However, a 
-comparison of the controler designs could have been of interest in the 
-evaluation. \textcolor{red}{I should run the MILP solver for longer time (e.g. 4 hours) and also for short time and compare their solutions and the GS solution.}
-\item The evaluation is limited to a simple "this algorithm works". It could be 
-extended by comparing the solution to existing schedulers and the results 
-of the MILP approach. Runing the solver for only 15 min is too short (several 
-hours even days would have been acceptable) in order to compare the control 
-results of both approaches. Some comments on stability of the controller, 
-settling time etc. and the real world applicability of the temperature model 
-would be of further interest.
+How will this affect the approach? \textcolor{red}{For internal heat gain, the next state depends on the accumulated heat gain during the period, so $w_{k}$ can be the accumulated gain and we do not need to assume the disturbances are constant.}
+% \item Rather limited evaluation section. MILP simulation was stopped after a 
+% rather short time. This only showed the scalability issue. However, a 
+% comparison of the controler designs could have been of interest in the 
+% evaluation. \textcolor{red}{I should run the MILP solver for longer time (e.g. 4 hours) and also for short time and compare their solutions and the GS solution.}
+% \item The evaluation is limited to a simple "this algorithm works". It could be 
+% extended by comparing the solution to existing schedulers and the results 
+% of the MILP approach. Runing the solver for only 15 min is too short (several 
+% hours even days would have been acceptable) in order to compare the control 
+% results of both approaches. Some comments on stability of the controller, 
+% settling time etc. and the real world applicability of the temperature model 
+% would be of further interest.
 \item Prior work is mainly addressed in the introduction. The background of
 simulation 
 relations is explained in its own section. Readability of the paper benefits

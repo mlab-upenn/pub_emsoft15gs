@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
-<ipe version="70005" creator="Ipe 7.1.5">
-<info created="D:20150330110314" modified="D:20150331121207"/>
+<ipe version="70107" creator="Ipe 7.1.7">
+<info created="D:20150330110314" modified="D:20150714170636"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -232,54 +232,54 @@ h
 <page>
 <layer name="alpha"/>
 <view layers="alpha" active="alpha"/>
-<path layer="alpha" matrix="0.76984 0 0 1 22.7302 24" stroke="black">
+<path layer="alpha" matrix="0.76984 0 0 0.875 22.7302 58" stroke="black">
 64 144 m
 64 112 l
 144 112 l
 144 144 l
 h
 </path>
-<text matrix="1 0 0 1 27.2387 26.0799" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="39.491" height="6.926" depth="1.93" halign="center" valign="center">Physical 
+<text matrix="1 0 0 1 27.2387 42.0799" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="39.491" height="6.926" depth="1.93" halign="center" valign="center">Physical 
 </text>
-<text matrix="1 0 0 1 27.7587 11.0012" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="42.95" height="6.815" depth="1.93" halign="center" valign="center">System 1
+<text matrix="1 0 0 1 27.7587 31.0012" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="42.95" height="6.815" depth="1.93" halign="center" valign="center">System 1
 </text>
-<path matrix="0.76984 0 0 1 151.682 23.4798" stroke="black">
+<path matrix="0.76984 0 0 0.872934 151.682 57.7772" stroke="black">
 64 144 m
 64 112 l
 144 112 l
 144 144 l
 h
 </path>
-<text matrix="1 0 0 1 156.19 25.5596" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="39.491" height="6.926" depth="1.93" halign="center" valign="center">Physical 
+<text matrix="1 0 0 1 156.19 41.5596" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="39.491" height="6.926" depth="1.93" halign="center" valign="center">Physical 
 </text>
-<text matrix="1 0 0 1 156.71 10.481" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="43.504" height="6.815" depth="1.93" halign="center" valign="center">System n
+<text matrix="1 0 0 1 156.71 30.481" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="43.504" height="6.815" depth="1.93" halign="center" valign="center">System n
 </text>
-<path matrix="0.907943 0 0 -12.3677 26.8012 1766.19" stroke="black" fill="1" dash="dashed">
+<path matrix="0.907943 0 0 -12.3677 26.8012 1782.19" stroke="black" fill="1" dash="dashed">
 189.347 127.992 m
 127.991 127.992 l
 127.991 127.992 l
 </path>
-<path matrix="0.981876 0 0 1.03416 2.71984 82.1564" stroke="black">
+<path matrix="0.981876 0 0 0.992338 2.71984 96.8826" stroke="black">
 64 144 m
 64 112 l
 144 112 l
 144 144 l
 h
 </path>
-<text matrix="1 0 0 1 30.524 87.1083" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="42.369" height="6.808" depth="0" halign="center" valign="center">Actuator 
+<text matrix="1 0 0 1 30.524 95.8122" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="42.369" height="6.808" depth="0" halign="center" valign="center">Actuator 
 </text>
-<text matrix="1 0 0 1 28.9965 75.1008" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="46.769" height="6.926" depth="1.93" halign="center" valign="center">Scheduling</text>
-<path matrix="0.975452 0 0 1.01679 3.13141 138.08" stroke="black">
+<text matrix="1 0 0 1 28.9965 83.8047" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="46.769" height="6.926" depth="1.93" halign="center" valign="center">Scheduling</text>
+<path matrix="0.975452 0 0 1.01679 3.13141 142.08" stroke="black">
 64 144 m
 64 112 l
 144 112 l
 144 144 l
 h
 </path>
-<text matrix="1 0 0 1 31.5481 144.626" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="66.812" height="6.23" depth="1.74" halign="center" valign="center" size="small">Computation of
+<text matrix="1 0 0 1 31.5481 148.626" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="66.812" height="6.23" depth="1.74" halign="center" valign="center" size="small">Computation of
 </text>
-<text matrix="1 0 0 1 30.0207 135.178" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="33.209" height="6.926" depth="1.93" halign="center" valign="center">optimal</text>
-<text matrix="1 0 0 1 31.0445 123.406" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="57.448" height="6.926" depth="1.93" halign="center" valign="center">utilization $\eta_k$</text>
+<text matrix="1 0 0 1 30.0207 139.178" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="33.209" height="6.926" depth="1.93" halign="center" valign="center">optimal</text>
+<text matrix="1 0 0 1 31.0445 127.406" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="57.448" height="6.926" depth="1.93" halign="center" valign="center">utilization $\eta_k$</text>
 <path matrix="0.975452 0 0 1.01679 2.61993 190.574" stroke="black">
 64 144 m
 64 112 l
@@ -292,22 +292,21 @@ h
 <text matrix="1 0 0 1 29.5092 187.672" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="33.209" height="6.926" depth="1.93" halign="center" valign="center">optimal</text>
 <text matrix="1 0 0 1 30.533 175.9" transformations="translations" pos="73.395 134.231" stroke="black" type="label" width="68.981" height="6.926" depth="1.93" halign="center" valign="center">upper-bound $v_k$</text>
 <path stroke="black" arrow="normal/normal">
-104.176 302.933 m
-104.176 302.933 l
-104 284 l
+104 304 m
+104 304 l
+104 288 l
 </path>
 <path stroke="black" arrow="normal/normal">
-103.664 198.968 m
-103.664 198.968 l
-104 168 l
+104 208 m
+104 184 l
 </path>
-<text matrix="1 0 0 1 24.7965 4.51186" transformations="translations" pos="105.901 291.16" stroke="black" type="label" width="32.907" height="4.297" depth="1.93" halign="center" valign="center">{ $s_k$, $u_k$ }</text>
-<path matrix="1.46 0 0 2 -36.0054 -135.612" stroke="black">
+<text matrix="1 0 0 1 20.9191 6.67302" transformations="translations" pos="105.901 291.16" stroke="black" type="label" width="32.907" height="4.297" depth="1.93" halign="center" valign="center">{ $s_k$, $u_k$ }</text>
+<path matrix="1.46 0 0 2 -36.0054 -119.612" stroke="black">
 122.281 159.612 m
 95.664 159.612 l
 95.664 159.612 l
 </path>
-<path matrix="1.07067 0 0 2 100.54 -136.124" stroke="black">
+<path matrix="1.07067 0 0 2 100.54 -120.124" stroke="black">
 122.281 159.612 m
 95.664 159.612 l
 95.664 159.612 l
@@ -386,33 +385,32 @@ h
 258.675 329.825 m
 258.675 304.391 l
 </path>
-<text matrix="1 0 0 1 12.6888 26.8278" transformations="translations" pos="79.8771 154.255" stroke="black" type="label" width="9.454" height="3.867" depth="0.99" halign="center" valign="center" size="small">$u_1$</text>
-<text matrix="1 0 0 1 159.707 26.4371" transformations="translations" pos="79.8771 154.255" stroke="black" type="label" width="10.402" height="3.867" depth="0.99" halign="center" valign="center" size="small">$u_n$</text>
-<path matrix="1 0 0 1 8 24" stroke="black" fill="lightblue" arrow="normal/normal">
+<text matrix="1 0 0 1 12.6888 38.8278" transformations="translations" pos="79.8771 154.255" stroke="black" type="label" width="9.454" height="3.867" depth="0.99" halign="center" valign="center" size="small">$u_1$</text>
+<text matrix="1 0 0 1 163.707 38.4371" transformations="translations" pos="79.8771 154.255" stroke="black" type="label" width="10.402" height="3.867" depth="0.99" halign="center" valign="center" size="small">$u_n$</text>
+<path matrix="1 0 0 1 8 40" stroke="black" fill="lightblue" arrow="normal/normal">
 223.462 159.1 m
 223.471 143.48 l
 </path>
 <path stroke="black" rarrow="normal/normal">
 284 260 m
-284 124 l
-104 124 l
-104 136 l
+284 148 l
+104 148 l
+104 156 l
 </path>
 <path matrix="1 0 0 1 0 4" stroke="black">
-232 132 m
-232 120 l
-232 120 l
+232 152 m
+232 144 l
+232 144 l
 </path>
 <path matrix="1 0 0 1 0 -8" stroke="black" arrow="normal/normal">
 142.831 335.863 m
 142.831 335.863 l
 196 336 l
 </path>
-<path matrix="1 0 0 1 0 -52" stroke="black" arrow="normal/normal">
-104.176 302.933 m
-104.176 302.933 l
-104 284 l
+<path stroke="black" arrow="normal/normal">
+104 256 m
+104 240 l
 </path>
-<text matrix="1 0 0 1 24.7965 -47.4881" transformations="translations" pos="105.901 291.16" stroke="black" type="label" width="16.49" height="4.297" depth="1.93" halign="center" valign="center">{ $\eta_k$ }</text>
+<text matrix="1 0 0 1 20.7965 -43.4881" transformations="translations" pos="105.901 291.16" stroke="black" type="label" width="16.49" height="4.297" depth="1.93" halign="center" valign="center">{ $\eta_k$ }</text>
 </page>
 </ipe>

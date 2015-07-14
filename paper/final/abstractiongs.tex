@@ -341,7 +341,7 @@ We can now state a sufficient condition for $\RSet$ in the next theorem.
 
 \begin{theorem}
   \label{thm:abstraction-gs:sufficient-LP}
-  A set $\RSet$ as defined in \eqref{eq:abstraction-gs:R} is an input-constrained simulation relation of $T_{1}$ by $T_{2}$ %for the feedforward approach
+  A set $\RSet$ defined in \eqref{eq:abstraction-gs:R} is an input-constrained simulation relation of $T_{1}$ by $T_{2}$ %for the feedforward approach
 if there exist a real matrix $Z$ of non-negative elements, a real matrix $Q$, and a real vector $q$ such that
   %\begin{subequations}
     \begin{equation}
@@ -413,9 +413,9 @@ if there exist a real matrix $Z$ of non-negative elements, a real matrix $Q$, an
     \end{smallmatrix} \right] \text.
   \end{gather*}
 \end{theorem}
-In the above matrices and vectors, the blank spaces are zero blocks and $\One$ denotes vector of 1's.
+In the above matrices and vectors, the blank spaces are zero blocks and $\One$ denotes a vector of 1's.
 The theorem is proved in \cref{sec:proofs:abstraction-gs:sufficient-LP}.
-
+%
 Although \cref{thm:abstraction-gs:sufficient-LP} is only sufficient, it reduces the condition to checking the feasibility of the linear program~\eqref{eq:abstraction-gs:sufficient-LP}, which can be solved rather efficiently by any LP solver such as Gurobi, MOSEK, CPLEX, CLP.
 
 We note that the design parameters, which are ($\alpha$, $\beta$, $c$, $\gamma$, $H_{\Omega}^{s}$, $H_{\Omega}^{v}$, $k_{\Omega}$), are multiplied by the elements of $Z$ in \eqref{eq:abstraction-gs:sufficient-LP}.
