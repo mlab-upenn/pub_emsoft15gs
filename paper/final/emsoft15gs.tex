@@ -116,31 +116,32 @@ and industrial automation where the uncoordinated operation of multiple controll
 %
 %What makes the Energy System Scheduling Problem particularly hard is that its control variables are binary.
 The Energy System Scheduling Problem is particularly hard due to its binary control variables.
-The complexity grows exponentially with the scale of the system, making it impossible to handle systems with more than a few variables. %, unless the simple periodic scheduling algorithm is used. 
+Its complexity grows exponentially with the scale of the system, making it impossible to handle systems with more than a few variables. %, unless the simple periodic scheduling algorithm is used. 
 %While simple and scalable, periodic schedules are static and limited in their capability to handle dynamics, safety constraints, and disturbances.
 
   We developed a scalable %scheduling
   approach for fine-grained scheduling of energy control systems that novelly combines techniques from control
   theory and computer science. %to solve the energy scheduling problem.
-  The original system with binary control variables are approximated by an {\emph{averaged
-  system}} whose inputs are the {\emph{utilization values}} of the binary
+  The original system with binary control variables are \emph{approximated by an averaged
+  system} whose inputs are the {\emph{utilization values}} of the binary
   inputs within a given period. The error between the two systems can be
   bounded, which allows us to derive a safety constraint for the averaged
   system so that the original system's safety is guaranteed.
   %This relaxation already reduces the energy scheduling mixed integer program to a standard   program with real variables. 
   %  
   %However, for a large-scale system over a long prediction horizon, the number of optimization variables can be prohibitively large, which not only affects the computation performance but also requires commercial optimization solvers and powerful computing hardware.
-  To further reduce the complexity of the scheduling problem, we abstract the averaged system by a
-  simple single-state single-input dynamical system whose control input is the upper-bound of the total demand of the system. This model abstraction is achieved by extending the
-  notion of simulation relations between transition systems to allow for input
-  constraints between the systems. We develop conditions to test for
+  To further reduce the complexity of the scheduling problem, we \emph{abstract the averaged system by a
+  simple single-state single-input dynamical system} whose control input is the upper-bound of the total demand of the system. This model abstraction is achieved by extending the
+  concept of simulation relations between transition systems to allow for input
+  constraints between the systems. We developed conditions to test for
   simulation relations as well as algorithms to compute such a model
   abstraction. As a consequence, we only need to solve a small linear program
-  to compute an optimal trace of the total demand. The total demand is then
+  to compute an optimal bound of the total demand. The total demand is then
   broken down, by solving a linear program much smaller than the original
-  program, to individual utilization values of the subsystems in an interval.
-  The actual schedule in each interval is then obtained by a low-level
-  scheduling algorithm.
+  program, to individual utilization values of the subsystems, % in an interval
+  %The
+  whose actual schedule %in each interval
+  is then obtained by a low-level  scheduling algorithm.
  % We propose two such algorithms: a simple ad-hoc
  %  algorithm that may switch on and off a subsystem multiple times, and a
  %  2-dimensional packing algorithm that only switches any subsystem at most
@@ -152,9 +153,13 @@ The complexity grows exponentially with the scale of the system, making it impos
 % A category with the (minimum) three required fields
 %\category{Embedded and Cyber-Physical Systems}
 %%A category including the fourth, optional field follows...
-%\category{D.2.8 CHANGE THIS}{CHANGE THIS Software Engineering}{Metrics}[complexity measures, performance measures]
+\category{C.3}{Computer Systems Organization}{Special-purpose and Application-based Systems}[Real-time and embedded systems]
+\category{J.2}{Computer Applications}{Physical Sciences and Engineering}[Engineering]
+\category{J.7}{Computer Applications}{Computers in Other Systems}
+%\category{G.1.6}{Numerical Analysis }{Optimization}[Integer programming]
+
 %
-%\terms{Theory CHANGE THIS}
+%\terms{Design,Algorithms}
 
 \keywords{embedded control systems, peak power management, cyber-physical systems}
 
