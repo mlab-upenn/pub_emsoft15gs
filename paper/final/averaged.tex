@@ -12,7 +12,7 @@ The deviation $e (t) = x (t) - \overbar{x} (t)$ follows the dynamics
   = Ae (t) + B (u (t) - \eta_k) \label{eq:err-dynamics}
 \end{math}
 for all $t \in [kT, (k + 1) T)$ and $e (kT) = 0$.
-At the next instant $(k + 1) T$, the error is given by the solution of this differential equation: %, which is %~\eqref{eq:err-dynamics}
+At the next instant $(k + 1) T$, the error is % given by the solution of this differential equation: %, which is %~\eqref{eq:err-dynamics}
 \begin{equation*}
 e_{k+1} = e ((k + 1) T) = \int_{kT}^{(k + 1) T} \mathe^{A ((k + 1) T - s)} B (u (s) - \eta_k) \mathd s \text.
 \end{equation*}
@@ -21,13 +21,14 @@ In this section, we make a practical assumption that the
 state matrix $A$ is diagonalizable with real eigenvalues, that is $VA = DV$
 where $D$ is a diagonal matrix of the eigenvalues of $A$ and $V$ is a non-singular matrix whose columns are the corresponding right eigenvectors.
 %Many practical systems, especially in our targeted energy applications, this assumption is satisfied.
-We can then transform the state with $V$ by defining a new state $z = Vx$, whose dynamics are
+We then %can transform the state with $V$ by defining
+define a new state $z = Vx$, whose dynamics are
 \[ \dot{z} = V \dot{x} = VAx + VBu + VEw = Dz + VBu + VEw \text.\]
 %and which is subject to state constraint $z (t) \in V\mathcal{X}$.
 This new model is in the form of $(\Sigma_b)$ with a diagonal state matrix.
 %As a consequence, we can assume without loss of generality that the original system $\Sigma_b$ has diagonal state matrix $A$ because otherwise, we can always equivalently transform $\Sigma_b$ to achieve this.
 Let $\lambda_i$ be the $i$-th diagonal element of $D$, for $i = 1, \ldots, n$.
-The following theorem provides bounds on $e_{k+1}$, which depend on $\eta_{k}$.
+The following theorem provides bounds on $e_{k+1}$. %, which depend on $\eta_{k}$.
 
 \begin{theorem}
   \label{thm:averaged-sys-bound}
@@ -46,7 +47,7 @@ The following theorem provides bounds on $e_{k+1}$, which depend on $\eta_{k}$.
     \underline{\varepsilon} \leqslant V (e_{k+1} + \tilde{B} \eta_{k}) \leqslant \overbar{\varepsilon} \quad \text{(element-wise)}
   \end{equation*}
   where $\overbar{\varepsilon}$ and $\underline{\varepsilon}$ are the vectors of all $\overbar{\varepsilon}_{i}$ and $\underline{\varepsilon}_{i}$ respectively.
-  Equivalently, $e_{k+1} = \varepsilon - \tilde{B} \eta_{k}$ for some $\varepsilon$ bounded element-wise by $\underline{\varepsilon} \leqslant \varepsilon \leqslant \overbar{\varepsilon}$.
+  Equivalently, $e_{k+1} = V^{-1} \varepsilon - \tilde{B} \eta_{k}$ for some $\varepsilon$ bounded element-wise by $\underline{\varepsilon} \leqslant \varepsilon \leqslant \overbar{\varepsilon}$.
 \end{theorem}
 
   % OLD CONTENT OF THEOREM WITHOUT V
@@ -80,7 +81,7 @@ The following theorem provides bounds on $e_{k+1}$, which depend on $\eta_{k}$.
 % $\overbar{x} (k)$ under $\eta_k$ is always bounded in $[\underline{e}_i
 % (\eta_k), \overbar{e}_i (\eta_k)]$ for all $k$.
 
-The proof can be found in \cref{sec:proof:averaged-sys-bound}.
+%The proof can be found in \cref{sec:proof:averaged-sys-bound}.
 We note that the utilization $\eta_{k}$, \ie the control input of $\Sigma_{a}$, enters affinely in the bounds on $e_{k+1}$.
 
 \begin{remark}

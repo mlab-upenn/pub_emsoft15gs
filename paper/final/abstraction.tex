@@ -1,24 +1,25 @@
 \section{Model Abstractrion with Simulation Relations}
 \label{sec:abstraction}
 
-As we discussed in \cref{sec:overview}, to further reduce the optimization program~\eqref{eq:averaged-optim}, we employ the notion of model abstraction and simulation relations.
+As we discussed in \cref{sec:overview}, to further reduce the optimization~\eqref{eq:averaged-optim}, we employ the notion of model abstraction and simulation relations.
 We first distinguish model abstraction and model order reduction.
 Model order reduction is a common technique in control theory to reduce the order of a large-scale system so that it becomes manageable. The reduced model, however, still has
-the same input and output as the original model. Under the same input signal,
-the reduced model should produce an output signal which approximates that of
+the same input and output as the original model. Under the same input signal, %the reduced model
+it should produce an output signal which approximates that of
 the original model, within some error bound. The left diagram in
 \cref{fig:reduction-vs-abstraction} illustrates this concept, where
 $\mathcal{M}_2$ is a reduced-order model of $\mathcal{M}_1$. On the other
 hand, model abstraction derives a new model, usually of a lower order, with
 completely different input and output than the original model. However, there
-exists a relation between the states of the two models that can be maintained
+exists a relation between their states that can be maintained
 along their evolutions. In other words, one model can track the behavior of
 the other under this relation. The right diagram in
-\cref{fig:reduction-vs-abstraction} depicts two models with a symbolic
-relation $\mathcal{R}$ between their states. If for any admissible input $u_2
+\cref{fig:reduction-vs-abstraction} depicts two models with a symbolic state relation $\mathcal{R}$. % between their states.
+If for any admissible input $u_2
 (\cdot)$ to $\mathcal{M}_2$ there exists an admissible input $u_1 (\cdot)$ to
-$\mathcal{M}_1$ so that the state relation is always maintained along the
-traces of the two models, we have a model abstraction. Furthermore, we may
+$\mathcal{M}_1$ so that the state relation is always maintained along their
+traces, % of the two models,
+we have a model abstraction. Furthermore, we may
 require that a symbolic relation $\mathcal{R}_y$ between their outputs (observations) is also
 maintained. A nice property of model abstraction is that we can design a
 controller for $\mathcal{M}_1$ by first designing a supposedly simpler
@@ -26,10 +27,15 @@ controller for $\mathcal{M}_2$ and then refining it for $\mathcal{M}_1$ using
 the symbolic state relation.
 
 \begin{figure}[tb]
-\includegraphics[width=\columnwidth]{abstraction_vs_reduction}
+\centering
+\includegraphics[width=0.9\columnwidth]{abstraction_vs_reduction}
+\vspace{-6pt}
 \caption{\label{fig:reduction-vs-abstraction}Model abstraction (right) is
-  different from model order reduction (left): the models $\mathcal{M}_{1}$ and $\mathcal{M}_{2}$ do not share the same inputs nor outputs; instead they maintain a relation between their states along their evolutions.}
-        \vspace{-10pt}
+  different from model order reduction (left): %the models
+  $\mathcal{M}_{1}$ and $\mathcal{M}_{2}$ do not share their %the same
+  inputs and outputs, but %instead they
+  maintain a relation between their states along their evolutions.}
+\vspace{-12pt}
 \end{figure}
 
 \subsection{Simulation Relations} % Transition Systems}
@@ -38,10 +44,12 @@ the symbolic state relation.
 In this section we review the concept of simulation relations between
 transition systems. The readers are referred to \cite{girardetal07amd,aluretal00dah} for more thorough treatments of the subject.
 
-The framework of transition systems allows us to unify the modeling of
+%The framework of  transition systems allows
+ Transition systems allow us to unify the modeling of
 discrete and continuous, deterministic and non-deterministic dynamical
-systems. As we do not concern with the observable outputs of the systems in
-this paper, we remove the observation aspect from the definition of transition
+systems.
+As we do not concern with the observable outputs %of the systems
+in this paper, we remove the observation aspect from the definition of transition
 systems in {\cite{girardetal07amd}}:
       \vspace{-5pt}
 \begin{definition}[Transition System, {\cite{girardetal07amd}}]
@@ -71,7 +79,8 @@ called {\emph{deterministic}}. Otherwise, it is called
 {\emph{nondeterministic}}.
 
 \begin{example}
-  The framework of transition systems generalizes dynamical systems. As an
+  %The framework of transition systems generalizes
+  Transition systems generalize dynamical systems. As an
   example, consider a nonlinear discrete-time dynamical system $x^+ = f (x,
   u)$ where $x \in \mathbbm{R}^n$ is the state and $u \in \mathbbm{R}^m$ is
   the input, with initial state $x_{0}$.
@@ -101,8 +110,8 @@ other system while maintaining a certain relation between their states.
 
 Note that in \cite{girardetal07amd}, %it is required that
 $T_1$ and $T_2$ have the same
-label sets and $\sigma_{1} = \sigma_2 = \sigma$, % and the same observation sets),
-however in \cref{def:simulation-relation} we %modify the definition to
+label sets and $\sigma_{1} = \sigma_2 = \sigma$. % and the same observation sets),
+However in \cref{def:simulation-relation} we %modify the definition to
 relax this requirement, \ie $\Sigma_1$ and $\Sigma_2$, hence $\sigma_{1}$ and $\sigma_{2}$, can be different.
 $T_2$ is said to simulate $T_1$, denoted $T_1 \preceq T_2$, if there exists a
 simulation relation $\mathcal{R}$ of $T_1$ by $T_2$ such that for all $q_1 \in
@@ -115,7 +124,7 @@ hierarchical controller design \cite{clarkeetal99m,pappasetal00hcc,GirardEtAl06v
 \subsection{Input-Constrained Simulation Relations}
 \label{sec:abstraction:ext-simulation}
 
-Conventionally, simulation relations as defined in \cref{sec:abstraction:simulation} do not explicitly take into account %state constraints and
+Conventionally, simulation relations as defined in \cref{def:simulation-relation} do not explicitly take into account %state constraints and
 disturbances.  Moreover, there is no relation between the inputs (or labels) to the two systems as required for the total demand bound in our problem.  Therefore, this section extends the concept of simulation relations to account for these ingredients.
 
 \begin{remark}
@@ -127,10 +136,11 @@ disturbances.  Moreover, there is no relation between the inputs (or labels) to 
   q^+_2$ can be selected. $T_2$ is not nondeterministic anymore because here
   $q_2 \xrightarrow{\sigma_2} q^+_2$ can be chosen to satisfy $(q_1^+, q_2^+)
   \in \mathcal{R}$. Furthermore, it assumes no correlation between the
-  nondeterminism of the two systems. In reality, their nondeterminism may be
-  correlated, for example if they are subject to the same disturbances in
-  different ways. Our extended definition of simulation relations provides
-  options for robustness to disturbances and nondeterminism correlation.
+  nondeterminism of the two systems, which in reality may exist, \eg
+  %In reality, their nondeterminism may be correlated, for example
+  if they are subject to the same disturbances in different ways.
+  Our extended definition %of simulation relations provides options 
+  accounts for both robustness to disturbances and nondeterminism correlation.
 \end{remark}
 
 \begin{remark}
@@ -140,7 +150,9 @@ disturbances.  Moreover, there is no relation between the inputs (or labels) to 
   \Sigma_2$).
 \end{remark}
 
-In this section, we generalize the label $\sigma$ of a transition system $T$ as a pair $\sigma = (\upsilon, \delta)$ of a control label $\upsilon \in \mathcal{U}$ and a disturbance label $\delta \in \mathcal{D}$.
+%In this section, 
+We generalize the label $\sigma$ %of a transition system $T$ 
+as a pair $\sigma = (\upsilon, \delta)$ of a control label $\upsilon \in \mathcal{U}$ and a disturbance label $\delta \in \mathcal{D}$.
 Here, $\mathcal{U}$ and $\mathcal{D}$ are respectively the (possibly infinite) sets of control labels and disturbance labels.
 The definition of the transition relation is modified accordingly as $\rightarrow \subseteq Q \times \mathcal{U} \times \mathcal{D} \times Q$, and a transition $(q, \upsilon, \delta, q^{+}) \in \rightarrow$ is denoted $q \xrightarrow{(\upsilon, \delta)} q^{+}$.
 %The label set $\Sigma$ in \cref{thm:transition-systems-def} is the product $\mathcal{U} \times \mathcal{D}$.
@@ -165,14 +177,16 @@ For system $T_{i}$, the set of all admissible successor states from a state $q_{
 
 The existence of an input-constrained simulation relation $\mathcal{R}$ of $T_{1}$ by $T_{2}$ allows $T_{2}$ to track any state sequence of $T_{1}$ with respect to $\mathcal{R}$, as long as their initial states are in $\mathcal{R}$.
 We define a trajectory of $T_{i}$ as a (potentially infinite) sequence of admissible states, labels, and transitions: $q_{i}^{0} \xrightarrow{\upsilon_{i}^{0}, \delta_{i}^{0}}_{i} q_{i}^{1} \xrightarrow{\upsilon_{i}^{1}, \delta_{i}^{1}}_{i} q_{i}^{2} \cdots$.
-The next lemma follows directly from the \cref{thm:ex-simulation-relation}.
+The next lemma follows directly from \cref{thm:ex-simulation-relation}.
 It essentially says that if an input-constrained simulation relation $\mathcal{R}$ of $T_{1}$ by $T_2$ exists then $T_{2}$ can be controlled to track any admissible trajectory of $T_{1}$, with respect to $\mathcal{R}$, while keeping the input constraint $\mathcal{R}_{u}$.
 
 \begin{lemma}
   \label{thm:ex-simulation-tracking}
-  Suppose $\mathcal{R}$ is an input-constrained simulation relation of $T_{1}$ by $T_{2}$, whose initial states satisfy $(q_{1}^{0}, q_{2}^{0}) \in \mathcal{R}$.
+  Suppose $\mathcal{R}$ is an input-constrained simulation relation of $T_{1}$ by $T_{2}$, %whose initial states satisfy
+  and $(q_{1}^{0}, q_{2}^{0}) \in \mathcal{R}$.
   Let $\kappa_{2}: Q_{1} \times \mathcal{U}_{1} \times \mathcal{D}_{1} \times Q_{2} \to \mathcal{U}_{2}$ be any feedback law such that for all admissible quadruples $(q_{1}, \upsilon_{1}, \delta_{1}, q_{2}) \in Q_{1} \times \mathcal{U}_{1} \times \mathcal{D}_{1} \times Q_{2}$, $\upsilon_{2} = \kappa_{2} (q_{1}, \upsilon_{1}, \delta_{1}, q_{2})$ satisfies the conditions in \cref{thm:ex-simulation-relation}.
-  Such a feedback law always exists.
+  Such $\kappa_{2}$ %a feedback law
+  always exists.
   Then for any trajectory of $T_{1}$, %(respectively, $\upsilon_{2}^{k} = \rho_{2} (q_{1}^{k}, \upsilon_{1}^{k}, q_{2}^{k})$)
   any corresponding trajectory of $T_{2}$ with $\upsilon_{2}^{k} = \kappa_{2} (q_{1}^{k}, \upsilon_{1}^{k}, \delta_{1}^{k}, q_{2}^{k})$ satisfies $(q_{1}^{k}, q_{2}^{k}) \in \mathcal{R}$ and $(\upsilon_{1}^{k}, \upsilon_{2}^{k}) \in \mathcal{R}_{u}$ for all $k$.
 \end{lemma}

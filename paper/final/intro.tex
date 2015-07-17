@@ -18,7 +18,8 @@ Generally, real-time scheduling is restricted to tasks whose worst case executio
 While this simplifies the runtime complexity, %for control systems
 it does not effectively capture a control system's behavior whose operation is dependent on the plant dynamics and environmental conditions. 
 
-In \cite{nghiemetal12ssb}, a scheduling approach called \emph{Green Scheduling} was developed for fine-grained scheduling of energy control systems within an aggregate peak power envelop while ensuring the individual systems are maintained within the desired states.
+In \cite{nghiemetal12ssb}, %a scheduling approach called
+a \emph{Green Scheduling} approach was developed for fine-grained scheduling of energy control systems within an aggregate peak power envelop while ensuring the individual systems are maintained within the desired states.
 The approach was scalable but could only handle simple plant models and small uncertainties in the disturbances.
 \cite{nghiemetal13ebg} improved Green Scheduling to remove these limitations but the algorithm was not scalable.
 Moreover, \cite{nghiemetal12ssb,nghiemetal13ebg} could only bound the number of actuators activated simultanously, rather than minimizing a more meaningful cost function such as the total electricity cost.

@@ -14,15 +14,16 @@
 
 \begin{axis}[%
 width=0.8\columnwidth,
-height=0.3\columnwidth,
+height=0.25\columnwidth,
 at={(1.709861in,0.710417in)},
 scale only axis,
 xmin=0,
 xmax=24,
 xlabel={Hours},
+xtick={0,4,...,24},
 ymin=21,
 ymax=23,
-ylabel={Temperature (C)}
+ylabel={Celsius} %Temperature (C)}
 ]
 \addplot [color=mycolor1,solid,thick,forget plot]
   table[row sep=crcr]{%

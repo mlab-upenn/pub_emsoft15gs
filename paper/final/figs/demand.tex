@@ -9,19 +9,20 @@
 
 \begin{axis}[%
 width=0.8\columnwidth,
-height=0.4\columnwidth,
+height=0.36\columnwidth,
 at={(1.709861in,0.710417in)},
 scale only axis,
 xmin=0,
 xmax=24,
 xlabel={Hours},
+xtick={0,4,...,24},
 ymin=0,
-ymax=5,
-ylabel={Energy demand (kWh)},
+ymax=60,
+ylabel={Demand (kW)},
 legend style={at={(0.97,0.03)},anchor=south east,legend cell align=left,align=left,draw=white!15!black}
 ]
 \addplot [color=red,dashed,thick]
-  table[row sep=crcr]{%
+  table[row sep=crcr, y expr=\thisrowno{1}*12]{%
 0	3.17906616408712\\
 0.0833333333333333	3.27544378698458\\
 0.166666666666667	3.36493342560571\\
@@ -314,7 +315,7 @@ legend style={at={(0.97,0.03)},anchor=south east,legend cell align=left,align=le
 \addlegendentry{$v_{k}$};
 
 \addplot [color=blue,solid,thick]
-  table[row sep=crcr]{%
+  table[row sep=crcr, y expr=\thisrowno{1}*12]{%
 0	3.155\\
 0.0833333333333333	3.25666666666667\\
 0.166666666666667	3.33625\\

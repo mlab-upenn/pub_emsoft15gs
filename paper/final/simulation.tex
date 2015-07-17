@@ -1,26 +1,30 @@
-\section{Case Study: Room Heating System}
+\section{\protect{\hspace{-8pt}}Case Study: Room Heating System}
 \label{sec:simulation}
 
 We validated our scheduling approach using simulation of the room heating system example, described at the beginning of \cref{sec:gs-problem}.
 In this case study, we consider 20 rooms ($n=20$) with 20 heaters ($m=20$), one in each room.
 The system parameters were randomly generated with room's thermal capacity $C_i \in [2500, 4500]$ (kJ/K) and thermal conductance $K_i$ chosen proportionately from $[0.48,0.72]$ (kW/K).
-The thermal capacity of a room is an indicator of the size of the room, so a greater value of $C_{i}$ corresponds to a larger room.
-The heaters' powers were chosen based on the size of the rooms $\rho_i \in \{4.5, 7.5\}$ (kW).
+%The thermal capacity of a room is an indicator of the size of the room, so a greater value of $C_{i}$ corresponds to a larger room.
+The heaters' powers were chosen based on the size of the rooms ($C_{i}$ values) $\rho_i \in \{4.5, 7.5\}$ (kW).
 We randomly assigned rooms which can thermally interact with each other and the value of their inter-room thermal conductance $K_{i,j}$ was chosen from $[0.1,0.2]$ (kW/K). %, with the value $0$ implying that the rooms do not interact.
 Room temperatures were required to be kept in the comfort range between $20.3$ and $24.5$ Celsius degrees.
 The ambient air temperature was varying but bounded between $6^{\circ}\mathrm{C}$ and $16^{\circ}\mathrm{C}$. 
-The constraint of the internal heat gain in each room was between $0.1$ and $1.0$ (kW).
-Forecasts of the ambient air temperature are provided by weather forecasts, with an accuracy of $0.2^{\circ}\mathrm{C}$, and forecasts of the internal heat gains are provided by occupancy and operation schedules, with an accuracy of $0.1$ (kW).
-The daily time-varying energy price is plotted in \cref{fig:simulation:price}, where %electricity
- price during the on-peak hours (\$0.25/kWh from 1-5 PM) is 5 times higher than during the off-peak hours (\$0.05/kWh at night).
+The %constraint of the
+internal heat gain in each room was between $0.1$ and $1.0$ (kW).
+Forecasts of the ambient air temperature are provided %by weather forecasts, 
+with an accuracy of $0.2^{\circ}\mathrm{C}$, and forecasts of the internal heat gains are provided by occupancy and operation schedules, with an accuracy of $0.1$ (kW).
+%The daily time-varying energy price is plotted in \cref{fig:simulation:price}, where electricity
+% price during the on-peak hours (\$0.25/kWh from 1-5 PM) is 5 times that % higher than
+% during the off-peak hours (\$0.05/kWh at night).
+The daily time-varying energy price (\cref{fig:simulation:price}) is 5 times more expensive during the on-peak hours (\$0.25/kWh from 1-5 PM) than during the off-peak hours (\$0.05/kWh at night).
 The peak demand price is \$2/kW.
 
 \begin{figure}[tb]
   \centering
   \input{figs/price}
- \vspace{-8pt}
-  \caption{Time-varying price for energy demand.}
-  \vspace{-8pt}
+  \vspace{-12pt}
+  \caption{Time-varying price of energy.} %for energy demand.}
+  \vspace{-6pt}
   \label{fig:simulation:price}
 \end{figure}
 
@@ -29,13 +33,16 @@ The peak demand price is \$2/kW.
 \label{sec:simulation:milp}
 
 We first tried solving the MILP~\eqref{eq:MILP} for a trivially small scale system of only two rooms ($n=m=2$) with a horizon of $N=288$ (24 hours with 5-minute sampling time), on an 8-core MacPro with 64Gb RAM running the state-of-the-art commercial solver Gurobi 6.0.
-The MILP optimization did not finish after a time limit of 15 minutes, which is three times the sampling time, and was therefore interrupted.
+%The MILP optimization 
+It did not finish after % a time limit of
+15 minutes (three times the sampling time) and was therefore interrupted.
 Although there exist techniques to improve the performance of the optimization, for example move-blocking and warm-start, we believe that it would not scale beyond a very small number of subsystems running in real-time on a control computer with limited processing power.
 
 \subsection{Scalable Scheduling Design}
 \label{sec:simulation:design}
 
-We performed the design process outlined in \cref{sec:summary:design} for this case study and computed the parameters of the model abstraction.
+We performed the design process outlined in \cref{sec:summary:design} %for this case study
+and computed the parameters of the model abstraction.
 The sampling time is $T = 5 \text{min}$.
 Taking the most time was the construction of the set $\Omega$ on a grid of $50 \times 50 = 2\comma 500$ cells.
 Reported in red color in \cref{fig:simulation:omega} is the union of the cells resulting from this computation, for $\gamma = 20$.
@@ -44,9 +51,9 @@ To simplify $\Omega$, we took the blue polyhedron inside this union as $\Omega$.
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.8\columnwidth]{omega}
- \vspace{-8pt}
+  \vspace{-10pt}
   \caption{Set $\Omega$ constructed by gridding $s$ and $v$.}
-    \vspace{-8pt}
+  \vspace{-10pt}
   \label{fig:simulation:omega}
 \end{figure}
 
@@ -54,45 +61,55 @@ To simplify $\Omega$, we took the blue polyhedron inside this union as $\Omega$.
 \subsection{Simulation Results}
 \label{sec:simulation:results}
 
-The ambient air temperature profile for 24 hours is plotted in \cref{fig:simulation:ambient}.
+The ambient air temperature profile for a day % 24 hours
+is plotted in \cref{fig:simulation:ambient}.
 The internal heat gain profiles were generated following a typical pattern in office buildings.
 The disturbance forecasts were generated from the actual profiles with random errors within the given accuracies.
-We simulated the run-time implementation of our scheduling approach (~\cref{sec:summary:implementation}) in Matlab with Gurobi 6.0 as the optimization solver.
-Each of the top-level and middle-level optimization problems took less than 15ms to be solved.
+We simulated the run-time implementation of our %scheduling
+ approach (\cref{sec:summary:implementation}) in Matlab with Gurobi 6.0 as the optimization solver.
+Each of the top-level and middle-level optimizations %problems
+ took less than 15ms. % to be solved.
 Each iteration of our scheduling algorithm took less than 30ms.
-Therefore the run-time scheduling algorithm is very scalable compared to the MILP approach.
+Therefore our run-time scheduling algorithm is very scalable compared to the MILP approach.
 
 \begin{figure}[tb]
   \centering
   \input{figs/ambient}
-   \vspace{-8pt}
+   \vspace{-12pt}
   \caption{Ambient air temperature profile.}
-   \vspace{-8pt}
+   \vspace{-6pt}
   \label{fig:simulation:ambient}
 \end{figure}
 
-\Cref{fig:simulation:demand} plots the aggregated energy demand upper-bounds $v_{k}$ (red, dashed), computed by the top-level optimization, and the actual total energy demand $E_{k}$ (blue, solid).
-Obviously, the actual aggregated energy demand $E_{k}$ never exceeded the upper-bounds $v_{k}$ set by the top-level optimization.
+\Cref{fig:simulation:demand} plots the aggregated energy demand upper-bound $v_{k}$ (red, dashed), computed by the top-level optimization, and the actual total energy demand $E_{k}$ (blue, solid).
+Obviously, %the actual aggregated energy demand
+$E_{k}$ never exceeded %the upper-bounds
+$v_{k}$. %set by the top-level optimization.
 Also observe that the total demands, both the upper-bounds and the actual values, were lowered during the on-peak hours to reduce the cost.
 The total cost for energy, including the usage charge and the peak demand charge, was $\$218.60$ with $1004.38$ kWh of consumption and $54.815$ kW peak demand.
-About half of the total cost was due to the peak demand charge.
+About half of the total cost was the peak demand charge.
 
 \begin{figure}[tb]
   \centering
   \input{figs/demand}
- \vspace{-8pt}
-  \caption{Aggregated energy demand upper-bounds $v_{k}$ computed by the top-level optimization and the actual demands $E_{k}$.}
+ \vspace{-12pt}
+  \caption{Aggregated energy demand upper-bounds $v_{k}$ %computed by the top-level optimization
+    and the actual demands $E_{k}$.}
     \vspace{-10pt}
   \label{fig:simulation:demand}
 \end{figure}
 
 
-\Cref{fig:simulation:temp} reports the air temperatures for the first 4 rooms.
-It can be seen that the temperatures were always maintained inside the required comfort range.
+\Cref{fig:simulation:temp} reports the air temperatures of the first 4 rooms,
+%It can be seen that the temperatures 
+which were always maintained inside the %required
+comfort range.
 
 \begin{figure}[tb]
   \centering
+  \vspace{-10pt}
   \input{figs/temp}
+  \vspace{-12pt}
   \caption{Air temperatures of the first four rooms.}
   \label{fig:simulation:temp}
 \end{figure}

@@ -29,32 +29,36 @@ $K_{ij} \geq 0$ the thermal conductance between room $i$ and room $j \ne i$, % (
 and $u_{i} \in \{0, 1\}$ the on/off control input of heater $i$.
 Collect all the states in %a state vector 
 $x = [x_1, \dots, x_n]^T$, the comfort ranges in a bounded subset $X$ of $\mathbb{R}^n$, the control inputs in $u =  [u_1, \dots, u_n]^T$, and the disturbances in $w = [T_{a}, Q_{1}, \dots, Q_{n}]^{T}$.
-The dynamics of $x$ is a linear system with control input $u$ and disturbance input $w$.
-The energy demand and consumption of the system are determined based on time intervals $[0, T], [T, 2 T], \ldots$ for a given sampling time $T > 0$.
+The dynamics of $x$ is a linear system with control input $u$ and disturbance input $w$ (see \eqref{eq:lti-system-model}).
 
-In each interval $[kT, (k + 1) T]$ the averaged total demand is calculated as $d_k = \frac{E_k}{T}$ where $E_k$ is the total energy consumption during interval $k$.
-This is the practical way to determine energy demands, \eg in electricity bills and in demand response (DR) programs.
+The energy demand and consumption of the system are determined based on time intervals of % $[0, T], [T, 2 T], \ldots$ for
+a given sampling time $T > 0$.
+In each interval $[kT, (k + 1) T]$ the averaged total demand is calculated as $d_k = \frac{E_k}{T}$ where $E_k$ is the total energy consumption during the interval.
+This is a practical way to determine energy demands, \eg in electricity bills and in demand response (DR) programs.
 The peak demand, for example to be used in calculating the demand charge, is the maximum interval demand over a given billing period. %: $\max_k d_k$.
 Our goal is to schedule the subsystems to minimize the energy cost %peak interval demand 
 while maintaining a safe operation.
 %At the same time, it is desirable to schedule the subsystems in each interval so that the peak instantaneous total demand is also reduced, although this will not affect the demand charge.
 
-We consider a continuous-time linear system $\Sigma_b$ of the form
+Generally we consider a continuous-time linear system $\Sigma_b$ % of the form
 %
-\begin{equation*}
+\begin{equation}
 (\Sigma_b) \qquad \dot{x} = Ax + Bu + Ew
-\end{equation*}
+\label{eq:lti-system-model}
+\end{equation}
 %
 where $x \in \mathbbm{R}^{n}$ is the state vector, $u \in \{ 0, 1 \}^{m}$ are the binary control inputs that represent the schedules, and $w \in \mathbbm{R}^{p}$ is the disturbance vector.
 The safety condition requires that the state $x (t)$ stays in a safe set $\mathcal{X} \subset \mathbbm{R}^n$ at all time.
 The disturbances are constrained in a known set $w (t) \in \mathcal{W}$ for all $t$.
 Both $\mathcal{X}$ and $\mathcal{W}$ are bounded polyhedral sets.
 
-At any time, the total demand is defined as a linear combination of the binary
+At any time, the total demand is %defined as
+a linear combination of the binary
 control inputs: $d (t) = \rho^T u (t)$ where $\rho$ is the vector of the individual
-power demand of each subsystem. In each time interval $[kT, (k + 1) T]$ the
-total energy consumption is $E_k = \int_{kT}^{(k + 1) T} d (t) \mathd t$ and
-the averaged total demand is $d_k = \frac{E_k}{T}$. 
+power demand of each subsystem.
+During each time interval $[kT, (k + 1) T]$ the
+total energy consumption is $E_k = \int_{kT}^{(k + 1) T} d (t) \mathd t$.
+%and the averaged total demand is $d_k = \frac{E_k}{T}$. 
 In this scheduling problem, we aim to schedule
 the subsystems, \ie to compute the control inputs $u$, so that the energy cost over a finite horizon is minimized.
 The energy cost consists of a charge for the peak demand and possibly a charge for the energy
@@ -67,7 +71,7 @@ Specifically, we want to minimize the following cost function defined over a hor
 \end{equation}
 where $c_d$ is the fixed price for the peak demand and $c_{e, k}$ is the
 time-varying price for the interval energy consumption.
-Typically $c_d \gg c_{e, k}$ which gives customers incentive to reduce their peak demands.
+Typically $c_d \gg c_{e, k}$ which gives customers great incentive to reduce their peak demands \cite{trfpeco}.
 
 \subsubsection{Fundamental scalability issues}
 The %green
@@ -76,9 +80,9 @@ $\forall t \geq 0, \forall k = 0, \ldots, N - 1$
 \begin{align*}
   %\mathrm{minimize}_{u (\cdummy)} &  & c_d \cdot \max_{0 \leqslant k \leqslant N - 1} d_k + \sum_{0 \leqslant k \leqslant N - 1} c_{e, k} \cdot E_k\\
   %\text{subject to} &
-  & \dot{x} (t) = Ax (t) + Bu (t) + Ew (t)\\%, \, d (t) = \rho^T u (t)\\%, \qquad \forall t\\
-  & x (t) \in \mathcal{X}, \quad u(t) \in \{0,1\}^{m}, \quad w (t) \in \mathcal{W}\\%, \qquad \forall t\\
-  & E_k = \int_{kT}^{(k + 1) T} \rho^T u (\tau) \mathd \tau, \, d_k = \frac{E_k}{T}%, \qquad \forall k = 0, \ldots, N - 1
+  %& \dot{x} (t) = Ax (t) + Bu (t) + Ew (t)\\%, \, d (t) = \rho^T u (t)\\%, \qquad \forall t\\
+  & \text{Equation~\eqref{eq:lti-system-model}}, \quad x (t) \in \mathcal{X}, \quad u(t) \in \{0,1\}^{m}, \quad w (t) \in \mathcal{W}\\%, \qquad \forall t\\
+  & E_k = \int_{kT}^{(k + 1) T} \rho^T u (\tau) \mathd \tau, \quad d_k = \frac{E_k}{T}%, \qquad \forall k = 0, \ldots, N - 1
     \text.
 \end{align*}
 % for all $t$ and all $k = 0, \ldots, N - 1$.
@@ -91,9 +95,8 @@ the optimization becomes:
   \leqslant k \leqslant N - 1} d_k + \textstyle\sum_{0 \leqslant k \leqslant N - 1}
   c_{e, k} \cdot E_k  \label{eq:MILP}\\
   \text{subject to} \quad & x_{k+1} = A_{T} x_{k} + B_{T} u_{k} + E_{T} w_{k}  \nonumber\\
-  & d_k = \rho^T u_{k} \nonumber\\
-  & x_{k} \in \mathcal{X}, \quad u_{k} \in \{0,1\}^{m}, \quad w_{k} \in \mathcal{W} \nonumber\\
-  & E_k = T d_k \nonumber
+  & d_k = \rho^T u_{k}, \quad E_k = T d_k \nonumber\\
+  & x_{k} \in \mathcal{X}, \quad u_{k} \in \{0,1\}^{m}, \quad w_{k} \in \mathcal{W} \nonumber
 \end{align}
 where the constraints hold for all $k = 0, \ldots, N - 1$.
 Here, the subscript $k$ denotes the value of a variable at time step $k$, and matrices $A_{T}$, $B_{T}$, and $E_{T}$ are of the discrete-time dynamical model.
@@ -108,9 +111,10 @@ For example, if $\Sigma_b$ has %$m=40$\simpletodo{May need to update this number
 $m=20$ control inputs with sampling time $T = 5 \text{min}$ for a horizon of $N = 288$ steps in $24$ hours, the MILP will have $5 \comma 760$ binary variables, not to mention the continuous state and disturbance variables.
 Solving such large MILPs often requires powerful computers with commercial optimization
 solvers.
-In our simulation study (\cref{sec:simulation}), with only two subsystems ($m=2$) and $N=288$, an 8-core MacPro with 64Gb RAM running the %state-of-the-art commercial
+In our simulation study (\cref{sec:simulation}), with only two subsystems ($m=2$), an 8-core MacPro with 64Gb RAM running the %state-of-the-art commercial
 solver Gurobi 6.0 did not finish the MILP optimization after the time limit of 15 minutes.
-Moreover, due to the uncertainty caused by the disturbances, the control decisions need to be adjusted regularly by solving the optimization \eqref{eq:MILP} repeatedly at every time step (model predictive control (MPC)).
+Moreover, due to the uncertainty caused by the disturbances, the control decisions need to be adjusted regularly by solving the optimization %\eqref{eq:MILP}
+repeatedly at every time step (model predictive control (MPC)).
 Therefore, for any practical size of the system, implementing this approach can be highly demanding, if even possible, in terms of run-time hardware and software requirements.
 Although there are techniques in MPC to reduce the complexity, \eg move blocking, an MILP solver is still required.
 Certainly the controller cannot be implemented on an embedded processor with limited processing power and memory.

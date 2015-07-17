@@ -163,21 +163,21 @@ Its complexity grows exponentially with the scale of the system, making it impos
 
 \keywords{embedded control systems, peak power management, cyber-physical systems}
 
-\section{Important reviewers points}
+% \section{Important reviewers points}
 
-\begin{itemize}
-\item Relate more to implementation / hardware and software / embedded systems.
+% \begin{itemize}
+% \item Relate more to implementation / hardware and software / embedded systems.
 %\item Emphasize more (and more) the complexity of the approach: the LPs are easy to solve. May try to generate code for the LP problems and see how they run (if there is time).
 %\item A room heating system is used as the motivating example. However, in these
 % systems I do not really agree that the actuators necessarily are binary. Assume
 % that instead the actuators have a discrete number of settings, how would the
 % approach then work? \textcolor{red}{Maybe I should write a remark on how to formulate multi-settings into binary.}
-\item It is assumed that the disturbances in Equation (2) are constant over each time
-interval T (the sampling interval). How realistic is this really? It may be
-true for the ambient temperature since it varies very slowly. However, I cannot
-see that it is true for the electrical appliances, which one have to assume
-could be switched on or off at any point in time by the persons in the rooms.
-How will this affect the approach? \textcolor{red}{For internal heat gain, the next state depends on the accumulated heat gain during the period, so $w_{k}$ can be the accumulated gain and we do not need to assume the disturbances are constant.}
+% \item It is assumed that the disturbances in Equation (2) are constant over each time
+% interval T (the sampling interval). How realistic is this really? It may be
+% true for the ambient temperature since it varies very slowly. However, I cannot
+% see that it is true for the electrical appliances, which one have to assume
+% could be switched on or off at any point in time by the persons in the rooms.
+% How will this affect the approach? \textcolor{red}{For internal heat gain, the next state depends on the accumulated heat gain during the period, so $w_{k}$ can be the accumulated gain and we do not need to assume the disturbances are constant.}
 % \item Rather limited evaluation section. MILP simulation was stopped after a 
 % rather short time. This only showed the scalability issue. However, a 
 % comparison of the controler designs could have been of interest in the 
@@ -189,22 +189,22 @@ How will this affect the approach? \textcolor{red}{For internal heat gain, the n
 % results of both approaches. Some comments on stability of the controller, 
 % settling time etc. and the real world applicability of the temperature model 
 % would be of further interest.
-\item Prior work is mainly addressed in the introduction. The background of
-simulation 
-relations is explained in its own section. Readability of the paper benefits
-from 
-that. However, the paper is lacking some more information on other approaches
-on 
-the smart home scheduling problems and controller design.
-Only a few related works are introduced in the introduction section, for an
-non-expert, it is difficult to get a estimation of the state-of-the-art
-techniques in this area. Furthermore, it will be appreciated if there is more
-comparison with the related work in the experiment section.
-\item The readability of this paper is not very good. Lots of equations are used
-in the paper. The paper is not very easy to follow for a non-expert. It would
-be appreciated if the authors can give a running example to help readers to
-understand such techniques. \textcolor{red}{Add running examples in appropriate sections if there is space later.}
-\end{itemize}
+% \item Prior work is mainly addressed in the introduction. The background of
+% simulation 
+% relations is explained in its own section. Readability of the paper benefits
+% from 
+% that. However, the paper is lacking some more information on other approaches
+% on 
+% the smart home scheduling problems and controller design.
+% Only a few related works are introduced in the introduction section, for an
+% non-expert, it is difficult to get a estimation of the state-of-the-art
+% techniques in this area. Furthermore, it will be appreciated if there is more
+% comparison with the related work in the experiment section.
+% \item The readability of this paper is not very good. Lots of equations are used
+% in the paper. The paper is not very easy to follow for a non-expert. It would
+% be appreciated if the authors can give a running example to help readers to
+% understand such techniques. \textcolor{red}{Add running examples in appropriate sections if there is space later.}
+% \end{itemize}
 
 \input{intro}
 
@@ -241,7 +241,7 @@ understand such techniques. \textcolor{red}{Add running examples in appropriate 
 %
 % ACM needs 'a single self-contained file'!
 
-\newpage
+%\newpage
 %APPENDICES are optional
 %\balancecolumns
 \appendix

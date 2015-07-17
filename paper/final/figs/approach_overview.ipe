@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
-<ipe version="70005" creator="Ipe 7.1.5">
-<info created="D:20141119185115" modified="D:20150327221159"/>
+<ipe version="70107" creator="Ipe 7.1.7">
+<info created="D:20141119185115" modified="D:20150716160538"/>
 <preamble>\usepackage{amssymb}</preamble>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
@@ -233,19 +233,19 @@ h
 <page>
 <layer name="alpha"/>
 <view layers="alpha" active="alpha"/>
-<path layer="alpha" matrix="1 0 0 1 -8 0" stroke="blue" fill="white" pen="fat" arrow="pointed/large">
-240 568 m
-240 608 l
+<path layer="alpha" stroke="blue" fill="white" pen="fat" arrow="pointed/large">
+232 584 m
+232 616 l
 </path>
-<path matrix="1 0 0 1 -8 88" stroke="blue" fill="white" pen="fat" arrow="pointed/large">
-240 568 m
-240 608 l
+<path stroke="blue" fill="white" pen="fat" arrow="pointed/large">
+232 664 m
+232 696 l
 </path>
-<path stroke="black" fill="white" arrow="normal/normal">
+<path matrix="1 0 0 1 0 16" stroke="black" fill="white" arrow="normal/normal">
 176 544 m
 140 544 l
 </path>
-<path stroke="black" fill="white" arrow="normal/normal">
+<path matrix="1 0 0 1 0 8" stroke="black" fill="white" arrow="normal/normal">
 176 632 m
 140 632 l
 </path>
@@ -257,51 +257,23 @@ h
 312 720 m
 276 720 l
 </path>
-<path stroke="black" fill="white" arrow="normal/normal">
+<path matrix="1 0 0 1 0 8" stroke="black" fill="white" arrow="normal/normal">
 312 632 m
 276 632 l
 </path>
-<path stroke="black" fill="white" arrow="normal/normal">
+<path matrix="1 0 0 1 0 16" stroke="black" fill="white" arrow="normal/normal">
 312 544 m
 276 544 l
 </path>
-<text matrix="0.5 0 0 1 148 0" transformations="translations" pos="160 584" stroke="blue" type="label" width="64.347" height="6.815" depth="1.93" halign="right" valign="baseline">\itshape Approximation</text>
-<text matrix="1 0 0 1 64 88" transformations="translations" pos="160 584" stroke="blue" type="label" width="49.542" height="6.918" depth="0" halign="right" valign="baseline">\itshape Abstraction</text>
-<text matrix="1 0 0 1 8 0" transformations="translations" pos="112 544" stroke="black" type="label" width="35.39" height="6.868" depth="1.49" halign="center" valign="center">$x_k \in \mathbb{R}^n$</text>
-<text matrix="1 0 0 1 8 88" transformations="translations" pos="112 544" stroke="black" type="label" width="35.39" height="6.868" depth="1.49" halign="center" valign="center">$\bar{x}_k \in \mathbb{R}^n$</text>
+<text matrix="0.5 0 0 1 148 12" transformations="translations" pos="160 584" stroke="blue" type="label" width="64.347" height="6.815" depth="1.93" halign="right" valign="baseline">\itshape Approximation</text>
+<text matrix="1 0 0 1 64 92" transformations="translations" pos="160 584" stroke="blue" type="label" width="49.542" height="6.918" depth="0" halign="right" valign="baseline">\itshape Abstraction</text>
+<text matrix="1 0 0 1 4 16" transformations="translations" pos="112 544" stroke="black" type="label" width="35.39" height="6.868" depth="1.49" halign="center" valign="center">$x_k \in \mathbb{R}^n$</text>
+<text matrix="1 0 0 1 8 96" transformations="translations" pos="112 544" stroke="black" type="label" width="35.39" height="6.868" depth="1.49" halign="center" valign="center">$\bar{x}_k \in \mathbb{R}^n$</text>
 <text matrix="1 0 0 1 8 176" transformations="translations" pos="112 544" stroke="black" type="label" width="28.943" height="6.868" depth="1.49" halign="center" valign="center">$s_k \in \mathbb{R}$</text>
-<text matrix="1 0 0 1 236 0" transformations="translations" pos="112 544" stroke="black" type="label" width="61.147" height="7.473" depth="2.49" halign="center" valign="center">$u(t) \in \{0,1\}^m$</text>
-<group matrix="1 0 0 1 16 0">
-<path stroke="black" dash="dashed" arrow="linear/normal" rarrow="linear/normal">
-104 552 m
-104 624 l
-</path>
-<path matrix="1 0 0 2 0 -592" fill="white">
-72 596 m
-72 588 l
-136 588 l
-136 596 l
-h
-</path>
-<text transformations="translations" pos="104 592" stroke="black" type="label" width="61.796" height="6.918" depth="0" halign="center" valign="center">bounded error</text>
-</group>
-<group matrix="1 0 0 1 12 0">
-<path stroke="black" dash="dashed" arrow="linear/normal" rarrow="linear/normal">
-104 640 m
-104 712 l
-</path>
-<path matrix="1 0 0 2 0 -504" fill="white">
-72 596 m
-72 588 l
-136 588 l
-136 596 l
-h
-</path>
-<text matrix="1 0 0 1 0 88" transformations="translations" pos="104 592" stroke="black" type="label" width="81.722" height="6.918" depth="0" halign="center" valign="center">simulation relation</text>
-</group>
-<text matrix="1 0 0 1 236 88" transformations="translations" pos="112 544" stroke="black" type="label" width="49.518" height="7.473" depth="2.49" halign="center" valign="center">$\eta_k \in [0,1]^m$</text>
+<text matrix="1 0 0 1 236 16" transformations="translations" pos="112 544" stroke="black" type="label" width="61.147" height="7.473" depth="2.49" halign="center" valign="center">$u(t) \in \{0,1\}^m$</text>
+<text matrix="1 0 0 1 236 96" transformations="translations" pos="112 544" stroke="black" type="label" width="49.518" height="7.473" depth="2.49" halign="center" valign="center">$\eta_k \in [0,1]^m$</text>
 <text matrix="1 0 0 1 236 176" transformations="translations" pos="112 544" stroke="black" type="label" width="29.103" height="6.868" depth="1.49" halign="center" valign="center">$v_k \in \mathbb{R}$</text>
-<group matrix="1 0 0 1 -48 4">
+<group matrix="1 0 0 1 -48 0">
 <path matrix="0.937198 0 0 0.399878 201.659 468.949" stroke="black" dash="dashed" pen="fat">
 144 768 m
 144 688 l
@@ -312,7 +284,7 @@ h
 <text matrix="1 0 0 1 144 104" transformations="translations" pos="192 656" stroke="black" type="minipage" width="120" height="13.164" depth="8.2" valign="center" style="center">Receding horizon control\\
 ($N$ steps of scalar input)</text>
 </group>
-<group matrix="1 0 0 1 -48 4">
+<group matrix="1 0 0 1 -48 8">
 <path matrix="0.937198 0 0 0.399878 201.659 380.949" stroke="black" dash="dashed" pen="fat">
 144 768 m
 144 688 l
@@ -322,7 +294,7 @@ h
 </path>
 <text matrix="1 0 0 1 144 16" transformations="translations" pos="192 656" stroke="black" type="minipage" width="120" height="6.865" depth="1.88" valign="center" style="center">One-step optimization</text>
 </group>
-<group matrix="1 0 0 1 -48 4">
+<group matrix="1 0 0 1 -48 16">
 <path matrix="0.937198 0 0 0.399878 201.659 292.949" stroke="black" dash="dashed" pen="fat">
 144 768 m
 144 688 l
@@ -332,25 +304,25 @@ h
 </path>
 <text matrix="1 0 0 1 144 -72" transformations="translations" pos="192 656" stroke="black" type="minipage" width="120" height="13.164" depth="8.2" valign="center" style="center">One-step scheduling algorithm $\pi(t; \eta_k)$</text>
 </group>
-<path matrix="1 0 0 1 -52 0" stroke="black" dash="dashed" pen="fat" arrow="fnormal/normal">
-400 748 m
-400 728 l
+<path stroke="black" pen="fat" arrow="fnormal/normal">
+348 744 m
+348 728 l
 </path>
-<path matrix="1 0 0 1 -52 -36" stroke="black" dash="dashed" pen="fat" arrow="fnormal/normal">
-400 748 m
-400 728 l
+<path stroke="black" pen="fat" arrow="fnormal/normal">
+348 712 m
+348 696 l
 </path>
-<path matrix="1 0 0 1 -52 -88" stroke="black" dash="dashed" pen="fat" arrow="fnormal/normal">
-400 748 m
-400 728 l
+<path stroke="black" pen="fat" arrow="fnormal/normal">
+348 664 m
+348 648 l
 </path>
-<path matrix="1 0 0 1 -52 -124" stroke="black" dash="dashed" pen="fat" arrow="fnormal/normal">
-400 748 m
-400 728 l
+<path stroke="black" pen="fat" arrow="fnormal/normal">
+348 632 m
+348 616 l
 </path>
-<path matrix="1 0 0 1 -52 -176" stroke="black" dash="dashed" pen="fat" arrow="fnormal/normal">
-400 748 m
-400 728 l
+<path stroke="black" pen="fat" arrow="fnormal/normal">
+348 584 m
+348 568 l
 </path>
 <group>
 <path matrix="0.780676 0 0 0.599813 64.1541 283.41" stroke="blue" pen="fat">
@@ -364,7 +336,7 @@ h
 Scalar state\\
 Scalar real input</text>
 </group>
-<group>
+<group matrix="1 0 0 1 0 8">
 <path matrix="0.780193 0 0 0.599813 64.2675 195.41" stroke="blue" pen="fat">
 144 768 m
 144 688 l
@@ -376,7 +348,7 @@ h
 Large-scale\\
 Real inputs</text>
 </group>
-<group>
+<group matrix="1 0 0 1 0 16">
 <path matrix="0.780193 0 0 0.599813 64.2675 107.41" stroke="blue" pen="fat">
 144 768 m
 144 688 l
@@ -387,6 +359,34 @@ h
 <text matrix="1 0 0 1 -16 -112" transformations="translations" pos="192 656" stroke="blue" type="minipage" width="100" height="20.301" depth="15.35" valign="center" style="center">{\Large $\Sigma_b$}\\
 Large-scale\\
 Binary inputs</text>
+</group>
+<path matrix="1 0 0 2 12 -504" fill="white">
+72 596 m
+72 588 l
+136 588 l
+136 596 l
+h
+</path>
+<group>
+<path stroke="black" dash="dashed" arrow="linear/normal" rarrow="linear/normal">
+116 648 m
+116 712 l
+</path>
+<text matrix="1 0 0 1 12 88" transformations="translations" pos="104 592" stroke="black" type="label" width="81.722" height="6.918" depth="0" halign="center" valign="center">simulation relation</text>
+</group>
+<path matrix="1 0 0 2 12 -584" fill="white">
+72 596 m
+72 588 l
+136 588 l
+136 596 l
+h
+</path>
+<group>
+<path stroke="black" dash="dashed" arrow="linear/normal" rarrow="linear/normal">
+116 568 m
+116 632 l
+</path>
+<text matrix="1 0 0 1 12 8" transformations="translations" pos="104 592" stroke="black" type="label" width="61.796" height="6.918" depth="0" halign="center" valign="center">bounded error</text>
 </group>
 </page>
 </ipe>

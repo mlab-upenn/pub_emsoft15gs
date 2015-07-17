@@ -14,13 +14,14 @@ In particular, we consider the scalar discrete-time system $\Sigma_{s}$:
  \end{align}
 %
 The intuition is that $s_{k}$ represents an aggregated state of all the subsystems at time step $k$ and $v_{k}$ specifies an upper-bound of the total energy demand.
-For example, consider an energy system consisting of $n$ rooms and a heater in each room, where the heaters have fixed heating powers and can only be switched on and off.
+For example, consider the room heating system in \cref{sec:gs-problem}. % an energy system consisting of $n$ rooms and a heater in each room, where the heaters have fixed heating powers and can only be switched on and off.
 At time $k$, $s_{k}$ can represent the total enthalpy of all rooms, while $v_{k}$ bounds the total heating energy of all heaters during that interval.
 Because the system is subject to heat loss and disturbances, the dynamics of $s$ have the form of \eqref{eq:abstract-system}.
 
 The abstraction of $\Sigma_{a}$, \ie the input-constrained simulation relation $\RSet$, depends on how the control input $v_{k}$ is computed and how the disturbances are represented in $\Sigma_{s}$.
 In practice, forecasts of the disturbances, denoted $\tilde{w}_{k}$, with known bounded accuracies are often available and used in computing the control inputs for both $\Sigma_{s}$ and $\Sigma_{a}$.
-The forecast accuracies are represented by a vector $\zeta \geq 0$ in $\mathbb{R}^{p}$ such that the error between $w_{k}$ and $\tilde{w}_{k}$ are always bounded element-wise as $-\zeta \leqslant w_{k} - \tilde{w}_{k} \leqslant \zeta$ for all $k$.
+The forecast accuracies are represented by a vector $\zeta \geq 0$ in $\mathbb{R}^{p}$ such that %the error between $w_{k}$ and $\tilde{w}_{k}$ are always bounded element-wise as 
+$-\zeta \leqslant w_{k} - \tilde{w}_{k} \leqslant \zeta$ element-wise for all $k$.
 
 % We consider two control approaches in this paper:
 % \begin{enumerate}
@@ -37,7 +38,7 @@ Hence, both the control laws for $\Sigma_{a}$ and $\Sigma_{s}$ are feedback.
 We derive the abstraction $\Sigma_{s}$ of $\Sigma_{a}$ %for each approach 
 in three steps:
 \begin{enumerate}
-\item $\Sigma_{s}$ and $\Sigma_{a}$ are formulated as transition systems $T_{1}$ and $T_{2}$ respectively;
+\item $\Sigma_{s}$ and $\Sigma_{a}$ are formulated as transition systems; % $T_{1}$ and $T_{2}$ respectively;
 \item Assuming a certain form of $\RSet$, we derive %a necessary and sufficient
   conditions for $\RSet$ to be an input-constrained simulation relation;
 \item Based on the conditions, we develop algorithms to compute the parameters of $\Sigma_{s}$, its joint constraint $\Omega$, and the simulation relation $\RSet$.
@@ -242,13 +243,15 @@ We will discuss a way to compute these parameters in \cref{sec:abstraction-gs:co
 %In the feedback approach, 
 The evolution of $\Sigma_{s}$ %is not nominal as it
 is influenced by the actual disturbances, which are unknown but within known accuracies from their forecasts.
-To model this phenomenon, we will include the disturbance forecasts in the control labels of both $T_{1}$ and $T_{2}$, while their disturbance labels are the errors between the forecasts and the actual disturbances.
-Specifically, we define $T_{1}$ as follows:
+To model this phenomenon, we will include the disturbance forecasts in the control labels of both transition systems, %$T_{1}$ and $T_{2}$, 
+while their disturbance labels are the errors between the forecasts and the actual disturbances.
+Specifically, we define $T_{1}$ of $\Sigma_{s}$ as follows:
 \begin{itemize}
 \item State $q_{1} \equiv s$ and state set $Q_{1} = \mathcal{S}$.
 \item Control label $\upsilon_{1} \equiv (v, \tilde{w}_{1})$ with $\mathcal{U}_{1} = \VSet \times \WSet$.
 \item Disturbance label $\delta_{1}$ is the disturbance forecast error $\delta_{1} = w - \tilde{w}_{1}$; $\mathcal{D}_{1} = \{ \delta_{1} \in \mathbb{R}^{p} \,|\, -\zeta \leqslant \delta_{1} \leqslant \zeta\}$.
-\item Transition set $\rightarrow_{1} = \{ (s, v, \tilde{w}_{1}, \delta_{1}, s^{+}) \,|\, (s,v) \in \Omega,\allowbreak \tilde{w}_{1} \in \WSet,\allowbreak \delta_{1} \in \mathcal{D}_{1},\allowbreak \tilde{w}_{1} + \delta_{1} \in \WSet,\allowbreak s^{+} = \alpha s + v + \beta^{T} (\tilde{w}_{1} + \delta_{1}) \in \SSet\}$. %Q_{1}
+\item Transitions %set
+  $\rightarrow_{1} \!=\! \{ (s, v, \tilde{w}_{1}, \delta_{1}, s^{+}) | (s,v) \in \Omega,\allowbreak \tilde{w}_{1} \in \WSet,\allowbreak \delta_{1} \in \mathcal{D}_{1},\allowbreak \tilde{w}_{1} + \delta_{1} \in \WSet,\allowbreak s^{+} = \alpha s + v + \beta^{T} (\tilde{w}_{1} + \delta_{1}) \in \SSet\}$. %Q_{1}
 \end{itemize}
 %
 The transition system $T_{2}$ of $\Sigma_{a}$ is defined as:
@@ -259,14 +262,16 @@ The transition system $T_{2}$ of $\Sigma_{a}$ is defined as:
 \item Transition set: we again model the state reset as a non-deterministic but bounded perturbation of $\overbar{x}$.   Define $\rightarrow_{2} = \{ (\overbar{x}, \eta, \tilde{w}_{2}, \delta_{2}, \overbar{x}^{+}) \,|\, \overbar{x} \in \XSet, \eta \in \mathcal{U}_{2}, \tilde{w}_{2} \in \WSet,\allowbreak \delta_{2} \in \mathcal{D}_{2},\allowbreak \tilde{w}_{2} + \delta_{2} \in \WSet,\allowbreak \overbar{x}^{+} = A_{T} \overbar{x}+ B_{T} \eta + E_{T} (\tilde{w}_{2} + \delta_{2}) + e \in \XSet,\allowbreak \underline{\varepsilon} \leqslant V (e + \tilde{B} \eta) \leqslant \overbar{\varepsilon}\}$.
 \end{itemize}
 %
-The joint input constraint $\RSet_{u}$ needs to take into account that the disturbance forecasts are the same for $T_{1}$ and $T_2$, hence $\RSet_{u} = \{ ((v, \tilde{w}_{1}), (\eta, \tilde{w}_{2})) \in \mathcal{U}_{1} \times \mathcal{U}_{2} \,|\, T \rho^{T} \eta \leq v, \tilde{w}_{1} = \tilde{w}_{2} \}$.
+The joint input constraint $\RSet_{u}$ must specify %needs to take into account
+that their disturbance forecasts are the same, % for $T_{1}$ and $T_2$, 
+hence $\RSet_{u} = \{ ((v, \tilde{w}_{1}), (\eta, \tilde{w}_{2})) \in \mathcal{U}_{1} \times \mathcal{U}_{2} \,|\, T \rho^{T} \eta \leq v, \tilde{w}_{1} = \tilde{w}_{2} \}$.
 Finally, because $T_{1}$ and $T_{2}$ are subject to the same actual disturbances, we define the disturbance relation $\RSet_{d} = \{ (\delta_{1}, \delta_{2}) \in \mathcal{D}_{1} \times \mathcal{D}_{2} \,|\, \delta_{1} = \delta_{2} \}$.
 
 \subsection{Conditions for \RSet} % Input-constrained Simulation Relation \protect\RSet}
 \label{sec:abstraction-gs:feedback:conditions}
 
-To derive the model abstraction of $\Sigma_{a}$, the input-constrained simulation relation $\RSet$ must be computed.
-Specifically, we need to be able to certify if any given relation $\RSet$ of $s$ and $\overbar{x}$ is an input-constrained simulation relation of $T_{1}$ by $T_{2}$.
+%To derive the model abstraction of $\Sigma_{a}$, the input-constrained simulation relation $\RSet$ must be computed. Specifically,
+To derive $\RSet$, we need to be able to certify if any given relation $\RSet$ of $s$ and $\overbar{x}$ is an input-constrained simulation relation of $T_{1}$ by $T_{2}$.
 The following theorem provides such a necessary and sufficient condition for $\RSet$.
 Here, the product between a matrix $M \in \mathbb{R}^{m \times n}$ and a set $\PSet \subseteq \mathbb{R}^{n}$ is defined as the image of $\PSet$ under the linear map $M$, \ie $M \PSet = \{ y \in \mathbb{R}^{m} \,|\, y = M x, x \in \PSet\}$.
 $\IdentityMatrix$ denotes the identity matrix and $\Zero$ is a zero vector or matrix, whose dimensions are often omitted when they are obvious from the context.
@@ -297,25 +302,25 @@ if and only if
   \end{gather*}
   and
   \begin{align*}
-    \PSet_l =& \big\{ (s,\overbar{x}, v, \delta, \tilde{w}, \varepsilon) \,\big|\,
-    (s,\overbar{x}) \in \RSet,\ (s,v) \in \Omega, -\zeta \leqslant \delta \leqslant \zeta,\big.\\
-    &\qquad \big. \tilde{w} \in \WSet, \tilde{w} + \delta \in \WSet, \alpha s + v + \beta^{T} \tilde{w} \in \SSet \ominus \beta^{T} \mathcal{D}_{1},\\
-    &\qquad \underline{\varepsilon} \leqslant V \varepsilon \leqslant \overbar{\varepsilon} \big\} \\
-    \PSet_r =& \big\{(s^+, \overbar{x}^{+}, \overbar{v}, \eta) \,\big|\,
-               \overbar{x}^{+} \in \XSet, (s^{+}, \overbar{x}^{+}) \in \RSet, \eta \in [0,1]^{m},\big.\\
-             &\qquad \big. T \rho^{T} \eta \leqslant \overbar{v}\big\}
+    \PSet_l \!=& \big\{ (s,\overbar{x}, v, \delta, \tilde{w}, \varepsilon) \big|
+    (s,\overbar{x}) \!\in\! \RSet, (s,v) \!\in\! \Omega, -\zeta \!\leqslant\! \delta \!\leqslant\! \zeta, \tilde{w} \!\in\! \WSet,\big.\\
+    &\quad \big. \tilde{w} + \delta \in \WSet, \alpha s + v + \beta^{T} \tilde{w} \in \SSet \ominus \beta^{T} \mathcal{D}_{1}, \underline{\varepsilon} \leqslant V \varepsilon \leqslant \overbar{\varepsilon} \big\} \\
+    \PSet_r \!=& \big\{(s^+\!, \overbar{x}^{+}\!, \overbar{v}, \eta) \big|
+               \overbar{x}^{+} \!\!\in\! \XSet, (s^{+}\!, \overbar{x}^{+}) \!\in\! \RSet, \eta \!\in\! [0,1]^{m},
+                 T \rho^{T} \eta \!\leqslant\! \overbar{v}\big\}
   \end{align*}
 \end{theorem}
-The proof can be found in \cref{sec:proof:abstraction-gs:necessary-sufficient}.
+%The proof can be found in \cref{sec:proof:abstraction-gs:necessary-sufficient}.
 
 Although \cref{thm:abstraction-gs:necessary-sufficient} is useful for verifying whether a given $\RSet$ is an input-constrained simulation relation, it does not allow us to directly compute $\RSet$ since $\RSet$ appears on both sides of \eqref{eq:abstraction-gs:necessary-sufficient}.
 Furthermore, computing the image of a set under a linear map and checking for a set inclusion are generally difficult.
 Therefore, we will impose a certain structure on the relation $\RSet$ that results in polyhedral sets $\PSet_{l}$ and $\PSet_{r}$.
 We will also derive a simpler condition for $\RSet$, which can be verified by checking the feasibility of a linear program.
 
-As mentioned before, % in the overview in \cref{sec:overview} and again at the beginning of this section, 
-$s$ represents an aggregated state of all the subsystems, for example the total enthalpy of an energy system.
-Thus, we can choose $s$ to be approximately a linear combination of all the (energy) states of the subsystems.
+As mentioned earlier, % in the overview in \cref{sec:overview} and again at the beginning of this section, 
+$s$ represents an aggregated state of the subsystems. %, for example the total enthalpy of an energy system.
+Thus, we can choose $s$ to be approximately a linear combination of all the %(energy)
+states of the subsystems.
 Let $s \approx c^{T} \overbar{x}$, where $c$ is a constant vector in $\mathbb{R}^{n}$.
 The set $\RSet$ is chosen to represent this relationship between $s$ and $\overbar{x}$ as 
 \begin{equation}
@@ -353,7 +358,27 @@ if there exist a real matrix $Z$ of non-negative elements, a real matrix $Q$, an
     \end{equation}
   %\end{subequations}
   in which
-  \begin{gather*}
+  \begin{equation*}
+        H_{r} =
+    \left[ \begin{smallmatrix}
+      & H_{x} \\ % &  \Zero
+      -1  & c^{T} \\ % &  \Zero
+      1   & -c^{T} \\ % &  \Zero
+      & & -1 & T \rho^{T} \\
+      & & & \IdentityMatrix \\
+      & & & -\IdentityMatrix
+    \end{smallmatrix} \right], \;
+    k_{r} =
+    \left[ \begin{smallmatrix}
+      k_{x} \\
+      \gamma \\
+      \gamma \\
+      0 \\
+      \One \\
+      \Zero
+    \end{smallmatrix} \right]
+  \end{equation*}
+  \begin{equation*}
     H_{l} =
     \left[ \begin{smallmatrix}
       %1 \\ %  & \Zero  &  \Zero
@@ -391,35 +416,20 @@ if there exist a real matrix $Z$ of non-negative elements, a real matrix $Q$, an
       -\underline{s} + \min_{\delta \in [-\zeta, \zeta]} \beta^{T} \delta\\
       \overbar{\varepsilon} \\
       -\underline{\varepsilon} 
-    \end{smallmatrix} \right] \\
-    %
-    H_{r} =
-    \left[ \begin{smallmatrix}
-      & H_{x} \\ % &  \Zero
-      -1  & c^{T} \\ % &  \Zero
-      1   & -c^{T} \\ % &  \Zero
-      & & -1 & T \rho^{T} \\
-      & & & \IdentityMatrix \\
-      & & & -\IdentityMatrix
-    \end{smallmatrix} \right], \;
-    k_{r} =
-    \left[ \begin{smallmatrix}
-      k_{x} \\
-      \gamma \\
-      \gamma \\
-      0 \\
-      \One \\
-      \Zero
     \end{smallmatrix} \right] \text.
-  \end{gather*}
+  \end{equation*}
 \end{theorem}
-In the above matrices and vectors, the blank spaces are zero blocks and $\One$ denotes a vector of 1's.
-The theorem is proved in \cref{sec:proofs:abstraction-gs:sufficient-LP}.
+%In the above matrices and vectors, 
+Here, the blank spaces are zero blocks and $\One$ denotes a vector of 1's.
+%The theorem is proved in \cref{sec:proofs:abstraction-gs:sufficient-LP}.
 %
 Although \cref{thm:abstraction-gs:sufficient-LP} is only sufficient, it reduces the condition to checking the feasibility of the linear program~\eqref{eq:abstraction-gs:sufficient-LP}, which can be solved rather efficiently by any LP solver such as Gurobi, MOSEK, CPLEX, CLP.
 
-We note that the design parameters, which are ($\alpha$, $\beta$, $c$, $\gamma$, $H_{\Omega}^{s}$, $H_{\Omega}^{v}$, $k_{\Omega}$), are multiplied by the elements of $Z$ in \eqref{eq:abstraction-gs:sufficient-LP}.
-Consequently, if we want to solve \eqref{eq:abstraction-gs:sufficient-LP} to also find the design parameters, the problem becomes a bilinear program, which is intractable to solve for any significant size.
+%We note that the
+The design parameters %, which are 
+($\alpha$, $\beta$, $c$, $\gamma$, $H_{\Omega}^{s}$, $H_{\Omega}^{v}$, $k_{\Omega}$) are multiplied by the elements of $Z$ in \eqref{eq:abstraction-gs:sufficient-LP}.
+Consequently, %if we want to solve \eqref{eq:abstraction-gs:sufficient-LP} to also find the design parameters, the problem becomes a bilinear program, 
+finding them by solving \eqref{eq:abstraction-gs:sufficient-LP} leads to a bilinear program, which is intractable to solve for any significant size.
 We will discuss a way to compute these parameters in the next section.
 
 
@@ -477,14 +487,16 @@ We will discuss a way to compute these parameters in the next section.
 \subsection{Computation of Design Parameters}
 \label{sec:abstraction-gs:computation}
 
-The design parameters of the model abstraction, which we aim to compute, are ($\alpha$, $\beta$, $c$, $\gamma$, $H_{\Omega}^{s}$, $H_{\Omega}^{v}$, $k_{\Omega}$).
-As mentioned above, they enter the sufficient condition~(\cref{eq:abstraction-gs:sufficient-LP}) in bilinear terms, hence it is intractable to compute them (optimally) using this condition.
+% The design parameters of the model abstraction, which we aim to compute, are ($\alpha$, $\beta$, $c$, $\gamma$, $H_{\Omega}^{s}$, $H_{\Omega}^{v}$, $k_{\Omega}$).
+%As mentioned above, they
+As the design parameters ($\alpha$, $\beta$, $c$, $\gamma$, $H_{\Omega}^{s}$, $H_{\Omega}^{v}$, $k_{\Omega}$) enter the sufficient condition~(\cref{eq:abstraction-gs:sufficient-LP}) in bilinear terms, %hence
+it is intractable to compute them (optimally) using this condition.
 In this section, we present a method to design these parameters in a suboptimal but tractable way.
 
 \subsubsection{Computing $\alpha$, $\beta$, $c$}
 \label{sec:abstraction-gs:params:model}
 
-We compute these parameters based on the intuition that $s$ is the aggregated state of all the subsystems: $s \approx c^{T} \overbar{x}$.
+We compute $\alpha$, $\beta$, $c$ based on the intuition that $s$ is the aggregated state of all the subsystems: $s \approx c^{T} \overbar{x}$.
 From the discrete-time dynamics of $\overbar{x}$ we have
 \begin{equation*}
   s_{k+1} \approx c^{T} \overbar{x}_{k+1} = c^{T} A_{T} \overbar{x}_{k} + c^{T} B_{T} \eta_{k} + c^{T} E_{T} w_{k}
@@ -507,17 +519,19 @@ We then calculate $\beta = E_{T}^{T} c$.
 Once $\alpha$, $\beta$, and $c$ are chosen, we can compute the parameter $\gamma$ of the relation $\RSet$ and the constraint set $\Omega$ of $(s,v)$.
 We first choose the ranges $[\underline{s}, \overbar{s}]$ and $[\underline{v}, \overbar{v}]$ of $s$ and $v$ that satisfy
 \begin{gather*}
-  \underline{s} \geqslant \min_{x \in \XSet} c^{T} x, \quad
+  \underline{s} \geqslant \textstyle\min_{x \in \XSet} c^{T} x, \quad
   \overbar{s} \leqslant \max_{x \in \XSet} c^{T} x \\
-  \underline{v} \geqslant \min_{\Zero \leqslant \eta \leqslant \One} T \rho^{T} \eta, \quad
+  \underline{v} \geqslant \textstyle\min_{\Zero \leqslant \eta \leqslant \One} T \rho^{T} \eta, \quad
   \overbar{v} \leqslant \max_{\Zero \leqslant \eta \leqslant \One} T \rho^{T} \eta
 \end{gather*}
 based on the relationships between $s$ and $\overbar{x}$, $v$ and $\eta$.
 Because $X$ is bounded, $\underline{s}$ and $\overbar{s}$ are finite; and so are $\underline{v}$ and $\overbar{v}$.
 
 Choosing $\gamma$ and $\Omega$ is difficult because $\gamma$ appears in both $k_{l}$ and $k_{r}$, and $\Omega$ is a set.
-Obviously, it is unnecessary for $\gamma$ to be larger than $\overbar{s} - \underline{s}$ due to the relation $| c^{T} \overbar{x} - s | \leqslant \gamma$.
-Therefore we can select any value between $0$ and $\overbar{s} - \underline{s}$ for $\gamma$, with the apparent intuition that as $\gamma$ gets smaller, the constraint between $s$ and $\overbar{x}$ becomes stricter, keeping $(s, \overbar{x}$ in $\RSet$ is more difficult, hence $\RSet$ is less likely an input-constrained simulation relation.
+%Obviously, 
+It is unnecessary for $\gamma$ to be larger than $\overbar{s} - \underline{s}$ due to %the relation
+$| c^{T} \overbar{x} - s | \leqslant \gamma$.
+Therefore we can select any value between $0$ and $\overbar{s} - \underline{s}$ for $\gamma$, with the apparent intuition that as $\gamma$ gets smaller, the constraint between $s$ and $\overbar{x}$ becomes stricter, keeping $(s, \overbar{x})$ in $\RSet$ is more difficult, hence $\RSet$ is less likely an input-constrained simulation relation.
 For $\Omega$, which is a subset of $[\underline{s}, \overbar{s}] \times[\underline{v}, \overbar{v}]$, the following result allows us to construct $\Omega$ from smaller sets.
 
 \begin{lemma}
@@ -526,13 +540,17 @@ For $\Omega$, which is a subset of $[\underline{s}, \overbar{s}] \times[\underli
   Let $\Omega_{1}$ and $\Omega_{2}$ are two subsets of $[\underline{s}, \overbar{s}] \times[\underline{v}, \overbar{v}]$ and suppose that they satisfy the sufficient condition in \cref{thm:abstraction-gs:sufficient-LP}.
   Then their union $\Omega_{1} \cup \Omega_{2}$ satisfies the necessary and sufficient condition in \cref{thm:abstraction-gs:necessary-sufficient}.
 \end{lemma}
-This lemma can be proved by noting that $\Omega_{1}$ and $\Omega_{2}$ satisfy \cref{thm:abstraction-gs:necessary-sufficient}, and $\Omega$ appears only in the left-hand side of the set inclusion~(\cref{eq:abstraction-gs:necessary-sufficient}).
+This lemma can be proved by noting that $\Omega_{1}$ and $\Omega_{2}$ satisfy \cref{thm:abstraction-gs:necessary-sufficient}, and $\Omega$ appears only in the left-hand side of %the set inclusion~(
+\cref{eq:abstraction-gs:necessary-sufficient}. %).
 Using this result, we can check the sufficient condition in \cref{thm:abstraction-gs:sufficient-LP} for small sets, then construct the final $\Omega$ set from their union.
 This algorithm is outlined below.
 \begin{enumerate}
-\item We first grid the finite intervals of $s$ and $v$ as $\underline{s} = s^{0} < s^{1} < \cdots < s^{l_{s}} = \overbar{s}$ and $\underline{v} = v^{0} < v^{1} < \cdots < v^{l_{v}} = \overbar{v}$.  This effectively grids the box $[\underline{s}, \overbar{s}] \times[\underline{v}, \overbar{v}]$ into $l_{s} l_{v}$ small cells.
+\item %We first
+  Grid the finite intervals of $s$ and $v$ as $\underline{s} = s^{0} < s^{1} < \cdots < s^{l_{s}} = \overbar{s}$ and $\underline{v} = v^{0} < v^{1} < \cdots < v^{l_{v}} = \overbar{v}$, \ie %.  This effectively
+  grid the box $[\underline{s}, \overbar{s}] \times[\underline{v}, \overbar{v}]$ into $l_{s} l_{v}$ small cells.
 \item For each cell $\Omega_{i,j} = [s^{i}, s^{i+1}] \times[v^{j}, v^{j+1}]$, for $0 \leqslant i \leqslant l_{s}-1$ and $0 \leqslant j \leqslant l_{v}-1$, check if it satisfies \cref{thm:abstraction-gs:sufficient-LP}.
-\item Construct $\Omega$ as the union of all cells $\Omega_{i,j}$ that satisfy \cref{thm:abstraction-gs:sufficient-LP}.  If the projection of $\Omega$ onto $s$ covers the entire range $[\underline{s}, \overbar{s}]$ then take $\Omega$.  This is to ensure that we can always find an admissible control input $v$ for any valid value of $s$.  We can simplify $\Omega$ by a convex polyhedron contained in the union, from which $H_{\Omega}^{s}$, $H_{\Omega}^{v}$ and $k_{\Omega}$ are extracted.
+\item Construct $\Omega$ as the union of all cells $\Omega_{i,j}$ that satisfy \cref{thm:abstraction-gs:sufficient-LP}.  If the projection of $\Omega$ onto $s$ covers %the entire range
+  $[\underline{s}, \overbar{s}]$ then take $\Omega$.  This is to ensure that we can always find an admissible control input $v$ for any valid value of $s$.  We can simplify $\Omega$ by a convex polyhedron contained in the union, from which $H_{\Omega}^{s}$, $H_{\Omega}^{v}$ and $k_{\Omega}$ are extracted.
 \end{enumerate}
 
 \begin{remark}
